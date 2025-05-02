@@ -1,0 +1,80 @@
+// Colors
+$primary-color: #2a9d8f;
+$secondary-color: #f4a261;
+$accent-color: #e76f51;
+$background-light: #f8f9fa;
+$background-dark: #1a1a1a;
+$text-light: #212529;
+$text-dark: #f8f9fa;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+
+// Status colors
+$available-color: #2ecc71; // Green
+$occupied-color: #f39c12; // Yellow/orange
+$offline-color: #e74c3c; // Red
+$unknown-color: #95a5a6; // Gray
+
+// Reliability colors
+$reliability-excellent: #27ae60; // Dark green
+$reliability-good: #2ecc71; // Green
+$reliability-moderate: #f39c12; // Yellow
+$reliability-poor: #e67e22; // Orange
+$reliability-bad: #e74c3c; // Red
+
+// Font sizes
+$font-size-xs: 0.75rem;    // 12px
+$font-size-sm: 0.875rem;   // 14px
+$font-size-base: 1rem;     // 16px
+$font-size-md: 1.125rem;   // 18px
+$font-size-lg: 1.25rem;    // 20px
+$font-size-xl: 1.5rem;     // 24px
+$font-size-xxl: 2rem;      // 32px
+
+// Font weights
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-xs: 0.25rem;    // 4px
+$spacing-sm: 0.5rem;     // 8px
+$spacing-md: 1rem;       // 16px
+$spacing-lg: 1.5rem;     // 24px
+$spacing-xl: 2rem;       // 32px
+$spacing-xxl: 3rem;      // 48px
+
+// Breakpoints
+$breakpoint-xs: 0;         // Default
+$breakpoint-sm: 576px;     // Small devices
+$breakpoint-md: 768px;     // Medium devices
+$breakpoint-lg: 992px;     // Large devices
+$breakpoint-xl: 1200px;    // Extra large devices
+$breakpoint-xxl: 1400px;   // Extra extra large devices
+
+// Borders
+$border-radius-sm: 0.25rem;  // 4px
+$border-radius-md: 0.5rem;   // 8px
+$border-radius-lg: 1rem;     // 16px
+$border-width: 1px;
+$border-width-thick: 2px;
+
+// Z-index values
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-tooltip: 1060;
+
+// Transitions
+$transition-base: all 0.2s ease-in-out;
+$transition-fade: opacity 0.15s linear;

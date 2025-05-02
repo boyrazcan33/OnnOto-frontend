@@ -1,0 +1,35 @@
+{
+    "app": {
+      "name": "OnnOto",
+      "description": "Eesti elektrisõidukite laadimisjaama usaldusväärsuse rakendus"
+    },
+    "navigation": {
+      "map": "Kaart",
+      "settings": "Seaded",
+      "reliability": "Usaldusväärsus"
+    },
+    "common": {
+      "loading": "Laadimine...",
+      "error": "Viga",
+      "retry": "Proovi uuesti",
+      "save": "Salvesta",
+      "cancel": "Tühista",
+      "confirm": "Kinnita",
+      "back": "Tagasi",
+      "next": "Edasi",
+      "close": "Sulge",
+      "search": "Otsi",
+      "filter": "Filtreeri",
+      "clear": "Tühjenda",
+      "available": "Saadaval",
+      "occupied": "Hõivatud",
+      "offline": "Väljas",
+      "unknown": "Teadmata"
+    },
+    "map": {
+      "currentLocation": "Minu asukoht",
+      "findNearby": "Leia lähim",
+      "zoomIn": "Suurenda",
+      "zoomOut": "Vähenda"
+    }
+  }

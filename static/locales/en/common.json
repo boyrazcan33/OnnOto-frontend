@@ -1,0 +1,35 @@
+{
+    "app": {
+      "name": "OnnOto",
+      "description": "Estonian EV Charging Station Reliability Application"
+    },
+    "navigation": {
+      "map": "Map",
+      "settings": "Settings",
+      "reliability": "Reliability"
+    },
+    "common": {
+      "loading": "Loading...",
+      "error": "Error",
+      "retry": "Try again",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "back": "Back",
+      "next": "Next",
+      "close": "Close",
+      "search": "Search",
+      "filter": "Filter",
+      "clear": "Clear",
+      "available": "Available",
+      "occupied": "Occupied",
+      "offline": "Offline",
+      "unknown": "Unknown"
+    },
+    "map": {
+      "currentLocation": "My location",
+      "findNearby": "Find nearby",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    }
+  }
