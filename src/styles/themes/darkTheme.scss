@@ -1,0 +1,73 @@
+@import '../variables';
+
+[data-theme="dark"] {
+  // Base colors
+  --background: #{$background-dark};
+  --foreground: #{$text-dark};
+  --border-color: #{$gray-700};
+  
+  // Component colors
+  --card-bg: #{$gray-800};
+  --card-border: #{$gray-700};
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  
+  --input-bg: #{$gray-800};
+  --input-border: #{$gray-600};
+  --input-text: #{$text-dark};
+  --input-placeholder: #{$gray-500};
+  
+  --button-primary-bg: #{lighten($primary-color, 5%)};
+  --button-primary-text: #{$text-dark};
+  --button-secondary-bg: #{$gray-700};
+  --button-secondary-text: #{$text-dark};
+  
+  // Status colors with dark theme adjustments
+  --status-available: #{lighten($available-color, 5%)};
+  --status-occupied: #{lighten($occupied-color, 5%)};
+  --status-offline: #{lighten($offline-color, 5%)};
+  --status-unknown: #{$gray-500};
+  
+  // Reliability colors
+  --reliability-excellent: #{lighten($reliability-excellent, 5%)};
+  --reliability-good: #{lighten($reliability-good, 5%)};
+  --reliability-moderate: #{lighten($reliability-moderate, 5%)};
+  --reliability-poor: #{lighten($reliability-poor, 5%)};
+  --reliability-bad: #{lighten($reliability-bad, 5%)};
+  
+  // Component specific overrides
+  .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    box-shadow: var(--card-shadow);
+  }
+  
+  .input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--input-text);
+    
+    &::placeholder {
+      color: var(--input-placeholder);
+    }
+  }
+  
+  .button {
+    &--primary {
+      background-color: var(--button-primary-bg);
+      color: var(--button-primary-text);
+    }
+    
+    &--secondary {
+      background-color: var(--button-secondary-bg);
+      color: var(--button-secondary-text);
+    }
+  }
+  
+  // Map customization
+  .map-container {
+    --map-bg: #{$gray-900};
+    --map-text: #{$text-dark};
+    --map-control-bg: #{$gray-800};
+    --map-control-border: #{$gray-700};
+  }
+}

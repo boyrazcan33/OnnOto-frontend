@@ -1,0 +1,73 @@
+@import '../variables';
+
+[data-theme="light"] {
+  // Base colors
+  --background: #{$background-light};
+  --foreground: #{$text-light};
+  --border-color: #{$gray-200};
+  
+  // Component colors
+  --card-bg: white;
+  --card-border: #{$gray-200};
+  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  --input-bg: white;
+  --input-border: #{$gray-300};
+  --input-text: #{$text-light};
+  --input-placeholder: #{$gray-500};
+  
+  --button-primary-bg: #{$primary-color};
+  --button-primary-text: white;
+  --button-secondary-bg: #{$gray-100};
+  --button-secondary-text: #{$text-light};
+  
+  // Status colors
+  --status-available: #{$available-color};
+  --status-occupied: #{$occupied-color};
+  --status-offline: #{$offline-color};
+  --status-unknown: #{$gray-500};
+  
+  // Reliability colors
+  --reliability-excellent: #{$reliability-excellent};
+  --reliability-good: #{$reliability-good};
+  --reliability-moderate: #{$reliability-moderate};
+  --reliability-poor: #{$reliability-poor};
+  --reliability-bad: #{$reliability-bad};
+  
+  // Component specific overrides
+  .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    box-shadow: var(--card-shadow);
+  }
+  
+  .input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--input-text);
+    
+    &::placeholder {
+      color: var(--input-placeholder);
+    }
+  }
+  
+  .button {
+    &--primary {
+      background-color: var(--button-primary-bg);
+      color: var(--button-primary-text);
+    }
+    
+    &--secondary {
+      background-color: var(--button-secondary-bg);
+      color: var(--button-secondary-text);
+    }
+  }
+  
+  // Map customization
+  .map-container {
+    --map-bg: white;
+    --map-text: #{$text-light};
+    --map-control-bg: white;
+    --map-control-border: #{$gray-200};
+  }
+}
