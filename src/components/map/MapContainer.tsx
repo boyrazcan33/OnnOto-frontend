@@ -12,13 +12,7 @@ import LocationButton from './LocationButton';
 import ZoomControls from './ZoomControls';
 import Loader from '../common/Loader';
 
-// Import Google Maps types but use with type assertion
-declare global {
-  interface Window {
-    google: any;
-    initMap: () => void;
-  }
-}
+// We'll use the type definitions from @types/google.maps package
 
 interface MapContainerProps {
   filters?: FilterState;
@@ -44,7 +38,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
 
   const { latitude, longitude, loading: locationLoading } = useLocation();
-  const { stations, loading: stationsLoading, error } = useStations();
+  const { stations, loading: stationsLoading, error, isFavorite } = useStations();
 
   // Filter stations based on provided filters
   const filteredStations = React.useMemo(() => {
@@ -80,7 +74,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
 
       return true;
     });
-  }, [stations, filters]);
+  }, [stations, filters, isFavorite]);
 
   // Initialize map
   useEffect(() => {
@@ -162,8 +156,11 @@ const MapContainer: React.FC<MapContainerProps> = ({
                   lng: Number(station.longitude)
                 });
               });
-              mapInstanceRef.current!.fitBounds(bounds);
-              mapInstanceRef.current!.setZoom(Math.min(15, mapInstanceRef.current!.getZoom() + 1));
+              if (mapInstanceRef.current) {
+                mapInstanceRef.current.fitBounds(bounds);
+                const currentZoom = mapInstanceRef.current.getZoom() || 0;
+                mapInstanceRef.current.setZoom(Math.min(15, currentZoom + 1));
+              }
             }
           ).getMarker();
           
@@ -184,13 +181,15 @@ const MapContainer: React.FC<MapContainerProps> = ({
   // Zoom controls
   const zoomIn = () => {
     if (mapLoaded && mapInstanceRef.current) {
-      mapInstanceRef.current.setZoom(mapInstanceRef.current.getZoom() + 1);
+      const currentZoom = mapInstanceRef.current.getZoom() || 0;
+      mapInstanceRef.current.setZoom(currentZoom + 1);
     }
   };
 
   const zoomOut = () => {
     if (mapLoaded && mapInstanceRef.current) {
-      mapInstanceRef.current.setZoom(mapInstanceRef.current.getZoom() - 1);
+      const currentZoom = mapInstanceRef.current.getZoom() || 0;
+      mapInstanceRef.current.setZoom(currentZoom - 1);
     }
   };
 

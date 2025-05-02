@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getStorageItem, setStorageItem } from '../utils/storageUtils';
 import { STORAGE_KEYS } from '../constants/storageKeys';
-import { useAuth } from './useAuth';
+import useAuth from './useAuth'; // Changed from import { useAuth } from './useAuth';
 import preferencesApi from '../api/preferencesApi';
 
 interface UsePreferencesResult {

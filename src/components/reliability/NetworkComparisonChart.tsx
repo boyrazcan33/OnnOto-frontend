@@ -8,13 +8,23 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Cell // Added missing Cell import
 } from 'recharts';
 import Loader from '../common/Loader';
 import visualizationsApi from '../../api/visualizationsApi';
 
 interface NetworkComparisonChartProps {
   className?: string;
+}
+
+// Define the type for network data
+interface NetworkData {
+  name: string;
+  networkName: string;
+  averageReliability: number;
+  stationCount: number;
+  color: string;
 }
 
 const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
@@ -99,8 +109,8 @@ const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
             tick={{ fontSize: 12 }}
           />
           <Tooltip
-            formatter={(value) => [`${value}`, t('reliability.score')]}
-            labelFormatter={(name) => name}
+            formatter={(value: number) => [`${value}`, t('reliability.score')]}
+            labelFormatter={(name: string) => name}
           />
           <Legend />
           <Bar 

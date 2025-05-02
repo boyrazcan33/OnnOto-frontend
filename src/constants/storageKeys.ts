@@ -7,5 +7,7 @@ export const STORAGE_KEYS = {
     LAST_LOCATION: 'onnoto-last-location',
     LAST_VIEW: 'onnoto-last-view',
     CACHED_STATIONS: 'onnoto-cached-stations',
-    CACHED_TIMESTAMP: 'onnoto-cached-timestamp'
+    CACHED_TIMESTAMP: 'onnoto-cached-timestamp',
+    // Add the PREFERENCES_PREFIX property
+    PREFERENCES_PREFIX: 'onnoto-preferences-'
   };

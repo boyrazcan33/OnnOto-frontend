@@ -8,7 +8,8 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Cell // Added missing Cell import
 } from 'recharts';
 
 interface ReliabilityChartDataItem {
@@ -22,6 +23,12 @@ interface ReliabilityChartProps {
   data: ReliabilityChartDataItem[];
   title?: string;
   className?: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
 }
 
 const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
@@ -49,7 +56,7 @@ const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
   // Calculate total stations for percentages
   const totalStations = sortedData.reduce((sum, item) => sum + item.count, 0);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const item = payload[0].payload;
       const percentage = ((item.count / totalStations) * 100).toFixed(1);

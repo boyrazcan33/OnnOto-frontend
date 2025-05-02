@@ -75,14 +75,14 @@ const AnomalyTrendsChart: React.FC<AnomalyTrendsChartProps> = ({ data, className
           />
           <YAxis />
           <Tooltip
-            formatter={(value, name) => {
+            formatter={(value: number, name: string) => {
               // Translate the anomaly type name
               const translatedName = t(`anomalies.types.${name.toLowerCase()}`);
               return [value, translatedName];
             }}
           />
           <Legend 
-            formatter={(value) => {
+            formatter={(value: string) => {
               // Translate the anomaly type name
               return t(`anomalies.types.${value.toLowerCase()}`);
             }}

@@ -8,6 +8,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   rightIcon?: React.ReactNode;
   onRightIconClick?: () => void;
   fullWidth?: boolean;
+  // Add these properties
+  as?: string;
+  rows?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,6 +22,8 @@ const Input: React.FC<InputProps> = ({
   onRightIconClick,
   fullWidth = false,
   className = '',
+  as,
+  rows = 3,
   ...props
 }) => {
   const [focused, setFocused] = useState(false);
@@ -34,6 +39,41 @@ const Input: React.FC<InputProps> = ({
   const containerClassName = `${containerClass} ${fullWidthClass} ${className}`;
   const inputClassName = `${baseClass} ${errorClass} ${focusedClass} ${disabledClass}`;
   
+  const renderInput = () => {
+    if (as === 'textarea') {
+      return (
+        <textarea
+          className={inputClassName}
+          rows={rows}
+          onFocus={(e) => {
+            setFocused(true);
+            props.onFocus?.(e as any);
+          }}
+          onBlur={(e) => {
+            setFocused(false);
+            props.onBlur?.(e as any);
+          }}
+          {...props as any}
+        />
+      );
+    }
+    
+    return (
+      <input
+        className={inputClassName}
+        onFocus={(e) => {
+          setFocused(true);
+          props.onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          setFocused(false);
+          props.onBlur?.(e);
+        }}
+        {...props}
+      />
+    );
+  };
+
   return (
     <div className={containerClassName}>
       {label && <label className="input__label">{label}</label>}
@@ -43,18 +83,7 @@ const Input: React.FC<InputProps> = ({
             {leftIcon}
           </div>
         )}
-        <input
-          className={inputClassName}
-          onFocus={(e) => {
-            setFocused(true);
-            props.onFocus?.(e);
-          }}
-          onBlur={(e) => {
-            setFocused(false);
-            props.onBlur?.(e);
-          }}
-          {...props}
-        />
+        {renderInput()}
         {rightIcon && (
           <div 
             className="input__icon input__icon--right"
