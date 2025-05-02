@@ -22,6 +22,21 @@ export const API_ENDPOINTS = {
   REPORTS: `${API_BASE_URL}/reports`,
   REPORT_COUNT: (stationId: string) => `${API_BASE_URL}/reports/count/station/${stationId}`,
   
+  // Anomaly endpoints
+  ANOMALIES: `${API_BASE_URL}/anomalies`,
+  ANOMALY_BY_ID: (id: number) => `${API_BASE_URL}/anomalies/${id}`,
+  ANOMALIES_FOR_STATION: (stationId: string) => `${API_BASE_URL}/anomalies/station/${stationId}`,
+  RECENT_ANOMALIES: `${API_BASE_URL}/anomalies/recent`,
+  PROBLEMATIC_STATIONS: `${API_BASE_URL}/anomalies/stats/problematic-stations`,
+
+  // Visualization endpoints
+  RELIABILITY_DISTRIBUTION: `${API_BASE_URL}/visualizations/reliability/distribution`,
+  RELIABILITY_NETWORKS: `${API_BASE_URL}/visualizations/reliability/networks`,
+  STATUS_HISTORY: `${API_BASE_URL}/visualizations/status/history`,
+  ANOMALY_TRENDS: `${API_BASE_URL}/visualizations/anomalies/trends`,
+  GEOGRAPHIC_HEATMAP: `${API_BASE_URL}/visualizations/geographic/heatmap`,
+  USAGE_PATTERNS: `${API_BASE_URL}/visualizations/usage/patterns`,
+  
   // Preferences endpoints
   PREFERENCES: `${API_BASE_URL}/preferences`,
   PREFERENCES_BY_DEVICE: (deviceId: string) => `${API_BASE_URL}/preferences/${deviceId}`,
