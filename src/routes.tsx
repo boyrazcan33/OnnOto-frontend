@@ -2,6 +2,8 @@ import React from 'react';
 import LandingPage from './pages/LandingPage';
 import MapPage from './pages/MapPage';
 import StationDetailsPage from './pages/StationDetailsPage';
+import ReliabilityDashboardPage from './pages/ReliabilityDashboardPage';
+import ReportPage from './pages/ReportPage';
 
 // Use placeholder components until they're implemented in later steps
 const PlaceholderPage: React.FC<{ title: string; fullHeight?: boolean }> = ({ title, fullHeight = false }) => (
@@ -33,7 +35,7 @@ const routes = [
   },
   {
     path: '/report/:id',
-    element: <PlaceholderPage title="Report" />,
+    element: <ReportPage />,
   },
   {
     path: '/settings',
@@ -41,7 +43,7 @@ const routes = [
   },
   {
     path: '/reliability',
-    element: <PlaceholderPage title="Reliability Dashboard" />,
+    element: <ReliabilityDashboardPage />,
   },
   {
     path: '/onboarding',

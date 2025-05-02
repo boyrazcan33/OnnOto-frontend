@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 import Loader from '../common/Loader';
 import visualizationsApi from '../../api/visualizationsApi';
 
@@ -48,40 +58,71 @@ const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
     );
   }
 
+  if (!networkData || networkData.length === 0) {
+    return (
+      <div className={`network-comparison network-comparison--empty ${className}`}>
+        <p>{t('reliability.noNetworkData')}</p>
+      </div>
+    );
+  }
+
   // Transform API data to chart-friendly format
-  const chartData = networkData.map(item => ({
-    label: item.networkName,
-    value: item.averageReliability,
-    color: getColorForScore(item.averageReliability),
-    count: item.stationCount
+  const chartData = networkData.map(network => ({
+    name: network.networkName,
+    score: network.averageReliability,
+    count: network.stationCount,
+    color: getColorForScore(network.averageReliability)
   }));
+
+  // Sort by reliability score in descending order
+  chartData.sort((a, b) => b.score - a.score);
 
   return (
     <div className={`network-comparison ${className}`}>
-      <h3 className="network-comparison__title">
-        {t('reliability.networkComparison')}
-      </h3>
-      
-      <div className="network-comparison__chart">
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={chartData}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+          layout="vertical"
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis type="number" domain={[0, 100]} />
+          <YAxis 
+            dataKey="name" 
+            type="category" 
+            width={120}
+            tick={{ fontSize: 12 }}
+          />
+          <Tooltip
+            formatter={(value) => [`${value}`, t('reliability.score')]}
+            labelFormatter={(name) => name}
+          />
+          <Legend />
+          <Bar 
+            dataKey="score" 
+            name={t('reliability.reliabilityScore')}
+            barSize={30}
+            radius={[0, 4, 4, 0]}
+          >
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+
+      <div className="network-comparison__legend">
         {chartData.map((network, index) => (
-          <div key={index} className="network-comparison__item">
-            <div className="network-comparison__network">
-              <span className="network-comparison__name">{network.label}</span>
-              <span className="network-comparison__count">
-                ({t('reliability.stationCount', { count: network.count })})
-              </span>
-            </div>
-            
-            <div className="network-comparison__bar-container">
-              <div 
-                className="network-comparison__bar"
-                style={{ 
-                  width: `${network.value}%`,
-                  backgroundColor: network.color
-                }}
-              ></div>
-              <span className="network-comparison__score">{network.value.toFixed(1)}</span>
-            </div>
+          <div key={index} className="network-comparison__legend-item">
+            <span className="network-comparison__network-name">{network.name}</span>
+            <span className="network-comparison__station-count">
+              {t('reliability.stationCount', { count: network.count })}
+            </span>
           </div>
         ))}
       </div>

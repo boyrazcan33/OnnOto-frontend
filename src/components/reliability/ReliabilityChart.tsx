@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Loader from '../common/Loader';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+
+interface ReliabilityChartDataItem {
+  range: string;
+  label: string;
+  count: number;
+  color: string;
+}
 
 interface ReliabilityChartProps {
-  data: {
-    label: string;
-    value: number;
-    color: string;
-  }[];
+  data: ReliabilityChartDataItem[];
   title?: string;
   className?: string;
 }
@@ -18,16 +30,6 @@ const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
   className = '',
 }) => {
   const { t } = useTranslation();
-  const [isClient, setIsClient] = useState(false);
-
-  // Check if we're running in the browser
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null; // Avoid rendering during SSR
-  }
 
   if (!data || data.length === 0) {
     return (
@@ -37,30 +39,73 @@ const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
     );
   }
 
-  // Sort data by value in descending order
-  const sortedData = [...data].sort((a, b) => b.value - a.value);
-  const maxValue = Math.max(...sortedData.map(item => item.value));
+  // Sort data by range (90-100 first, then 80-89, etc.)
+  const sortedData = [...data].sort((a, b) => {
+    const aRangeParts = a.range.split('-').map(Number);
+    const bRangeParts = b.range.split('-').map(Number);
+    return bRangeParts[0] - aRangeParts[0];
+  });
+
+  // Calculate total stations for percentages
+  const totalStations = sortedData.reduce((sum, item) => sum + item.count, 0);
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const item = payload[0].payload;
+      const percentage = ((item.count / totalStations) * 100).toFixed(1);
+      
+      return (
+        <div className="reliability-chart__tooltip">
+          <p className="reliability-chart__tooltip-label">{`${item.label} (${item.range})`}</p>
+          <p className="reliability-chart__tooltip-value">
+            {t('reliability.stationCount', { count: item.count })}
+          </p>
+          <p className="reliability-chart__tooltip-percentage">
+            {t('reliability.percentageOfTotal', { percentage })}
+          </p>
+        </div>
+      );
+    }
+    
+    return null;
+  };
 
   return (
     <div className={`reliability-chart ${className}`}>
       {title && <h3 className="reliability-chart__title">{title}</h3>}
       
-      <div className="reliability-chart__container">
-        {sortedData.map((item, index) => (
-          <div key={index} className="reliability-chart__item">
-            <div className="reliability-chart__label">{item.label}</div>
-            <div className="reliability-chart__bar-container">
-              <div 
-                className="reliability-chart__bar"
-                style={{ 
-                  width: `${(item.value / maxValue) * 100}%`,
-                  backgroundColor: item.color || '#2a9d8f'
-                }}
-              ></div>
-              <div className="reliability-chart__value">{item.value.toFixed(1)}</div>
-            </div>
-          </div>
-        ))}
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={sortedData}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="label" />
+          <YAxis />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          <Bar dataKey="count" name={t('reliability.stationCount', { count: 0 })} >
+            {sortedData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+      
+      <div className="reliability-chart__summary">
+        <div className="reliability-chart__total">
+          <span className="reliability-chart__total-label">
+            {t('reliability.totalStations')}:
+          </span>
+          <span className="reliability-chart__total-value">
+            {totalStations}
+          </span>
+        </div>
       </div>
     </div>
   );
