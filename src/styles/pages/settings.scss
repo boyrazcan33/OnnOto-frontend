@@ -1,0 +1,167 @@
+@import '../variables';
+
+.settings-page {
+  padding: $spacing-md;
+  max-width: 800px;
+  margin: 0 auto;
+  
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-lg;
+  }
+  
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__card {
+    margin-bottom: $spacing-lg;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  &__section-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md 0;
+    border-bottom: $border-width solid $gray-200;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  &__option-label {
+    font-weight: $font-weight-medium;
+  }
+  
+  &__select {
+    padding: $spacing-sm $spacing-md;
+    border: $border-width solid $gray-300;
+    border-radius: $border-radius-sm;
+    background-color: white;
+    min-width: 150px;
+    font-size: $font-size-sm;
+    
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+  
+  &__device-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: $spacing-md;
+    gap: $spacing-sm;
+  }
+  
+  &__label {
+    font-weight: $font-weight-medium;
+  }
+  
+  &__device-id {
+    padding: $spacing-xs $spacing-sm;
+    background-color: $gray-100;
+    border-radius: $border-radius-sm;
+    font-family: monospace;
+    font-size: $font-size-sm;
+    word-break: break-all;
+  }
+  
+  &__status {
+    margin-bottom: $spacing-md;
+  }
+  
+  &__status-connected {
+    color: $available-color;
+    font-weight: $font-weight-medium;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: $available-color;
+      margin-right: $spacing-sm;
+    }
+  }
+  
+  &__status-disconnected {
+    color: $offline-color;
+    font-weight: $font-weight-medium;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: $offline-color;
+      margin-right: $spacing-sm;
+    }
+  }
+  
+  &__refresh-button {
+    margin-top: $spacing-sm;
+  }
+  
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: $spacing-lg;
+    gap: $spacing-md;
+  }
+  
+  &__success-message {
+    color: $available-color;
+    font-weight: $font-weight-medium;
+    animation: fadeOut 3s forwards;
+  }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+// Dark theme adjustments
+[data-theme="dark"] {
+  .settings-page {
+    &__option {
+      border-bottom-color: $gray-700;
+    }
+    
+    &__select {
+      background-color: $gray-800;
+      border-color: $gray-600;
+      color: $text-dark;
+      
+      &:focus {
+        border-color: lighten($primary-color, 10%);
+      }
+    }
+    
+    &__device-id {
+      background-color: $gray-800;
+    }
+  }
+}
