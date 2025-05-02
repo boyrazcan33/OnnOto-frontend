@@ -5,9 +5,11 @@
 @import 'components/buttons';
 @import 'components/cards';
 @import 'components/map';
-@import 'components/filters';
 @import 'components/stations';
+@import 'components/filters';
+@import 'components/inputs';
 
 // Pages
 @import 'pages/landing';
 @import 'pages/map';
+@import 'pages/stationDetails';

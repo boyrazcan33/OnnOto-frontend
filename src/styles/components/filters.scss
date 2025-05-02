@@ -1,0 +1,174 @@
+@import '../variables';
+
+// Filter Panel
+.filter-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 300px;
+  max-width: 90%;
+  background-color: $background-light;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md;
+    border-bottom: 1px solid $gray-200;
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin: 0;
+  }
+  
+  &__close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: $gray-600;
+    
+    &:hover, &:focus {
+      color: $gray-900;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: $spacing-md;
+  }
+  
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    padding: $spacing-md;
+    border-top: 1px solid $gray-200;
+    gap: $spacing-md;
+  }
+  
+  &__checkbox {
+    margin-top: $spacing-md;
+  }
+  
+  &__label {
+    display: flex;
+    align-items: center;
+    font-size: $font-size-sm;
+    
+    input {
+      margin-right: $spacing-sm;
+    }
+  }
+}
+
+// Filter Section
+.filter-section {
+  margin-bottom: $spacing-lg;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    margin: 0 0 $spacing-sm;
+  }
+  
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+  
+  &__dropdown {
+    width: 100%;
+  }
+  
+  &__slider {
+    margin-top: $spacing-sm;
+  }
+  
+  &__slider-value {
+    display: flex;
+    align-items: center;
+    margin-top: $spacing-xs;
+    font-size: $font-size-sm;
+  }
+  
+  &__slider-score {
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+    margin-right: $spacing-xs;
+  }
+  
+  &__slider-stars {
+    font-size: $font-size-xs;
+  }
+  
+  &__switch {
+    margin-top: $spacing-sm;
+  }
+  
+  &__empty {
+    font-size: $font-size-sm;
+    color: $gray-600;
+    font-style: italic;
+    padding: $spacing-sm 0;
+  }
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+}
+
+// Animations
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+// Dark theme adjustments
+[data-theme="dark"] {
+  .filter-panel {
+    background-color: $background-dark;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+    
+    &__header {
+      border-bottom-color: $gray-700;
+    }
+    
+    &__close {
+      color: $gray-400;
+      
+      &:hover, &:focus {
+        color: $gray-200;
+      }
+    }
+    
+    &__footer {
+      border-top-color: $gray-700;
+    }
+  }
+  
+  .filter-section {
+    &__empty {
+      color: $gray-400;
+    }
+  }
+}
