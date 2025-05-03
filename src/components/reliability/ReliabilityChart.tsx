@@ -21,6 +21,7 @@ interface ReliabilityChartProps {
   days?: number;
   height?: number;
   className?: string;
+  data?: any;
 }
 
 interface ChartData {

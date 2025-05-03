@@ -17,7 +17,7 @@ module.exports = (env, argv) => {
   return {
     entry: './src/index.tsx',
     output: {
-      path: path.resolve(__dirname, '../dist'),
+      path: path.resolve(__dirname, 'dist'),
       filename: 'js/[name].[contenthash:8].js',
       publicPath: '/',
       clean: true,
@@ -62,7 +62,7 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './static/index.html',
-        favicon: './static/icons/favicon.ico',
+        //favicon: path.resolve(__dirname, './static/icons/favicon.ico'),
       }),
       new DefinePlugin(envKeys),
       ...(isProduction ? [new MiniCssExtractPlugin({
@@ -74,7 +74,7 @@ module.exports = (env, argv) => {
       port: 3000,
       hot: true,
       static: {
-        directory: path.join(__dirname, '../static'),
+        directory: path.join(__dirname, 'static'),
       },
     },
     devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',

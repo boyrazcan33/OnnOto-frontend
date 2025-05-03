@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRealtimeService } from '../../hooks/useRealtimeService';
 import { StationMetrics } from '../../types/station';
+import { StationStatus } from '../../types/station';
 
 interface ReliabilityScoreProps {
   score: number;

@@ -6,7 +6,17 @@ export interface ReliabilityMetric {
     lastDowntime?: string;
     downtimeFrequency?: number;
     sampleSize: number;
+
+    historyData: Array<{
+      timestamp: string;
+      score: number;
+      uptime: number;
+    }>;
+    currentScore: number;
+    averageScore: number;
+    uptime: number;
   }
+  
   
   export interface AnomalyType {
     id: number;
