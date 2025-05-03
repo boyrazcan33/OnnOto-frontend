@@ -1,0 +1,46 @@
+{
+    "stations": {
+      "title": "Laadimisjaamad",
+      "loading": "Jaamade laadimine...",
+      "errorLoading": "Viga jaamade laadimisel",
+      "noStationsFound": "Jaamu ei leitud",
+      "viewDetails": "Vaata Detaile",
+      "information": "Jaama Info",
+      "connectors": "Laadimisotsikud",
+      "reliability": "Usaldusväärsus",
+      "available": "Saadaval",
+      "ofTotal": "{total}-st",
+      "operator": "Operaator",
+      "lastUpdate": "Viimane Uuendus",
+      "reportIssue": "Teata Probleemist",
+      "addToFavorites": "Lisa Lemmikutesse",
+      "removeFromFavorites": "Eemalda Lemmikutest",
+      "getDirections": "Saa Juhised",
+      "statusHistory": "Staatuse Ajalugu",
+      "reliabilityDetails": "Usaldusväärsuse Detailid",
+      "location": {
+        "address": "Aadress",
+        "distance": "Kaugus",
+        "coordinates": "Koordinaadid"
+      },
+      "filters": {
+        "networks": "Võrgustikud",
+        "connectorTypes": "Laadimisotsiku Tüübid",
+        "availability": "Saadavus",
+        "reliability": "Minimaalne Usaldusväärsus",
+        "distance": "Kaugus"
+      },
+      "connectorTypes": {
+        "ccs": "CCS",
+        "chademo": "CHAdeMO",
+        "type2": "Type 2",
+        "type1": "Type 1",
+        "schuko": "Schuko"
+      },
+      "sort": {
+        "distance": "Kaugus",
+        "reliability": "Usaldusväärsus",
+        "availability": "Saadavus"
+      }
+    }
+  }

@@ -1,0 +1,32 @@
+{
+    "reports": {
+      "title": "Report Issue",
+      "description": "Report a problem with this charging station",
+      "thankYou": "Thank you for your report",
+      "confirmationMessage": "Your report for {stationName} has been submitted",
+      "backToStation": "Back to station",
+      "submitAnotherReport": "Submit another report",
+      "loading": "Loading reports...",
+      "errorLoading": "Error loading reports",
+      "noReports": "No reports found",
+      "reportReceived": "Your report has been received",
+      "reportingFor": "Reporting for",
+      "selectIssueType": "Select issue type",
+      "descriptionOptional": "Description (optional)",
+      "descriptionPlaceholder": "Provide additional details about the issue...",
+      "submitReport": "Submit Report",
+      "submissionError": "Error submitting report",
+      "types": {
+        "offline": "Station Offline",
+        "damaged": "Equipment Damaged",
+        "incorrectInfo": "Incorrect Information",
+        "occupied": "Incorrectly Occupied"
+      },
+      "descriptions": {
+        "offline": "Station is not operational",
+        "damaged": "Physical damage to equipment",
+        "incorrectInfo": "Information displayed is incorrect",
+        "occupied": "Space occupied by non-charging vehicle"
+      }
+    }
+  }

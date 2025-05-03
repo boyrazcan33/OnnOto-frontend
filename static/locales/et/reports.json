@@ -1,0 +1,32 @@
+{
+    "reports": {
+      "title": "Teata Probleemist",
+      "description": "Teata probleemist laadimisjaamas",
+      "thankYou": "Täname teatamast",
+      "confirmationMessage": "Teie teade jaama {stationName} kohta on saadetud",
+      "backToStation": "Tagasi jaama",
+      "submitAnotherReport": "Saada uus teade",
+      "loading": "Teadete laadimine...",
+      "errorLoading": "Viga teadete laadimisel",
+      "noReports": "Teateid ei leitud",
+      "reportReceived": "Teie teade on vastu võetud",
+      "reportingFor": "Teade jaama kohta",
+      "selectIssueType": "Vali probleemi tüüp",
+      "descriptionOptional": "Kirjeldus (vabatahtlik)",
+      "descriptionPlaceholder": "Lisa täiendavad detailid probleemi kohta...",
+      "submitReport": "Saada Teade",
+      "submissionError": "Viga teate saatmisel",
+      "types": {
+        "offline": "Jaam Ei Tööta",
+        "damaged": "Seade Kahjustatud",
+        "incorrectInfo": "Vale Info",
+        "occupied": "Valesti Hõivatud"
+      },
+      "descriptions": {
+        "offline": "Jaam ei ole töökorras",
+        "damaged": "Füüsiline kahju seadmele",
+        "incorrectInfo": "Kuvatav info on vale",
+        "occupied": "Koht hõivatud mittelaadiva sõidukiga"
+      }
+    }
+  }

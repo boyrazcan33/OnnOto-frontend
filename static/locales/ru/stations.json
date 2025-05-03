@@ -1,0 +1,46 @@
+{
+    "stations": {
+      "title": "Зарядные Станции",
+      "loading": "Загрузка станций...",
+      "errorLoading": "Ошибка загрузки станций",
+      "noStationsFound": "Станции не найдены",
+      "viewDetails": "Подробнее",
+      "information": "Информация о Станции",
+      "connectors": "Разъемы",
+      "reliability": "Надежность",
+      "available": "Доступно",
+      "ofTotal": "из {total}",
+      "operator": "Оператор",
+      "lastUpdate": "Последнее Обновление",
+      "reportIssue": "Сообщить о Проблеме",
+      "addToFavorites": "Добавить в Избранное",
+      "removeFromFavorites": "Удалить из Избранного",
+      "getDirections": "Построить Маршрут",
+      "statusHistory": "История Статуса",
+      "reliabilityDetails": "Детали Надежности",
+      "location": {
+        "address": "Адрес",
+        "distance": "Расстояние",
+        "coordinates": "Координаты"
+      },
+      "filters": {
+        "networks": "Сети",
+        "connectorTypes": "Типы Разъемов",
+        "availability": "Доступность",
+        "reliability": "Минимальная Надежность",
+        "distance": "Расстояние"
+      },
+      "connectorTypes": {
+        "ccs": "CCS",
+        "chademo": "CHAdeMO",
+        "type2": "Type 2",
+        "type1": "Type 1",
+        "schuko": "Schuko"
+      },
+      "sort": {
+        "distance": "Расстояние",
+        "reliability": "Надежность",
+        "availability": "Доступность"
+      }
+    }
+  }

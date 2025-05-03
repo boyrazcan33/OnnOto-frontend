@@ -1,0 +1,37 @@
+{
+    "errors": {
+      "generic": "An error occurred. Please try again.",
+      "network": {
+        "offline": "No internet connection",
+        "timeout": "Request timed out",
+        "serverError": "Server error occurred"
+      },
+      "location": {
+        "unavailable": "Location services unavailable",
+        "denied": "Location access denied",
+        "timeout": "Location request timed out"
+      },
+      "api": {
+        "unauthorized": "Unauthorized access",
+        "notFound": "Resource not found",
+        "rateLimited": "Too many requests",
+        "serverError": "Server error"
+      },
+      "validation": {
+        "required": "This field is required",
+        "invalid": "Invalid value",
+        "invalidEmail": "Invalid email address",
+        "invalidCoordinates": "Invalid coordinates"
+      },
+      "stations": {
+        "notFound": "Station not found",
+        "loadError": "Error loading station data",
+        "filterError": "Error applying filters"
+      },
+      "reports": {
+        "submitError": "Error submitting report",
+        "invalidType": "Invalid report type",
+        "tooManyReports": "Too many reports submitted"
+      }
+    }
+  }

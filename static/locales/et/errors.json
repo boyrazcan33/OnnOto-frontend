@@ -1,0 +1,37 @@
+{
+    "errors": {
+      "generic": "Tekkis viga. Palun proovi uuesti.",
+      "network": {
+        "offline": "Internetiühendus puudub",
+        "timeout": "Päring aegus",
+        "serverError": "Serveri viga"
+      },
+      "location": {
+        "unavailable": "Asukohateenus pole saadaval",
+        "denied": "Asukoha ligipääs keelatud",
+        "timeout": "Asukoha päring aegus"
+      },
+      "api": {
+        "unauthorized": "Autoriseerimata ligipääs",
+        "notFound": "Ressurssi ei leitud",
+        "rateLimited": "Liiga palju päringuid",
+        "serverError": "Serveri viga"
+      },
+      "validation": {
+        "required": "See väli on kohustuslik",
+        "invalid": "Vigane väärtus",
+        "invalidEmail": "Vigane e-posti aadress",
+        "invalidCoordinates": "Vigased koordinaadid"
+      },
+      "stations": {
+        "notFound": "Jaama ei leitud",
+        "loadError": "Viga jaama andmete laadimisel",
+        "filterError": "Viga filtrite rakendamisel"
+      },
+      "reports": {
+        "submitError": "Viga teate saatmisel",
+        "invalidType": "Vigane teate tüüp",
+        "tooManyReports": "Liiga palju teateid saadetud"
+      }
+    }
+  }

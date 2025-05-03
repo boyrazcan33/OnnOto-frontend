@@ -1,0 +1,46 @@
+{
+    "stations": {
+      "title": "Charging Stations",
+      "loading": "Loading stations...",
+      "errorLoading": "Error loading stations",
+      "noStationsFound": "No stations found",
+      "viewDetails": "View Details",
+      "information": "Station Information",
+      "connectors": "Connectors",
+      "reliability": "Reliability",
+      "available": "Available",
+      "ofTotal": "of {total}",
+      "operator": "Operator",
+      "lastUpdate": "Last Update",
+      "reportIssue": "Report Issue",
+      "addToFavorites": "Add to Favorites",
+      "removeFromFavorites": "Remove from Favorites",
+      "getDirections": "Get Directions",
+      "statusHistory": "Status History",
+      "reliabilityDetails": "Reliability Details",
+      "location": {
+        "address": "Address",
+        "distance": "Distance",
+        "coordinates": "Coordinates"
+      },
+      "filters": {
+        "networks": "Networks",
+        "connectorTypes": "Connector Types",
+        "availability": "Availability",
+        "reliability": "Minimum Reliability",
+        "distance": "Distance"
+      },
+      "connectorTypes": {
+        "ccs": "CCS",
+        "chademo": "CHAdeMO",
+        "type2": "Type 2",
+        "type1": "Type 1",
+        "schuko": "Schuko"
+      },
+      "sort": {
+        "distance": "Distance",
+        "reliability": "Reliability",
+        "availability": "Availability"
+      }
+    }
+  }
