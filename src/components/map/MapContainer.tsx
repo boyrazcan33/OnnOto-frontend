@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+// src/components/map/MapContainer.tsx
+import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import useLocation from '../../hooks/useLocation';
 import useStations from '../../hooks/useStations';
 import { Station } from '../../types/station';
-import { calculateMapCenter, calculateZoomLevel, clusterStations } from '../../utils/mapUtils';
 import { FilterState } from '../../types/filters';
+import { calculateMapCenter, calculateZoomLevel, clusterStations, getMarkerIcon } from '../../utils/mapUtils';
 import StationMarker from './StationMarker';
 import MarkerCluster from './MarkerCluster';
 import MapLegend from './MapLegend';
 import LocationButton from './LocationButton';
 import ZoomControls from './ZoomControls';
 import Loader from '../common/Loader';
-
-// We'll use the type definitions from @types/google.maps package
+import InfoWindow from './InfoWindow';
 
 interface MapContainerProps {
   filters?: FilterState;
@@ -40,41 +41,20 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const { latitude, longitude, loading: locationLoading } = useLocation();
   const { stations, loading: stationsLoading, error, isFavorite } = useStations();
 
-  // Filter stations based on provided filters
-  const filteredStations = React.useMemo(() => {
-    if (!filters) return stations;
+  // WebSocket connection for real-time updates
+  useEffect(() => {
+    const wsUrl = process.env.REACT_APP_WS_URL;
+    if (!wsUrl) return;
 
-    return stations.filter(station => {
-      // Filter by network
-      if (filters.networks.length > 0 && !filters.networks.includes(station.networkId || '')) {
-        return false;
-      }
+    const ws = new WebSocket(wsUrl);
+    
+    ws.onmessage = (event) => {
+      const update = JSON.parse(event.data);
+      handleStationUpdate(update);
+    };
 
-      // Filter by connector types (would need connector data here)
-      
-      // Filter by minimum reliability
-      if (station.reliabilityScore < filters.minimumReliability) {
-        return false;
-      }
-
-      // Filter by city
-      if (filters.city && station.city !== filters.city) {
-        return false;
-      }
-
-      // Filter by availability
-      if (filters.showOnlyAvailable && station.availableConnectors === 0) {
-        return false;
-      }
-
-      // Filter by favorites
-      if (filters.showOnlyFavorites && !isFavorite(station.id)) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [stations, filters, isFavorite]);
+    return () => ws.close();
+  }, []);
 
   // Initialize map
   useEffect(() => {
@@ -97,7 +77,14 @@ const MapContainer: React.FC<MapContainerProps> = ({
               zoomControl: false,
               streetViewControl: false,
               mapTypeControl: false,
-              fullscreenControl: false
+              fullscreenControl: false,
+              styles: [
+                {
+                  featureType: 'poi',
+                  elementType: 'labels',
+                  stylers: [{ visibility: 'off' }]
+                }
+              ]
             });
 
             setMapLoaded(true);
@@ -109,7 +96,37 @@ const MapContainer: React.FC<MapContainerProps> = ({
     }
   }, [mapLoaded, initialCenter, initialZoom, latitude, longitude]);
 
-  // Update map when stations or filters change
+  // Filter stations
+  const filteredStations = React.useMemo(() => {
+    if (!filters) return stations;
+
+    return stations.filter(station => {
+      if (filters.networks.length > 0 && !filters.networks.includes(station.networkId || '')) {
+        return false;
+      }
+      if (station.reliabilityScore < filters.minimumReliability) {
+        return false;
+      }
+      if (filters.city && station.city !== filters.city) {
+        return false;
+      }
+      if (filters.showOnlyAvailable && station.availableConnectors === 0) {
+        return false;
+      }
+      if (filters.showOnlyFavorites && !isFavorite(station.id)) {
+        return false;
+      }
+      if (filters.connectorTypes.length > 0) {
+        const hasMatchingConnector = station.connectors.some(
+          connector => filters.connectorTypes.includes(connector.type)
+        );
+        if (!hasMatchingConnector) return false;
+      }
+      return true;
+    });
+  }, [stations, filters, isFavorite]);
+
+  // Update markers
   useEffect(() => {
     if (mapLoaded && mapInstanceRef.current && filteredStations.length > 0) {
       // Clear existing markers
@@ -130,7 +147,6 @@ const MapContainer: React.FC<MapContainerProps> = ({
       
       clusters.forEach(cluster => {
         if (cluster.length === 1) {
-          // Single station marker
           const station = cluster[0];
           const marker = new StationMarker(
             mapInstanceRef.current!,
@@ -143,12 +159,10 @@ const MapContainer: React.FC<MapContainerProps> = ({
           
           markersRef.current.push(marker);
         } else {
-          // Cluster marker
           const marker = new MarkerCluster(
             mapInstanceRef.current!,
             cluster,
             () => {
-              // Zoom in on cluster
               const bounds = new window.google.maps.LatLngBounds();
               cluster.forEach(station => {
                 bounds.extend({
@@ -156,11 +170,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
                   lng: Number(station.longitude)
                 });
               });
-              if (mapInstanceRef.current) {
-                mapInstanceRef.current.fitBounds(bounds);
-                const currentZoom = mapInstanceRef.current.getZoom() || 0;
-                mapInstanceRef.current.setZoom(Math.min(15, currentZoom + 1));
-              }
+              mapInstanceRef.current?.fitBounds(bounds);
+              const currentZoom = mapInstanceRef.current?.getZoom() || 0;
+              mapInstanceRef.current?.setZoom(Math.min(15, currentZoom + 1));
             }
           ).getMarker();
           
@@ -170,26 +182,26 @@ const MapContainer: React.FC<MapContainerProps> = ({
     }
   }, [mapLoaded, filteredStations, initialCenter, onMarkerClick]);
 
-  // Center map on current location
+  const handleStationUpdate = (update: any) => {
+    const marker = markersRef.current.find(
+      m => m.get('stationId') === update.stationId
+    );
+    if (marker) {
+      marker.setIcon(getMarkerIcon(update.status));
+    }
+  };
+
   const centerOnLocation = () => {
-    if (mapLoaded && mapInstanceRef.current) {
+    if (mapLoaded && mapInstanceRef.current && latitude && longitude) {
       mapInstanceRef.current.setCenter({ lat: latitude, lng: longitude });
       mapInstanceRef.current.setZoom(14);
     }
   };
 
-  // Zoom controls
-  const zoomIn = () => {
+  const handleZoom = (direction: 'in' | 'out') => {
     if (mapLoaded && mapInstanceRef.current) {
       const currentZoom = mapInstanceRef.current.getZoom() || 0;
-      mapInstanceRef.current.setZoom(currentZoom + 1);
-    }
-  };
-
-  const zoomOut = () => {
-    if (mapLoaded && mapInstanceRef.current) {
-      const currentZoom = mapInstanceRef.current.getZoom() || 0;
-      mapInstanceRef.current.setZoom(currentZoom - 1);
+      mapInstanceRef.current.setZoom(currentZoom + (direction === 'in' ? 1 : -1));
     }
   };
 
@@ -223,12 +235,19 @@ const MapContainer: React.FC<MapContainerProps> = ({
             className="map-control map-control--location"
           />
           <ZoomControls 
-            onZoomIn={zoomIn} 
-            onZoomOut={zoomOut} 
+            onZoomIn={() => handleZoom('in')} 
+            onZoomOut={() => handleZoom('out')} 
             className="map-control map-control--zoom"
           />
           <MapLegend className="map-control map-control--legend" />
         </>
+      )}
+
+      {selectedStation && (
+        <InfoWindow
+          station={selectedStation}
+          onClose={() => setSelectedStation(null)}
+        />
       )}
     </div>
   );

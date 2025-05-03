@@ -1,47 +1,52 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { Station, StationDetail } from '../types/station';
+// src/store/stationsSlice.ts
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { Station, StationStatus } from '../types/station';
 import stationsApi from '../api/stationsApi';
-import { StationFilterRequest } from '../types/filters';
 
 interface StationsState {
-  stations: Station[];
-  selectedStation: StationDetail | null;
-  loading: boolean;
+  items: { [key: string]: Station };
+  selectedId: string | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  filters: StationFilterRequest;
-  lastUpdated: number | null;
+  lastUpdate: number | null;
+  filters: {
+    city?: string;
+    network?: string;
+    connectorTypes?: string[];
+    minReliability?: number;
+  };
 }
 
 const initialState: StationsState = {
-  stations: [],
-  selectedStation: null,
-  loading: false,
+  items: {},
+  selectedId: null,
+  status: 'idle',
   error: null,
-  filters: {},
-  lastUpdated: null
+  lastUpdate: null,
+  filters: {}
 };
 
 export const fetchStations = createAsyncThunk(
   'stations/fetchAll',
-  async () => {
-    const response = await stationsApi.getAllStations();
-    return response;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await stationsApi.getAllStations();
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Failed to fetch stations');
+    }
   }
 );
 
 export const fetchStationById = createAsyncThunk(
   'stations/fetchById',
-  async (id: string) => {
-    const response = await stationsApi.getStationById(id);
-    return response;
-  }
-);
-
-export const filterStations = createAsyncThunk(
-  'stations/filter',
-  async (filters: StationFilterRequest) => {
-    const response = await stationsApi.filterStations(filters);
-    return response;
+  async (stationId: string, { rejectWithValue }) => {
+    try {
+      const response = await stationsApi.getStationById(stationId);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Failed to fetch station');
+    }
   }
 );
 
@@ -49,36 +54,67 @@ const stationsSlice = createSlice({
   name: 'stations',
   initialState,
   reducers: {
-    setFilters: (state, action: PayloadAction<StationFilterRequest>) => {
-      state.filters = action.payload;
+    updateStationStatus(state, action: PayloadAction<{
+      stationId: string;
+      status: StationStatus;
+    }>) {
+      const { stationId, status } = action.payload;
+      if (state.items[stationId]) {
+        state.items[stationId] = {
+          ...state.items[stationId],
+          status,
+          lastStatusUpdate: new Date().toISOString()
+        };
+        state.lastUpdate = Date.now();
+      }
     },
-    clearSelectedStation: (state) => {
-      state.selectedStation = null;
+    setSelectedStation(state, action: PayloadAction<string | null>) {
+      state.selectedId = action.payload;
+    },
+    updateFilters(state, action: PayloadAction<Partial<StationsState['filters']>>) {
+      state.filters = {
+        ...state.filters,
+        ...action.payload
+      };
+    },
+    clearFilters(state) {
+      state.filters = {};
+    },
+    resetStations(state) {
+      Object.assign(state, initialState);
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchStations.pending, (state) => {
-        state.loading = true;
+        state.status = 'loading';
         state.error = null;
       })
       .addCase(fetchStations.fulfilled, (state, action) => {
-        state.loading = false;
-        state.stations = action.payload;
-        state.lastUpdated = Date.now();
+        state.status = 'succeeded';
+        state.items = action.payload.reduce((acc: { [key: string]: Station }, station: Station) => {
+          acc[station.id] = station;
+          return acc;
+        }, {});
+        state.lastUpdate = Date.now();
       })
       .addCase(fetchStations.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch stations';
+        state.status = 'failed';
+        state.error = action.payload as string;
       })
       .addCase(fetchStationById.fulfilled, (state, action) => {
-        state.selectedStation = action.payload;
-      })
-      .addCase(filterStations.fulfilled, (state, action) => {
-        state.stations = action.payload;
+        const station = action.payload;
+        state.items[station.id] = station;
       });
   }
 });
 
-export const { setFilters, clearSelectedStation } = stationsSlice.actions;
+export const {
+  updateStationStatus,
+  setSelectedStation,
+  updateFilters,
+  clearFilters,
+  resetStations
+} = stationsSlice.actions;
+
 export default stationsSlice.reducer;

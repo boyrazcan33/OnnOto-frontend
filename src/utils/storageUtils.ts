@@ -1,85 +1,91 @@
 import { STORAGE_KEYS } from '../constants/storageKeys';
 
-/**
- * Get an item from local storage
- */
+export const getDeviceId = (): string | null => {
+  try {
+    return localStorage.getItem(STORAGE_KEYS.DEVICE_ID);
+  } catch (error) {
+    console.error('Error getting device ID:', error);
+    return null;
+  }
+};
+
+export const setStorageItem = <T>(key: string, value: T): void => {
+  try {
+    const serializedValue = JSON.stringify({
+      value,
+      timestamp: Date.now()
+    });
+    localStorage.setItem(key, serializedValue);
+  } catch (error) {
+    console.error('Error setting storage item:', error);
+  }
+};
+
 export const getStorageItem = <T>(key: string, defaultValue: T): T => {
   try {
     const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
+    if (!item) return defaultValue;
+
+    const { value, timestamp } = JSON.parse(item);
+    
+    // Check if item is expired (24 hours)
+    if (Date.now() - timestamp > 24 * 60 * 60 * 1000) {
+      localStorage.removeItem(key);
+      return defaultValue;
+    }
+
+    return value as T;
   } catch (error) {
-    console.error('Error getting from localStorage:', error);
+    console.error('Error getting storage item:', error);
     return defaultValue;
   }
 };
 
-/**
- * Set an item in local storage
- */
-export const setStorageItem = (key: string, value: any): void => {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.error('Error setting to localStorage:', error);
-  }
-};
-
-/**
- * Remove an item from local storage
- */
 export const removeStorageItem = (key: string): void => {
   try {
     localStorage.removeItem(key);
   } catch (error) {
-    console.error('Error removing from localStorage:', error);
+    console.error('Error removing storage item:', error);
   }
 };
 
-/**
- * Get device ID from storage or create a new one
- */
-export const getDeviceId = (): string => {
-  const deviceId = getStorageItem<string>(STORAGE_KEYS.DEVICE_ID, '');
-  
-  if (deviceId) {
-    return deviceId;
+export const clearStorageItems = (pattern?: RegExp): void => {
+  try {
+    if (pattern) {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && pattern.test(key)) {
+          localStorage.removeItem(key);
+        }
+      }
+    } else {
+      localStorage.clear();
+    }
+  } catch (error) {
+    console.error('Error clearing storage:', error);
   }
-  
-  // Generate a new device ID if not found
-  const newDeviceId = generateDeviceId();
-  setStorageItem(STORAGE_KEYS.DEVICE_ID, newDeviceId);
-  return newDeviceId;
 };
 
-/**
- * Generate a device ID (UUID v4)
- */
-export const generateDeviceId = (): string => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0,
-          v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
+export const getStorageSize = (): number => {
+  try {
+    let size = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key) {
+        size += localStorage.getItem(key)?.length || 0;
+      }
+    }
+    return size;
+  } catch (error) {
+    console.error('Error calculating storage size:', error);
+    return 0;
+  }
 };
 
-/**
- * Get favorites from storage
- */
-export const getFavorites = (): string[] => {
-  return getStorageItem<string[]>(STORAGE_KEYS.FAVORITES, []);
-};
-
-/**
- * Save favorites to storage
- */
-export const saveFavorites = (favorites: string[]): void => {
-  setStorageItem(STORAGE_KEYS.FAVORITES, favorites);
-};
-
-/**
- * Check if a station is a favorite
- */
-export const isFavorite = (stationId: string): boolean => {
-  const favorites = getFavorites();
-  return favorites.includes(stationId);
-};
+// Storage event listener for cross-tab synchronization
+window.addEventListener('storage', (e) => {
+  if (e.key?.startsWith('onnoto-')) {
+    // Handle storage changes from other tabs
+    console.log('Storage changed in another tab:', e.key);
+  }
+});
