@@ -1,3 +1,4 @@
+// src/utils/mapUtils.ts
 import { Station } from '../types/station';
 import { CONNECTOR_STATUS, STATUS_COLORS } from '../constants/statusTypes';
 
@@ -87,6 +88,22 @@ export const getStationMarkerColor = (station: Station): string => {
   }
 
   return STATUS_COLORS.AVAILABLE;
+};
+
+/**
+ * Get marker icon based on status
+ */
+export const getMarkerIcon = (status: string): string => {
+  switch (status) {
+    case 'AVAILABLE':
+      return STATUS_COLORS.AVAILABLE;
+    case 'OCCUPIED':
+      return STATUS_COLORS.OCCUPIED;
+    case 'OFFLINE':
+      return STATUS_COLORS.OFFLINE;
+    default:
+      return STATUS_COLORS.UNKNOWN;
+  }
 };
 
 /**

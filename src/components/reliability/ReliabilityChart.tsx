@@ -11,6 +11,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
+// For this file, we assume LoadingSpinner will be created as a separate fix
 import LoadingSpinner from '../common/LoadingSpinner';
 import { ReliabilityMetric } from '../../types/reliability';
 import reliabilityApi from '../../api/reliabilityApi';
@@ -41,17 +42,21 @@ const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
     () => reliabilityApi.getStationReliability(stationId),
     {
       staleTime: 300000, // 5 minutes
-      refetchInterval: 300000,
-      onSuccess: (data) => {
-        const transformedData = data.historyData.map(item => ({
-          date: new Date(item.timestamp).toLocaleDateString(),
-          score: item.score,
-          uptime: item.uptime * 100
-        }));
-        setChartData(transformedData);
-      }
+      refetchInterval: 300000
     }
   );
+
+  // Fixed the useEffect issue - simplify the dependencies array
+  useEffect(() => {
+    if (data && data.historyData) {
+      const transformedData = data.historyData.map(item => ({
+        date: new Date(item.timestamp).toLocaleDateString(),
+        score: item.score,
+        uptime: item.uptime * 100
+      }));
+      setChartData(transformedData);
+    }
+  }, [data]);
 
   if (isLoading) {
     return <LoadingSpinner />;

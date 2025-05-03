@@ -1,6 +1,5 @@
+// src/types/station.ts
 import { Connector } from './connector';
-
-
 
 export interface Station {
   id: string;
@@ -19,6 +18,8 @@ export interface Station {
   availableConnectors: number;
   totalConnectors: number;
   lastStatusUpdate: string;
+  connectors: Connector[]; // Added this property
+  status?: string; // Added this property for stationsSlice.ts
 }
 
 export interface StationDetail extends Station {
@@ -33,3 +34,24 @@ export interface StationDetail extends Station {
   };
 }
 
+// Add the missing types
+export interface Anomaly {
+  id: string;
+  type: string;
+  description: string;
+  severity: string;
+  timestamp: string;
+}
+
+export enum StationStatus {
+  OPERATIONAL = 'OPERATIONAL',
+  PARTIAL = 'PARTIAL',
+  OFFLINE = 'OFFLINE',
+  UNKNOWN = 'UNKNOWN'
+}
+
+export interface StationMetrics {
+  reliability: number;
+  status: StationStatus;
+  lastUpdate: string;
+}

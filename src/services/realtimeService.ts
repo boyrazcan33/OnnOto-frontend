@@ -1,5 +1,6 @@
 // src/services/realtimeService.ts
-import { store } from '../store';
+import store from '../store'; // Changed from { store }
+// For now, we're assuming actions.ts will be created as a separate fix
 import { 
   updateStationStatus, 
   updateReliabilityScore, 

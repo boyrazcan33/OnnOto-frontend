@@ -74,11 +74,6 @@ apiClient.interceptors.response.use(
   }
 );
 
-// Error retry configuration
-apiClient.defaults.raxConfig = {
-  retry: 3,
-  retryDelay: 3000,
-  statusCodes: [408, 500, 502, 503, 504],
-};
+
 
 export default apiClient;
