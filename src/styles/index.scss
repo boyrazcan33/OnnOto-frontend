@@ -1,16 +1,16 @@
-@import 'variables';
-@import 'global';
+@use 'variables' as *;
+@use 'global';
 
 // Components
-@import 'components/buttons';
-@import 'components/cards';
-@import 'components/map';
-@import 'components/stations';
-@import 'components/filters';
-@import 'components/inputs';
+@use 'components/buttons' as buttons;
+@use 'components/cards' as cards;
+@use 'components/map' as map-component;
+@use 'components/stations' as stations;
+@use 'components/filters' as filters;
+@use 'components/inputs' as inputs;
 
 // Pages
-@import 'pages/landing';
-@import 'pages/map';
-@import 'pages/stationDetails';
-@import 'pages/reliability-dashboard';
+@use 'pages/landing' as landing;
+@use 'pages/map' as map-page;
+@use 'pages/stationDetails' as station-details;
+@use 'pages/reliability-dashboard' as reliability;

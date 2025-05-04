@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Report, ReportRequest } from '../types/report';
+import { useState } from 'react';
+import { ReportRequest } from '../types/report';
 import reportsApi from '../api/reportsApi';
 import { getDeviceId } from '../utils/storageUtils';
 
@@ -13,9 +13,6 @@ interface UseReportsResult {
   refreshReportCount: () => Promise<void>;
 }
 
-/**
- * Hook to fetch and submit reports for a station
- */
 const useReports = (stationId: string): UseReportsResult => {
   const [reportCount, setReportCount] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,16 +41,17 @@ const useReports = (stationId: string): UseReportsResult => {
       setSubmitError(null);
       
       const deviceId = getDeviceId();
+      if (!deviceId) {
+        throw new Error('Device ID not found');
+      }
       
-      // Add device ID to report
+      // Create the full report with deviceId
       const fullReport: ReportRequest = {
         ...report,
-        deviceId
+        deviceId,
       };
       
       await reportsApi.createReport(fullReport);
-      
-      // Refresh report count after submission
       await fetchReportCount();
       
       return true;
@@ -65,11 +63,6 @@ const useReports = (stationId: string): UseReportsResult => {
       setSubmitting(false);
     }
   };
-
-  // Fetch report count on mount or when stationId changes
-  useEffect(() => {
-    fetchReportCount();
-  }, [stationId]);
 
   return {
     reportCount,

@@ -1,4 +1,5 @@
-@import 'variables';
+@use 'sass:color';
+@use 'variables' as *;
 
 // Reset and base styles
 * {
@@ -57,7 +58,7 @@ a {
   transition: $transition-base;
 
   &:hover {
-    color: darken($primary-color, 10%);
+    color: color.adjust($primary-color, $lightness: -10%);
     text-decoration: underline;
   }
 }
@@ -119,10 +120,10 @@ input, select, textarea, button {
   }
 
   a {
-    color: lighten($primary-color, 10%);
+    color: color.adjust($primary-color, $lightness: 10%);
 
     &:hover {
-      color: lighten($primary-color, 20%);
+      color: color.adjust($primary-color, $lightness: 20%);
     }
   }
 }
@@ -132,10 +133,10 @@ input, select, textarea, button {
   background-color: $background-dark;
 
   a {
-    color: lighten($primary-color, 10%);
+    color: color.adjust($primary-color, $lightness: 10%);
 
     &:hover {
-      color: lighten($primary-color, 20%);
+      color: color.adjust($primary-color, $lightness: 20%);
     }
   }
 }

@@ -1,9 +1,10 @@
-// src/components/reliability/ReliabilityChart.tsx
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
   LineChart,
   Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,135 +12,186 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
-// For this file, we assume LoadingSpinner will be created as a separate fix
 import LoadingSpinner from '../common/LoadingSpinner';
 import { ReliabilityMetric } from '../../types/reliability';
 import reliabilityApi from '../../api/reliabilityApi';
 
 interface ReliabilityChartProps {
-  stationId: string;
-  days?: number;
+  stationId?: string;
+  chartType?: 'line' | 'bar';
+  data?: Array<{
+    range?: string;
+    label?: string;
+    count?: number;
+    color?: string;
+    date?: string;
+    score?: number;
+    uptime?: number;
+  }>;
   height?: number;
   className?: string;
-  data?: any;
 }
 
-interface ChartData {
-  date: string;
+interface HistoryDataPoint {
+  timestamp: string;
   score: number;
   uptime: number;
 }
 
 const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
   stationId,
-  days = 30,
+  chartType = 'line',
+  data: externalData,
   height = 300,
   className = ''
 }) => {
-  const [chartData, setChartData] = useState<ChartData[]>([]);
+  const [chartData, setChartData] = useState<any[]>([]);
 
-  const { data, isLoading, error } = useQuery<ReliabilityMetric>(
-    ['reliability', stationId],
-    () => reliabilityApi.getStationReliability(stationId),
-    {
-      staleTime: 300000, // 5 minutes
-      refetchInterval: 300000
-    }
-  );
+  const queryResult: UseQueryResult<ReliabilityMetric> = useQuery({
+    queryKey: ['reliability', stationId],
+    queryFn: async () => {
+      if (!stationId) throw new Error('Station ID is required');
+      return reliabilityApi.getStationReliability(stationId);
+    },
+    enabled: !!stationId
+  });
 
-  // Fixed the useEffect issue - simplify the dependencies array
+  const { data: queryData, isLoading, error } = queryResult;
+
   useEffect(() => {
-    if (data && data.historyData) {
-      const transformedData = data.historyData.map(item => ({
+    if (externalData) {
+      setChartData(externalData);
+    } else if (queryData?.historyData) {
+      const transformedData = queryData.historyData.map((item: HistoryDataPoint) => ({
         date: new Date(item.timestamp).toLocaleDateString(),
         score: item.score,
         uptime: item.uptime * 100
       }));
       setChartData(transformedData);
     }
-  }, [data]);
+  }, [queryData, externalData]);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (error) {
-    return <div className="chart-error">Error loading reliability data</div>;
+  if ((error || !queryData) && !externalData) {
+    return <div className="chart-error">Error loading chart data</div>;
   }
 
-  if (!data || chartData.length === 0) {
-    return <div className="chart-empty">No reliability data available</div>;
+  if (!chartData.length) {
+    return <div className="chart-error">No data available</div>;
   }
 
   return (
     <div className={`reliability-chart ${className}`}>
-      <div className="reliability-chart__header">
-        <h3 className="reliability-chart__title">Reliability History</h3>
-        <div className="reliability-chart__legend">
-          <span className="reliability-chart__score">
-            Current Score: {data.currentScore.toFixed(1)}
-          </span>
+      {chartType === 'line' && stationId && queryData && (
+        <div className="reliability-chart__header">
+          <h3 className="reliability-chart__title">Reliability History</h3>
+          <div className="reliability-chart__legend">
+            <span className="reliability-chart__score">
+              Current Score: {queryData.currentScore.toFixed(1)}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       <ResponsiveContainer width="100%" height={height}>
-        <LineChart
-          data={chartData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 20,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="date"
-            angle={-45}
-            textAnchor="end"
-            height={70}
-          />
-          <YAxis
-            domain={[0, 100]}
-            label={{
-              value: 'Reliability Score',
-              angle: -90,
-              position: 'insideLeft'
+        {chartType === 'line' ? (
+          <LineChart
+            data={chartData}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 20,
             }}
-          />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="score"
-            name="Reliability Score"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          <Line
-            type="monotone"
-            dataKey="uptime"
-            name="Uptime %"
-            stroke="#82ca9d"
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="date"
+              angle={-45}
+              textAnchor="end"
+              height={70}
+            />
+            <YAxis
+              domain={[0, 100]}
+              label={{
+                value: 'Reliability Score',
+                angle: -90,
+                position: 'insideLeft'
+              }}
+            />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="score"
+              name="Reliability Score"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="uptime"
+              name="Uptime %"
+              stroke="#82ca9d"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        ) : (
+          <BarChart
+            data={chartData}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 20,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="label"
+              angle={-45}
+              textAnchor="end"
+              height={70}
+            />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="count"
+              name="Stations"
+              fill="#8884d8"
+            >
+              {chartData.map((entry, index) => (
+                <Bar
+                  key={`bar-${index}`}
+                  dataKey="count"
+                  fill={entry.color || '#8884d8'}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        )}
       </ResponsiveContainer>
 
-      <div className="reliability-chart__stats">
-        <div className="reliability-chart__stat">
-          <label>Average Score:</label>
-          <span>{data.averageScore.toFixed(1)}</span>
+      {chartType === 'line' && stationId && queryData && (
+        <div className="reliability-chart__stats">
+          <div className="reliability-chart__stat">
+            <label>Average Score:</label>
+            <span>{queryData.averageScore.toFixed(1)}</span>
+          </div>
+          <div className="reliability-chart__stat">
+            <label>Uptime:</label>
+            <span>{(queryData.uptime * 100).toFixed(1)}%</span>
+          </div>
+          <div className="reliability-chart__stat">
+            <label>Report Count:</label>
+            <span>{queryData.reportCount}</span>
+          </div>
         </div>
-        <div className="reliability-chart__stat">
-          <label>Uptime:</label>
-          <span>{(data.uptime * 100).toFixed(1)}%</span>
-        </div>
-        <div className="reliability-chart__stat">
-          <label>Report Count:</label>
-          <span>{data.reportCount}</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

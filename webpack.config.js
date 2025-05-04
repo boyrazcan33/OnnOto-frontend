@@ -23,9 +23,9 @@ module.exports = (env, argv) => {
       clean: true,
     },
     resolve: {
-      extensions: ['.tsx', '.ts', '.js', '.jsx'],
+      extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'],
       alias: {
-        '@': path.resolve(__dirname, '../src'),
+        '@': path.resolve(__dirname, 'src'),
       },
     },
     module: {
@@ -33,7 +33,20 @@ module.exports = (env, argv) => {
         {
           test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
-          use: 'ts-loader',
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+                compilerOptions: {
+                  noEmit: false,
+                  module: 'esnext',
+                  moduleResolution: 'node',
+                  jsx: 'react-jsx'
+                }
+              }
+            }
+          ]
         },
         {
           test: /\.(scss|css)$/,
@@ -62,7 +75,6 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './static/index.html',
-        //favicon: path.resolve(__dirname, './static/icons/favicon.ico'),
       }),
       new DefinePlugin(envKeys),
       ...(isProduction ? [new MiniCssExtractPlugin({
@@ -71,7 +83,8 @@ module.exports = (env, argv) => {
     ],
     devServer: {
       historyApiFallback: true,
-      port: 3000,
+      port: 'auto',
+      open: true,
       hot: true,
       static: {
         directory: path.join(__dirname, 'static'),
