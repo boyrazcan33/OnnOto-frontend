@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../variables' as vars;
 
 // Map Container
 .map-container {
@@ -7,7 +7,7 @@
   height: 100%;
   min-height: 400px;
   overflow: hidden;
-  border-radius: $border-radius-md;
+  border-radius: vars.$border-radius-md;
 }
 
 .map {
@@ -34,16 +34,16 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: $spacing-lg;
+  padding: vars.$spacing-lg;
   text-align: center;
-  background-color: $gray-100;
-  border-radius: $border-radius-md;
+  background-color: vars.$gray-100;
+  border-radius: vars.$border-radius-md;
   
   p {
-    margin-bottom: $spacing-md;
+    margin-bottom: vars.$spacing-md;
     &:last-child {
-      color: $gray-600;
-      font-size: $font-size-sm;
+      color: vars.$gray-600;
+      font-size: vars.$font-size-sm;
     }
   }
 }
@@ -53,22 +53,22 @@
   position: absolute;
   z-index: 10;
   background-color: white;
-  border-radius: $border-radius-md;
+  border-radius: vars.$border-radius-md;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   
   &--location {
-    bottom: $spacing-lg;
-    right: $spacing-lg;
+    bottom: vars.$spacing-lg;
+    right: vars.$spacing-lg;
   }
   
   &--zoom {
-    top: $spacing-lg;
-    right: $spacing-lg;
+    top: vars.$spacing-lg;
+    right: vars.$spacing-lg;
   }
   
   &--legend {
-    bottom: $spacing-lg;
-    left: $spacing-lg;
+    bottom: vars.$spacing-lg;
+    left: vars.$spacing-lg;
   }
 }
 
@@ -83,15 +83,15 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  color: $primary-color;
-  transition: $transition-base;
+  color: vars.$primary-color;
+  transition: vars.$transition-base;
   
   &:hover, &:focus {
-    background-color: $gray-100;
+    background-color: vars.$gray-100;
   }
   
   &:active {
-    background-color: $gray-200;
+    background-color: vars.$gray-200;
   }
   
   &--disabled {
@@ -114,34 +114,34 @@
     background-color: white;
     border: none;
     cursor: pointer;
-    color: $gray-700;
-    transition: $transition-base;
+    color: vars.$gray-700;
+    transition: vars.$transition-base;
     
     &:hover, &:focus {
-      background-color: $gray-100;
+      background-color: vars.$gray-100;
     }
     
     &:active {
-      background-color: $gray-200;
+      background-color: vars.$gray-200;
     }
     
     &--in {
-      border-top-left-radius: $border-radius-sm;
-      border-top-right-radius: $border-radius-sm;
-      border-bottom: 1px solid $gray-200;
+      border-top-left-radius: vars.$border-radius-sm;
+      border-top-right-radius: vars.$border-radius-sm;
+      border-bottom: 1px solid vars.$gray-200;
     }
     
     &--out {
-      border-bottom-left-radius: $border-radius-sm;
-      border-bottom-right-radius: $border-radius-sm;
+      border-bottom-left-radius: vars.$border-radius-sm;
+      border-bottom-right-radius: vars.$border-radius-sm;
     }
   }
 }
 
 // Map Legend
 .map-legend {
-  padding: $spacing-sm;
-  transition: $transition-base;
+  padding: vars.$spacing-sm;
+  transition: vars.$transition-base;
   
   &__toggle {
     display: flex;
@@ -151,33 +151,33 @@
     height: 40px;
     background-color: white;
     border: none;
-    border-radius: $border-radius-sm;
+    border-radius: vars.$border-radius-sm;
     cursor: pointer;
-    color: $gray-700;
-    transition: $transition-base;
+    color: vars.$gray-700;
+    transition: vars.$transition-base;
     
     &:hover, &:focus {
-      background-color: $gray-100;
+      background-color: vars.$gray-100;
     }
     
     &:active {
-      background-color: $gray-200;
+      background-color: vars.$gray-200;
     }
   }
   
   &__content {
-    margin-top: $spacing-sm;
-    padding: $spacing-md;
+    margin-top: vars.$spacing-sm;
+    padding: vars.$spacing-md;
     background-color: white;
-    border-radius: $border-radius-sm;
+    border-radius: vars.$border-radius-sm;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     min-width: 180px;
   }
   
   &__title {
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    margin: 0 0 $spacing-sm;
+    font-size: vars.$font-size-md;
+    font-weight: vars.$font-weight-bold;
+    margin: 0 0 vars.$spacing-sm;
   }
   
   &__list {
@@ -189,7 +189,7 @@
   &__item {
     display: flex;
     align-items: center;
-    margin-bottom: $spacing-xs;
+    margin-bottom: vars.$spacing-xs;
     
     &:last-child {
       margin-bottom: 0;
@@ -200,32 +200,32 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    margin-right: $spacing-sm;
+    margin-right: vars.$spacing-sm;
   }
   
   &__label {
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
   }
 }
 
 // Info Window
 .info-window {
   position: absolute;
-  bottom: $spacing-lg;
+  bottom: vars.$spacing-lg;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 300px;
   background-color: white;
-  border-radius: $border-radius-md;
+  border-radius: vars.$border-radius-md;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: $spacing-md;
+  padding: vars.$spacing-md;
   z-index: 20;
   
   &__close-button {
     position: absolute;
-    top: $spacing-xs;
-    right: $spacing-xs;
+    top: vars.$spacing-xs;
+    right: vars.$spacing-xs;
     width: 28px;
     height: 28px;
     border: none;
@@ -233,67 +233,67 @@
     cursor: pointer;
     font-size: 20px;
     line-height: 1;
-    color: $gray-600;
+    color: vars.$gray-600;
     
     &:hover, &:focus {
-      color: $gray-900;
+      color: vars.$gray-900;
     }
   }
   
   &__title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
-    margin: 0 0 $spacing-xs;
-    padding-right: $spacing-lg;
+    font-size: vars.$font-size-lg;
+    font-weight: vars.$font-weight-bold;
+    margin: 0 0 vars.$spacing-xs;
+    padding-right: vars.$spacing-lg;
   }
   
   &__network {
-    font-size: $font-size-sm;
-    color: $gray-600;
-    margin-bottom: $spacing-sm;
+    font-size: vars.$font-size-sm;
+    color: vars.$gray-600;
+    margin-bottom: vars.$spacing-sm;
   }
   
   &__address {
-    font-size: $font-size-sm;
-    margin-bottom: $spacing-md;
+    font-size: vars.$font-size-sm;
+    margin-bottom: vars.$spacing-md;
   }
   
   &__status {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacing-md;
+    margin-bottom: vars.$spacing-md;
   }
   
   &__connectors {
     display: flex;
     align-items: center;
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
   }
   
   &__available {
-    font-weight: $font-weight-bold;
-    color: $available-color;
+    font-weight: vars.$font-weight-bold;
+    color: vars.$available-color;
   }
   
   &__total {
-    font-weight: $font-weight-normal;
+    font-weight: vars.$font-weight-normal;
   }
   
   &__reliability {
     display: flex;
     align-items: center;
-    margin-bottom: $spacing-md;
+    margin-bottom: vars.$spacing-md;
   }
   
   &__reliability-score {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
-    margin-right: $spacing-sm;
+    font-size: vars.$font-size-xl;
+    font-weight: vars.$font-weight-bold;
+    margin-right: vars.$spacing-sm;
   }
   
   &__reliability-symbol {
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
   }
   
   &__actions {
@@ -302,10 +302,10 @@
   }
   
   &__details-link {
-    color: $primary-color;
+    color: vars.$primary-color;
     text-decoration: none;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    font-size: vars.$font-size-sm;
+    font-weight: vars.$font-weight-medium;
     
     &:hover, &:focus {
       text-decoration: underline;
@@ -320,7 +320,7 @@
   }
   
   .map-error {
-    background-color: $gray-800;
+    background-color: vars.$gray-800;
   }
   
   .map-control,
@@ -329,23 +329,23 @@
   .map-legend__toggle,
   .map-legend__content,
   .info-window {
-    background-color: $gray-800;
-    color: $text-dark;
+    background-color: vars.$gray-800;
+    color: vars.$text-dark;
   }
   
   .zoom-controls__button--in {
-    border-bottom-color: $gray-700;
+    border-bottom-color: vars.$gray-700;
   }
   
   .info-window__close-button {
-    color: $gray-400;
+    color: vars.$gray-400;
     
     &:hover, &:focus {
-      color: $gray-200;
+      color: vars.$gray-200;
     }
   }
   
   .info-window__network {
-    color: $gray-400;
+    color: vars.$gray-400;
   }
 }

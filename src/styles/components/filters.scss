@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../variables' as vars;
 
 // Filter Panel
 .filter-panel {
@@ -8,7 +8,7 @@
   height: 100%;
   width: 300px;
   max-width: 90%;
-  background-color: $background-light;
+  background-color: vars.$background-light;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   z-index: 100;
   display: flex;
@@ -19,13 +19,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacing-md;
-    border-bottom: 1px solid $gray-200;
+    padding: vars.$spacing-md;
+    border-bottom: 1px solid vars.$gray-200;
   }
   
   &__title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
+    font-size: vars.$font-size-lg;
+    font-weight: vars.$font-weight-bold;
     margin: 0;
   }
   
@@ -35,60 +35,60 @@
     font-size: 24px;
     line-height: 1;
     cursor: pointer;
-    color: $gray-600;
+    color: vars.$gray-600;
     
     &:hover, &:focus {
-      color: $gray-900;
+      color: vars.$gray-900;
     }
   }
   
   &__content {
     flex: 1;
     overflow-y: auto;
-    padding: $spacing-md;
+    padding: vars.$spacing-md;
   }
   
   &__footer {
     display: flex;
     justify-content: space-between;
-    padding: $spacing-md;
-    border-top: 1px solid $gray-200;
-    gap: $spacing-md;
+    padding: vars.$spacing-md;
+    border-top: 1px solid vars.$gray-200;
+    gap: vars.$spacing-md;
   }
   
   &__checkbox {
-    margin-top: $spacing-md;
+    margin-top: vars.$spacing-md;
   }
   
   &__label {
     display: flex;
     align-items: center;
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
     
     input {
-      margin-right: $spacing-sm;
+      margin-right: vars.$spacing-sm;
     }
   }
 }
 
 // Filter Section
 .filter-section {
-  margin-bottom: $spacing-lg;
+  margin-bottom: vars.$spacing-lg;
   
   &:last-child {
     margin-bottom: 0;
   }
   
   &__title {
-    font-size: $font-size-base;
-    font-weight: $font-weight-medium;
-    margin: 0 0 $spacing-sm;
+    font-size: vars.$font-size-base;
+    font-weight: vars.$font-weight-medium;
+    margin: 0 0 vars.$spacing-sm;
   }
   
   &__options {
     display: flex;
     flex-direction: column;
-    gap: $spacing-xs;
+    gap: vars.$spacing-xs;
   }
   
   &__dropdown {
@@ -96,35 +96,35 @@
   }
   
   &__slider {
-    margin-top: $spacing-sm;
+    margin-top: vars.$spacing-sm;
   }
   
   &__slider-value {
     display: flex;
     align-items: center;
-    margin-top: $spacing-xs;
-    font-size: $font-size-sm;
+    margin-top: vars.$spacing-xs;
+    font-size: vars.$font-size-sm;
   }
   
   &__slider-score {
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    margin-right: $spacing-xs;
+    font-size: vars.$font-size-md;
+    font-weight: vars.$font-weight-bold;
+    margin-right: vars.$spacing-xs;
   }
   
   &__slider-stars {
-    font-size: $font-size-xs;
+    font-size: vars.$font-size-xs;
   }
   
   &__switch {
-    margin-top: $spacing-sm;
+    margin-top: vars.$spacing-sm;
   }
   
   &__empty {
-    font-size: $font-size-sm;
-    color: $gray-600;
+    font-size: vars.$font-size-sm;
+    color: vars.$gray-600;
     font-style: italic;
-    padding: $spacing-sm 0;
+    padding: vars.$spacing-sm 0;
   }
 }
 
@@ -146,29 +146,29 @@
 // Dark theme adjustments
 [data-theme="dark"] {
   .filter-panel {
-    background-color: $background-dark;
+    background-color: vars.$background-dark;
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
     
     &__header {
-      border-bottom-color: $gray-700;
+      border-bottom-color: vars.$gray-700;
     }
     
     &__close {
-      color: $gray-400;
+      color: vars.$gray-400;
       
       &:hover, &:focus {
-        color: $gray-200;
+        color: vars.$gray-200;
       }
     }
     
     &__footer {
-      border-top-color: $gray-700;
+      border-top-color: vars.$gray-700;
     }
   }
   
   .filter-section {
     &__empty {
-      color: $gray-400;
+      color: vars.$gray-400;
     }
   }
 }

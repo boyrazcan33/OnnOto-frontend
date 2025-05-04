@@ -1,18 +1,18 @@
-@import '../variables';
+@use '../variables' as vars;
 
 .card {
   background-color: white;
-  border-radius: $border-radius-md;
+  border-radius: vars.$border-radius-md;
   overflow: hidden;
-  transition: $transition-base;
+  transition: vars.$transition-base;
   
   // Card variations
   &--border {
-    border: $border-width solid $gray-300;
+    border: vars.$border-width solid vars.$gray-300;
   }
   
   &--padding {
-    padding: $spacing-lg;
+    padding: vars.$spacing-lg;
   }
   
   &--shadow {
@@ -32,45 +32,45 @@
   
   // Card sections
   &__header {
-    padding: $spacing-lg;
-    border-bottom: $border-width solid $gray-200;
+    padding: vars.$spacing-lg;
+    border-bottom: vars.$border-width solid vars.$gray-200;
   }
   
   &__title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
+    font-size: vars.$font-size-lg;
+    font-weight: vars.$font-weight-bold;
     margin: 0;
   }
   
   &__subtitle {
-    font-size: $font-size-sm;
-    color: $gray-600;
-    margin: $spacing-xs 0 0;
+    font-size: vars.$font-size-sm;
+    color: vars.$gray-600;
+    margin: vars.$spacing-xs 0 0;
   }
   
   &__body {
     &:not(.card--padding) {
-      padding: $spacing-lg;
+      padding: vars.$spacing-lg;
     }
   }
   
   &__footer {
-    padding: $spacing-lg;
-    border-top: $border-width solid $gray-200;
+    padding: vars.$spacing-lg;
+    border-top: vars.$border-width solid vars.$gray-200;
     display: flex;
     justify-content: flex-end;
-    gap: $spacing-md;
+    gap: vars.$spacing-md;
   }
   
   // Content utilities
   &__divider {
     height: 1px;
-    background-color: $gray-200;
-    margin: $spacing-md 0;
+    background-color: vars.$gray-200;
+    margin: vars.$spacing-md 0;
   }
   
   &__section {
-    margin-bottom: $spacing-lg;
+    margin-bottom: vars.$spacing-lg;
     
     &:last-child {
       margin-bottom: 0;
@@ -78,19 +78,19 @@
   }
   
   &__section-title {
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    margin: 0 0 $spacing-md;
+    font-size: vars.$font-size-md;
+    font-weight: vars.$font-weight-bold;
+    margin: 0 0 vars.$spacing-md;
   }
 }
 
 // Dark theme adjustments
 [data-theme="dark"] {
   .card {
-    background-color: $gray-800;
+    background-color: vars.$gray-800;
     
     &--border {
-      border-color: $gray-700;
+      border-color: vars.$gray-700;
     }
     
     &--shadow {
@@ -98,23 +98,23 @@
     }
     
     &__header {
-      border-bottom-color: $gray-700;
+      border-bottom-color: vars.$gray-700;
     }
     
     &__title {
-      color: $text-dark;
+      color: vars.$text-dark;
     }
     
     &__subtitle {
-      color: $gray-400;
+      color: vars.$gray-400;
     }
     
     &__footer {
-      border-top-color: $gray-700;
+      border-top-color: vars.$gray-700;
     }
     
     &__divider {
-      background-color: $gray-700;
+      background-color: vars.$gray-700;
     }
   }
 }

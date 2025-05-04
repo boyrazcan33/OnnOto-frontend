@@ -1,4 +1,5 @@
-@import '../variables';
+@use 'sass:color';
+@use '../variables' as vars;
 
 // Checkbox
 .checkbox {
@@ -6,17 +7,17 @@
   align-items: center;
   
   &__input {
-    margin-right: $spacing-xs;
+    margin-right: vars.$spacing-xs;
     cursor: pointer;
     
     &:focus {
-      outline: 2px solid rgba($primary-color, 0.5);
+      outline: 2px solid rgba(vars.$primary-color, 0.5);
       outline-offset: 1px;
     }
   }
   
   &__label {
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
     cursor: pointer;
   }
 }
@@ -31,16 +32,16 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: $spacing-sm $spacing-md;
-    border: 1px solid $gray-300;
-    border-radius: $border-radius-sm;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    border: 1px solid vars.$gray-300;
+    border-radius: vars.$border-radius-sm;
     background-color: white;
     cursor: pointer;
-    font-size: $font-size-sm;
-    transition: $transition-base;
+    font-size: vars.$font-size-sm;
+    transition: vars.$transition-base;
     
     &:hover, &:focus {
-      border-color: $gray-500;
+      border-color: vars.$gray-500;
     }
   }
   
@@ -53,9 +54,9 @@
   }
   
   &__arrow {
-    margin-left: $spacing-sm;
+    margin-left: vars.$spacing-sm;
     font-size: 10px;
-    color: $gray-600;
+    color: vars.$gray-600;
     transition: transform 0.2s ease;
   }
   
@@ -72,28 +73,28 @@
     max-height: 200px;
     overflow-y: auto;
     background-color: white;
-    border: 1px solid $gray-300;
-    border-radius: $border-radius-sm;
+    border: 1px solid vars.$gray-300;
+    border-radius: vars.$border-radius-sm;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
   
   &__option {
-    padding: $spacing-sm $spacing-md;
+    padding: vars.$spacing-sm vars.$spacing-md;
     cursor: pointer;
-    font-size: $font-size-sm;
-    transition: $transition-base;
+    font-size: vars.$font-size-sm;
+    transition: vars.$transition-base;
     
     &:hover, &:focus {
-      background-color: $gray-100;
+      background-color: vars.$gray-100;
     }
     
     &--selected {
-      background-color: rgba($primary-color, 0.1);
-      color: $primary-color;
-      font-weight: $font-weight-medium;
+      background-color: rgba(vars.$primary-color, 0.1);
+      color: vars.$primary-color;
+      font-weight: vars.$font-weight-medium;
       
       &:hover, &:focus {
-        background-color: rgba($primary-color, 0.2);
+        background-color: rgba(vars.$primary-color, 0.2);
       }
     }
   }
@@ -106,7 +107,7 @@
 
 // Slider
 .slider {
-  padding: $spacing-sm 0;
+  padding: vars.$spacing-sm 0;
   
   &__input {
     appearance: none;
@@ -114,7 +115,7 @@
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: $gray-300;
+    background: vars.$gray-300;
     outline: none;
     
     &::-webkit-slider-thumb {
@@ -123,12 +124,12 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      background: $primary-color;
+      background: vars.$primary-color;
       cursor: pointer;
-      transition: $transition-base;
+      transition: vars.$transition-base;
       
       &:hover {
-        background: darken($primary-color, 10%);
+        background: color.adjust(vars.$primary-color, $lightness: -10%);
         transform: scale(1.1);
       }
     }
@@ -138,12 +139,12 @@
       height: 16px;
       border: none;
       border-radius: 50%;
-      background: $primary-color;
+      background: vars.$primary-color;
       cursor: pointer;
-      transition: $transition-base;
+      transition: vars.$transition-base;
       
       &:hover {
-        background: darken($primary-color, 10%);
+        background: color.adjust(vars.$primary-color, $lightness: -10%);
         transform: scale(1.1);
       }
     }
@@ -152,12 +153,12 @@
   &__markers {
     display: flex;
     justify-content: space-between;
-    margin-top: $spacing-xs;
+    margin-top: vars.$spacing-xs;
   }
   
   &__marker {
-    font-size: $font-size-xs;
-    color: $gray-600;
+    font-size: vars.$font-size-xs;
+    color: vars.$gray-600;
   }
   
   &--disabled {
@@ -184,10 +185,10 @@
     display: inline-block;
     width: 36px;
     height: 20px;
-    background-color: $gray-300;
+    background-color: vars.$gray-300;
     border-radius: 10px;
-    margin-right: $spacing-sm;
-    transition: $transition-base;
+    margin-right: vars.$spacing-sm;
+    transition: vars.$transition-base;
     
     &::before {
       content: '';
@@ -198,12 +199,12 @@
       height: 16px;
       border-radius: 50%;
       background-color: white;
-      transition: $transition-base;
+      transition: vars.$transition-base;
     }
   }
   
   &__input:checked + &__slider {
-    background-color: $primary-color;
+    background-color: vars.$primary-color;
   }
   
   &__input:checked + &__slider::before {
@@ -211,11 +212,11 @@
   }
   
   &__input:focus + &__slider {
-    box-shadow: 0 0 0 2px rgba($primary-color, 0.5);
+    box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.5);
   }
   
   &__label {
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
   }
   
   &--disabled {
@@ -228,44 +229,44 @@
 [data-theme="dark"] {
   .dropdown {
     &__toggle {
-      background-color: $gray-800;
-      border-color: $gray-600;
-      color: $text-dark;
+      background-color: vars.$gray-800;
+      border-color: vars.$gray-600;
+      color: vars.$text-dark;
       
       &:hover, &:focus {
-        border-color: $gray-500;
+        border-color: vars.$gray-500;
       }
     }
     
     &__menu {
-      background-color: $gray-800;
-      border-color: $gray-600;
+      background-color: vars.$gray-800;
+      border-color: vars.$gray-600;
     }
     
     &__option {
       &:hover, &:focus {
-        background-color: $gray-700;
+        background-color: vars.$gray-700;
       }
       
       &--selected {
-        background-color: rgba(lighten($primary-color, 10%), 0.2);
+        background-color: rgba(color.adjust(vars.$primary-color, $lightness: 10%), 0.2);
       }
     }
   }
   
   .slider {
     &__input {
-      background: $gray-700;
+      background: vars.$gray-700;
     }
     
     &__marker {
-      color: $gray-400;
+      color: vars.$gray-400;
     }
   }
   
   .switch {
     &__slider {
-      background-color: $gray-600;
+      background-color: vars.$gray-600;
     }
   }
 }

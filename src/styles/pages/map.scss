@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../variables' as vars;
 
 .map-page {
   display: flex;
@@ -9,12 +9,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacing-md $spacing-lg;
-    border-bottom: 1px solid $gray-200;
+    padding: vars.$spacing-md vars.$spacing-lg;
+    border-bottom: 1px solid vars.$gray-200;
   }
   
   &__title {
-    font-size: $font-size-xl;
+    font-size: vars.$font-size-xl;
     margin: 0;
   }
   
@@ -22,22 +22,22 @@
     display: flex;
     align-items: center;
     background-color: transparent;
-    border: 1px solid $gray-300;
-    border-radius: $border-radius-sm;
-    padding: $spacing-sm $spacing-md;
+    border: 1px solid vars.$gray-300;
+    border-radius: vars.$border-radius-sm;
+    padding: vars.$spacing-sm vars.$spacing-md;
     cursor: pointer;
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
     
     svg {
-      margin-right: $spacing-sm;
+      margin-right: vars.$spacing-sm;
     }
     
     &:hover, &:focus {
-      background-color: $gray-100;
+      background-color: vars.$gray-100;
     }
     
     &:active {
-      background-color: $gray-200;
+      background-color: vars.$gray-200;
     }
   }
   
@@ -49,7 +49,7 @@
   
   &__info-window {
     position: absolute;
-    bottom: $spacing-lg;
+    bottom: vars.$spacing-lg;
     left: 50%;
     transform: translateX(-50%);
     z-index: 20;
@@ -62,19 +62,19 @@
 [data-theme="dark"] {
   .map-page {
     &__header {
-      border-bottom-color: $gray-700;
+      border-bottom-color: vars.$gray-700;
     }
     
     &__filter-button {
-      border-color: $gray-600;
-      color: $text-dark;
+      border-color: vars.$gray-600;
+      color: vars.$text-dark;
       
       &:hover, &:focus {
-        background-color: $gray-700;
+        background-color: vars.$gray-700;
       }
       
       &:active {
-        background-color: $gray-600;
+        background-color: vars.$gray-600;
       }
     }
   }

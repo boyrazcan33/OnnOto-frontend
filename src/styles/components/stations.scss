@@ -1,4 +1,4 @@
-@import '../variables';
+@use '../variables' as vars;
 
 // Station Card
 .station-card {
@@ -6,99 +6,99 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: $spacing-sm;
+    margin-bottom: vars.$spacing-sm;
   }
   
   &__title-container {
     flex: 1;
-    padding-right: $spacing-sm;
+    padding-right: vars.$spacing-sm;
   }
   
   &__title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
-    margin: 0 0 $spacing-xs;
+    font-size: vars.$font-size-lg;
+    font-weight: vars.$font-weight-bold;
+    margin: 0 0 vars.$spacing-xs;
   }
   
   &__network {
-    font-size: $font-size-sm;
-    color: $gray-600;
+    font-size: vars.$font-size-sm;
+    color: vars.$gray-600;
   }
   
   &__favorite {
     background: none;
     border: none;
     cursor: pointer;
-    padding: $spacing-xs;
-    color: $gray-400;
-    transition: $transition-base;
+    padding: vars.$spacing-xs;
+    color: vars.$gray-400;
+    transition: vars.$transition-base;
     
     &:hover, &:focus {
-      color: $accent-color;
+      color: vars.$accent-color;
     }
     
     &--active {
-      color: $accent-color;
+      color: vars.$accent-color;
     }
   }
   
   &__content {
-    margin-bottom: $spacing-md;
+    margin-bottom: vars.$spacing-md;
   }
   
   &__address {
-    font-size: $font-size-sm;
-    margin-bottom: $spacing-md;
+    font-size: vars.$font-size-sm;
+    margin-bottom: vars.$spacing-md;
   }
   
   &__connectors {
     display: flex;
     align-items: center;
-    margin-bottom: $spacing-md;
+    margin-bottom: vars.$spacing-md;
   }
   
   &__availability {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: $spacing-md;
+    margin-right: vars.$spacing-md;
   }
   
   &__available-count {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
-    color: $available-color;
+    font-size: vars.$font-size-xl;
+    font-weight: vars.$font-weight-bold;
+    color: vars.$available-color;
   }
   
   &__available-label {
-    font-size: $font-size-xs;
-    color: $gray-600;
+    font-size: vars.$font-size-xs;
+    color: vars.$gray-600;
   }
   
   &__connector-count {
-    font-size: $font-size-sm;
-    color: $gray-600;
+    font-size: vars.$font-size-sm;
+    color: vars.$gray-600;
   }
   
   &__reliability {
     display: flex;
     align-items: center;
-    margin-bottom: $spacing-sm;
+    margin-bottom: vars.$spacing-sm;
   }
   
   &__reliability-score {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
-    margin-right: $spacing-sm;
+    font-size: vars.$font-size-xl;
+    font-weight: vars.$font-weight-bold;
+    margin-right: vars.$spacing-sm;
   }
   
   &__reliability-stars {
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
   }
   
   &__last-update {
-    font-size: $font-size-xs;
-    color: $gray-500;
+    font-size: vars.$font-size-xs;
+    color: vars.$gray-500;
   }
   
   &__footer {
@@ -106,8 +106,8 @@
   }
   
   &__details-link {
-    font-size: $font-size-sm;
-    color: $primary-color;
+    font-size: vars.$font-size-sm;
+    color: vars.$primary-color;
     text-decoration: none;
     
     &:hover, &:focus {
@@ -120,56 +120,56 @@
 .station-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $spacing-md;
+  gap: vars.$spacing-md;
   
-  @media (min-width: $breakpoint-md) {
+  @media (min-width: vars.$breakpoint-md) {
     grid-template-columns: repeat(2, 1fr);
   }
   
-  @media (min-width: $breakpoint-lg) {
+  @media (min-width: vars.$breakpoint-lg) {
     grid-template-columns: repeat(3, 1fr);
   }
   
   &__loading, &__error, &__empty {
     grid-column: 1 / -1;
-    padding: $spacing-xl;
+    padding: vars.$spacing-xl;
     text-align: center;
   }
 }
 
 // Connectors List
 .connectors-list {
-  border: 1px solid $gray-200;
-  border-radius: $border-radius-md;
+  border: 1px solid vars.$gray-200;
+  border-radius: vars.$border-radius-md;
   overflow: hidden;
   
   &__header {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    background-color: $gray-100;
-    padding: $spacing-sm;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-sm;
+    background-color: vars.$gray-100;
+    padding: vars.$spacing-sm;
+    font-weight: vars.$font-weight-bold;
+    font-size: vars.$font-size-sm;
   }
   
   &__header-item {
-    padding: $spacing-xs;
+    padding: vars.$spacing-xs;
   }
   
   &__item {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    border-top: 1px solid $gray-200;
-    padding: $spacing-sm;
-    font-size: $font-size-sm;
+    border-top: 1px solid vars.$gray-200;
+    padding: vars.$spacing-sm;
+    font-size: vars.$font-size-sm;
   }
   
   &__type, &__power, &__current, &__status {
-    padding: $spacing-xs;
+    padding: vars.$spacing-xs;
   }
   
   &__loading, &__error, &__empty {
-    padding: $spacing-lg;
+    padding: vars.$spacing-lg;
     text-align: center;
   }
 }
@@ -178,14 +178,14 @@
 .status-badge {
   display: inline-flex;
   align-items: center;
-  font-size: $font-size-sm;
+  font-size: vars.$font-size-sm;
   
   &--small {
-    font-size: $font-size-xs;
+    font-size: vars.$font-size-xs;
   }
   
   &--large {
-    font-size: $font-size-base;
+    font-size: vars.$font-size-base;
   }
   
   &__indicator {
@@ -193,11 +193,11 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    margin-right: $spacing-xs;
+    margin-right: vars.$spacing-xs;
   }
   
   &__text {
-    font-weight: $font-weight-medium;
+    font-weight: vars.$font-weight-medium;
   }
 }
 
@@ -205,22 +205,22 @@
 .reliability-score {
   display: inline-flex;
   align-items: center;
-  font-weight: $font-weight-bold;
+  font-weight: vars.$font-weight-bold;
   
   &--small {
-    font-size: $font-size-sm;
+    font-size: vars.$font-size-sm;
   }
   
   &--medium {
-    font-size: $font-size-base;
+    font-size: vars.$font-size-base;
   }
   
   &--large {
-    font-size: $font-size-lg;
+    font-size: vars.$font-size-lg;
   }
   
   &__value {
-    margin-right: $spacing-xs;
+    margin-right: vars.$spacing-xs;
   }
   
   &__stars {
@@ -232,23 +232,23 @@
 [data-theme="dark"] {
   .station-card {
     &__network, &__connector-count, &__available-label {
-      color: $gray-400;
+      color: vars.$gray-400;
     }
     
     &__last-update {
-      color: $gray-500;
+      color: vars.$gray-500;
     }
   }
   
   .connectors-list {
-    border-color: $gray-700;
+    border-color: vars.$gray-700;
     
     &__header {
-      background-color: $gray-800;
+      background-color: vars.$gray-800;
     }
     
     &__item {
-      border-top-color: $gray-700;
+      border-top-color: vars.$gray-700;
     }
   }
 }
