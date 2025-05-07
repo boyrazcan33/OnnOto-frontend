@@ -8,12 +8,12 @@ const headers = new AxiosHeaders();
 
 // Set default headers
 headers.set('Content-Type', 'application/json');
-headers.set('Accept-Language', localStorage.getItem('onnoto-language') || 'et');
+headers.set('Accept-Language', localStorage.getItem('onnoto-language') || process.env.REACT_APP_DEFAULT_LANGUAGE || 'et');
 headers.set('Cache-Control', 'max-age=300'); // 5 minutes cache
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: API_ENDPOINTS.BASE_URL,
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
   headers: headers as AxiosRequestHeaders,
   timeout: 15000, // 15 seconds
 });
@@ -33,6 +33,11 @@ apiClient.interceptors.request.use(
         ...config.params,
         _t: Date.now()
       };
+    }
+
+    // Log requests in development mode
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`, config);
     }
 
     return config;
@@ -57,6 +62,11 @@ apiClient.interceptors.response.use(
       response.headers['cache-control'] = `max-age=${cacheHeader}`;
     }
 
+    // Log responses in development mode
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[API Response] ${response.status} ${response.config.url}`, response.data);
+    }
+
     return response;
   },
   (error) => {
@@ -64,12 +74,26 @@ apiClient.interceptors.response.use(
     if (error.response) {
       // Server responded with non-2xx
       const serverError = error.response.data?.error || error.response.data;
+      
+      // Log errors in development mode
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`[API Error] ${error.response.status} ${error.config?.url}`, serverError);
+      }
+      
       return Promise.reject(new Error(serverError?.message || `Server error: ${error.response.status}`));
     } else if (error.request) {
       // Request made but no response
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[API Error] No response from server', error.request);
+      }
+      
       return Promise.reject(new Error('No response from server. Please check your connection.'));
     } else {
       // Request setup error
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[API Error] Request configuration error', error.message);
+      }
+      
       return Promise.reject(new Error(`Request configuration error: ${error.message}`));
     }
   }

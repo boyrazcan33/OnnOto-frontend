@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
+const CopyPlugin = require('copy-webpack-plugin'); 
 
 // Load environment variables
 const env = dotenv.config().parsed || {};
@@ -77,6 +78,18 @@ module.exports = (env, argv) => {
         template: './static/index.html',
       }),
       new DefinePlugin(envKeys),
+      // Add CopyPlugin to copy static assets including translation files
+      new CopyPlugin({
+        patterns: [
+          { 
+            from: 'static',
+            to: 'static',
+            globOptions: {
+              ignore: ['**/index.html'] // Avoid copying index.html as it's handled by HtmlWebpackPlugin
+            }
+          }
+        ],
+      }),
       ...(isProduction ? [new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css',
       })] : []),
@@ -86,9 +99,19 @@ module.exports = (env, argv) => {
       port: 'auto',
       open: true,
       hot: true,
-      static: {
-        directory: path.join(__dirname, 'static'),
-      },
+      static: [
+        {
+          directory: path.join(__dirname, 'static'),
+          publicPath: '/static'
+        }
+      ],
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080',
+          pathRewrite: { '^/api': '' },
+          changeOrigin: true,
+        },
+      }
     },
     devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
     optimization: {

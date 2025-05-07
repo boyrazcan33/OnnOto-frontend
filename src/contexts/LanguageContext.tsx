@@ -1,3 +1,4 @@
+// src/contexts/LanguageContext.tsx
 import React, { createContext, useState, useEffect } from 'react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -7,7 +8,7 @@ import { STORAGE_KEYS } from '../constants/storageKeys';
 
 // Define supported languages
 const SUPPORTED_LANGUAGES = ['et', 'en', 'ru'];
-const DEFAULT_LANGUAGE = 'et';
+const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE || 'et';
 
 // Initialize i18next
 i18n
@@ -27,8 +28,11 @@ i18n
       caches: ['localStorage'],
     },
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      // Fix the path to correctly point to static/locales folder
+      loadPath: '/static/locales/{{lng}}/{{ns}}.json',
     },
+    ns: ['common', 'stations', 'reports', 'errors'],
+    defaultNS: 'common',
   });
 
 interface LanguageContextType {
@@ -54,6 +58,13 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       setLanguageState(lang);
     }
   };
+
+  // Load default language on mount if not set
+  useEffect(() => {
+    if (!i18n.language || !SUPPORTED_LANGUAGES.includes(i18n.language)) {
+      setLanguage(DEFAULT_LANGUAGE);
+    }
+  }, []);
 
   // Update state when i18n language changes
   useEffect(() => {
