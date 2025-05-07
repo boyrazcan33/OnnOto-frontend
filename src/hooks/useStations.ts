@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useAppSelector, useAppDispatch } from './redux';
 import { Station } from '../types/station';
 import stationsApi from '../api/stationsApi';
 import { STORAGE_KEYS } from '../constants/storageKeys';
+import { toggleFavorite } from '../store/userSlice';
 
 interface UseStationsResult {
   stations: Station[];
@@ -24,8 +24,8 @@ const useStations = (): UseStationsResult => {
   const [error, setError] = useState<Error | null>(null);
   const [lastFetched, setLastFetched] = useState<number | null>(null);
 
-  const dispatch = useDispatch();
-  const favorites = useSelector((state: RootState) => state.user.favorites);
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.user.favorites);
 
   // Fetch stations from API or cache
   const fetchStations = useCallback(async (forceRefresh = false) => {
@@ -94,8 +94,8 @@ const useStations = (): UseStationsResult => {
   };
 
   // Toggle a station as favorite
-  const toggleFavorite = (stationId: string): void => {
-    dispatch({ type: 'user/toggleFavorite', payload: stationId });
+  const handleToggleFavorite = (stationId: string): void => {
+    dispatch(toggleFavorite(stationId));
   };
 
   return {
@@ -104,7 +104,7 @@ const useStations = (): UseStationsResult => {
     error,
     refreshStations: () => fetchStations(true),
     favoriteStations,
-    toggleFavorite,
+    toggleFavorite: handleToggleFavorite,
     isFavorite
   };
 };

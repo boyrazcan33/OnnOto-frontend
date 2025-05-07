@@ -1,6 +1,7 @@
 // src/api/config.ts
 import axios, { AxiosHeaders, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
 import { API_ENDPOINTS } from '../constants/apiEndpoints';
+import { getDeviceId } from '../utils/storageUtils';
 
 // Create a new headers instance
 const headers = new AxiosHeaders();
@@ -20,8 +21,8 @@ const apiClient = axios.create({
 // Request interceptor
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Get current device ID
-    const deviceId = localStorage.getItem('onnoto-device-id');
+    // Get current device ID - This is the only place we should handle device ID
+    const deviceId = getDeviceId();
     if (deviceId) {
       config.headers.set('X-Device-ID', deviceId);
     }
@@ -56,24 +57,22 @@ apiClient.interceptors.response.use(
       response.headers['cache-control'] = `max-age=${cacheHeader}`;
     }
 
-    return response.data;
+    return response;
   },
   (error) => {
     // Handle response errors
     if (error.response) {
       // Server responded with non-2xx
       const serverError = error.response.data?.error || error.response.data;
-      return Promise.reject(new Error(serverError?.message || 'Server error'));
+      return Promise.reject(new Error(serverError?.message || `Server error: ${error.response.status}`));
     } else if (error.request) {
       // Request made but no response
-      return Promise.reject(new Error('No response from server'));
+      return Promise.reject(new Error('No response from server. Please check your connection.'));
     } else {
       // Request setup error
-      return Promise.reject(new Error('Request configuration error'));
+      return Promise.reject(new Error(`Request configuration error: ${error.message}`));
     }
   }
 );
-
-
 
 export default apiClient;

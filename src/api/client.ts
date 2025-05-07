@@ -1,5 +1,4 @@
 import apiClient from './config';
-import { getDeviceId } from '../utils/storageUtils';
 
 /**
  * Base API client with methods for common HTTP requests
@@ -11,8 +10,13 @@ const client = {
    * @param params - Query parameters
    */
   get: async <T>(url: string, params = {}): Promise<T> => {
-    const response = await apiClient.get<T>(url, { params });
-    return response.data;
+    try {
+      const response = await apiClient.get<T>(url, { params });
+      return response.data;
+    } catch (error) {
+      console.error(`GET request failed for ${url}:`, error);
+      throw error;
+    }
   },
 
   /**
@@ -21,8 +25,13 @@ const client = {
    * @param data - Request body
    */
   post: async <T>(url: string, data = {}): Promise<T> => {
-    const response = await apiClient.post<T>(url, data);
-    return response.data;
+    try {
+      const response = await apiClient.post<T>(url, data);
+      return response.data;
+    } catch (error) {
+      console.error(`POST request failed for ${url}:`, error);
+      throw error;
+    }
   },
 
   /**
@@ -31,8 +40,13 @@ const client = {
    * @param data - Request body
    */
   put: async <T>(url: string, data = {}): Promise<T> => {
-    const response = await apiClient.put<T>(url, data);
-    return response.data;
+    try {
+      const response = await apiClient.put<T>(url, data);
+      return response.data;
+    } catch (error) {
+      console.error(`PUT request failed for ${url}:`, error);
+      throw error; 
+    }
   },
 
   /**
@@ -40,8 +54,13 @@ const client = {
    * @param url - The endpoint URL
    */
   delete: async <T>(url: string): Promise<T> => {
-    const response = await apiClient.delete<T>(url);
-    return response.data;
+    try {
+      const response = await apiClient.delete<T>(url);
+      return response.data;
+    } catch (error) {
+      console.error(`DELETE request failed for ${url}:`, error);
+      throw error;
+    }
   }
 };
 

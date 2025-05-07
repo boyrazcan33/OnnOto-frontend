@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserState } from '../types/user';
 import { STORAGE_KEYS } from '../constants/storageKeys';
-import { getStorageItem } from '../utils/storageUtils';
+import { getStorageItem, setStorageItem } from '../utils/storageUtils';
 
 // Load initial state from local storage
 const loadInitialState = (): UserState => {
@@ -29,15 +29,15 @@ const userSlice = createSlice({
     setDeviceId: (state, action: PayloadAction<string>) => {
       state.deviceId = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem(STORAGE_KEYS.DEVICE_ID, action.payload);
+      setStorageItem(STORAGE_KEYS.DEVICE_ID, action.payload);
     },
     setLanguage: (state, action: PayloadAction<string>) => {
       state.language = action.payload;
-      localStorage.setItem(STORAGE_KEYS.LANGUAGE, action.payload);
+      setStorageItem(STORAGE_KEYS.LANGUAGE, action.payload);
     },
     setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
       state.theme = action.payload;
-      localStorage.setItem(STORAGE_KEYS.THEME, action.payload);
+      setStorageItem(STORAGE_KEYS.THEME, action.payload);
     },
     toggleFavorite: (state, action: PayloadAction<string>) => {
       const stationId = action.payload;
@@ -49,7 +49,7 @@ const userSlice = createSlice({
         state.favorites.splice(index, 1);
       }
       
-      localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(state.favorites));
+      setStorageItem(STORAGE_KEYS.FAVORITES, state.favorites);
     },
     updateFilterSettings: (state, action: PayloadAction<Partial<UserState['filterSettings']>>) => {
       state.filterSettings = {
@@ -57,11 +57,22 @@ const userSlice = createSlice({
         ...action.payload,
       };
       
-      localStorage.setItem(STORAGE_KEYS.FILTER_SETTINGS, JSON.stringify(state.filterSettings));
+      setStorageItem(STORAGE_KEYS.FILTER_SETTINGS, state.filterSettings);
+    },
+    clearFavorites: (state) => {
+      state.favorites = [];
+      setStorageItem(STORAGE_KEYS.FAVORITES, []);
     },
   },
 });
 
-export const { setDeviceId, setLanguage, setTheme, toggleFavorite, updateFilterSettings } = userSlice.actions;
+export const { 
+  setDeviceId, 
+  setLanguage, 
+  setTheme, 
+  toggleFavorite, 
+  updateFilterSettings,
+  clearFavorites
+} = userSlice.actions;
 
 export default userSlice.reducer;
