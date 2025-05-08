@@ -1,25 +1,15 @@
 {
-    "short_name": "OnnOto",
-    "name": "OnnOto - EV Charging Reliability",
-    "icons": [
-      {
-        "src": "icons/favicon.ico",
-        "sizes": "64x64 32x32 24x24 16x16",
-        "type": "image/x-icon"
-      },
-      {
-        "src": "icons/logo192.png",
-        "type": "image/png",
-        "sizes": "192x192"
-      },
-      {
-        "src": "icons/logo512.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#2a9d8f",
-    "background_color": "#ffffff"
-  }
+  "short_name": "OnnOto",
+  "name": "OnnOto - EV Charging Reliability",
+  "icons": [
+    {
+      "src": "icons/logo.png",
+      "sizes": "512x512 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2a9d8f",
+  "background_color": "#ffffff"
+}

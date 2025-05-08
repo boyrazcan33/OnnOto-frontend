@@ -26,15 +26,19 @@ export const getStorageItem = <T>(key: string, defaultValue: T): T => {
     const item = localStorage.getItem(key);
     if (!item) return defaultValue;
 
-    const { value, timestamp } = JSON.parse(item);
-    
-    // Check if item is expired (24 hours)
-    if (Date.now() - timestamp > 24 * 60 * 60 * 1000) {
-      localStorage.removeItem(key);
-      return defaultValue;
+    // Handle language and theme directly as they're stored as simple strings
+    if (key === STORAGE_KEYS.LANGUAGE || key === STORAGE_KEYS.THEME) {
+      return item as unknown as T;
     }
 
-    return value as T;
+    // For other keys, try JSON parsing
+    try {
+      const parsed = JSON.parse(item);
+      return (parsed.value !== undefined ? parsed.value : parsed) as T;
+    } catch (jsonError) {
+      console.error('Error parsing storage item:', jsonError);
+      return defaultValue;
+    }
   } catch (error) {
     console.error('Error getting storage item:', error);
     return defaultValue;
@@ -81,11 +85,3 @@ export const getStorageSize = (): number => {
     return 0;
   }
 };
-
-// Storage event listener for cross-tab synchronization
-window.addEventListener('storage', (e) => {
-  if (e.key?.startsWith('onnoto-')) {
-    // Handle storage changes from other tabs
-    console.log('Storage changed in another tab:', e.key);
-  }
-});

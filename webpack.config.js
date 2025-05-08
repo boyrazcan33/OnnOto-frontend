@@ -110,7 +110,7 @@ module.exports = (env, argv) => {
       // Fixed proxy configuration to keep /api in the path
       proxy: {
         '/api': {
-          target: 'http://localhost:8080',
+          target: 'http://localhost:8087',
           pathRewrite: { '^/api': '/api' }, // Keep the /api prefix
           changeOrigin: true,
           secure: false,
