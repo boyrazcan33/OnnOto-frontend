@@ -1,35 +1,84 @@
 {
-    "app": {
-      "name": "OnnOto",
-      "description": "Eesti elektrisõidukite laadimisjaama usaldusväärsuse rakendus"
-    },
-    "navigation": {
-      "map": "Kaart",
-      "settings": "Seaded",
-      "reliability": "Usaldusväärsus"
-    },
-    "common": {
-      "loading": "Laadimine...",
-      "error": "Viga",
-      "retry": "Proovi uuesti",
-      "save": "Salvesta",
-      "cancel": "Tühista",
-      "confirm": "Kinnita",
-      "back": "Tagasi",
-      "next": "Edasi",
-      "close": "Sulge",
-      "search": "Otsi",
-      "filter": "Filtreeri",
-      "clear": "Tühjenda",
-      "available": "Saadaval",
-      "occupied": "Hõivatud",
-      "offline": "Väljas",
-      "unknown": "Teadmata"
-    },
-    "map": {
-      "currentLocation": "Minu asukoht",
-      "findNearby": "Leia lähim",
-      "zoomIn": "Suurenda",
-      "zoomOut": "Vähenda"
-    }
+  "app": {
+    "name": "OnnOto",
+    "description": "Eesti elektrisõidukite laadimisjaama usaldusväärsuse rakendus"
+  },
+  "navigation": {
+    "map": "Kaart",
+    "settings": "Seaded",
+    "reliability": "Usaldusväärsus",
+    "menu": "Menüü",
+    "home": "Avaleht"
+  },
+  "common": {
+    "loading": "Laadimine...",
+    "error": "Viga",
+    "retry": "Proovi uuesti",
+    "save": "Salvesta",
+    "cancel": "Tühista",
+    "confirm": "Kinnita",
+    "back": "Tagasi",
+    "next": "Edasi",
+    "close": "Sulge",
+    "search": "Otsi",
+    "filter": "Filtreeri",
+    "clear": "Tühjenda",
+    "available": "Saadaval",
+    "occupied": "Hõivatud",
+    "offline": "Väljas",
+    "unknown": "Teadmata"
+  },
+  "map": {
+    "currentLocation": "Minu asukoht",
+    "findNearby": "Leia lähim",
+    "zoomIn": "Suurenda",
+    "zoomOut": "Vähenda",
+    "title": "Laadimisjaamade Kaart",
+    "toggleFilters": "Lülita Filtrid",
+    "filters": "Filtrid",
+    "errorLoading": "Viga kaardi andmete laadimisel",
+    "mapOfChargingStations": "Laadimisjaamade kaart"
+  },
+  "settings": {
+    "toggleTheme": "Muuda Kujundust",
+    "language": "Keel"
+  },
+  "sidebar": {
+    "deviceNotConnected": "Seade pole ühendatud",
+    "refreshConnection": "Värskenda Ühendust"
+  },
+  "footer": {
+    "about": "Meist",
+    "privacy": "Privaatsuspoliitika",
+    "terms": "Kasutustingimused"
+  },
+  "landing": {
+    "title": "Leia Usaldusväärseid Elektriautode Laadimisjaamu",
+    "subtitle": "Reaalajas info elektriautode laadimisjaamade usaldusväärsuse kohta Eestis",
+    "exploreMap": "Uuri Kaarti",
+    "featuresTitle": "Omadused",
+    "feature1Title": "Usaldusväärsuse Jälgimine",
+    "feature1Text": "Vaata laadimisjaamade ajaloolist usaldusväärsust",
+    "feature2Title": "Reaalajas Staatus",
+    "feature2Text": "Kontrolli laadimisseadmete saadavust reaalajas",
+    "feature3Title": "Kasutajate Teated",
+    "feature3Text": "Kogukonna teated laadimisjaamade probleemide kohta",
+    "topStationsTitle": "Kõige Usaldusväärsemad Jaamad",
+    "viewAllStations": "Vaata Kõiki Jaamu"
+  },
+  "stations": {
+    "loading": "Jaamade laadimine...",
+    "noStationsFound": "Jaamu ei leitud"
+  },
+  "reliability": {
+    "last7Days": "Viimased 7 Päeva",
+    "last30Days": "Viimased 30 Päeva",
+    "last90Days": "Viimased 90 Päeva", 
+    "loadingData": "Usaldusväärsuse andmete laadimine...",
+    "errorLoading": "Viga usaldusväärsuse andmete laadimisel"
+  },
+  "filters": {
+    "allCities": "Kõik Linnad",
+    "allNetworks": "Kõik Võrgustikud"
   }
+}

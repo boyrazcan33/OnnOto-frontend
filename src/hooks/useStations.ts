@@ -5,6 +5,48 @@ import stationsApi from '../api/stationsApi';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 import { toggleFavorite } from '../store/userSlice';
 
+// Sample fallback data for development mode
+const FALLBACK_STATIONS: Station[] = [
+  {
+    id: "station-1",
+    name: "Central Station",
+    networkName: "ELMO",
+    networkId: "elmo",
+    operatorName: "ELMO Operator",
+    operatorId: "elmo-op",
+    latitude: 59.4370,
+    longitude: 24.7536,
+    address: "Viru väljak 4",
+    city: "Tallinn",
+    postalCode: "10111",
+    country: "Estonia",
+    reliabilityScore: 95,
+    availableConnectors: 3,
+    totalConnectors: 4,
+    lastStatusUpdate: new Date().toISOString(),
+    connectors: []
+  },
+  {
+    id: "station-2",
+    name: "Shopping Mall Charger",
+    networkName: "Eleport",
+    networkId: "eleport",
+    operatorName: "Eleport",
+    operatorId: "eleport-op",
+    latitude: 59.4230,
+    longitude: 24.7856,
+    address: "Narva mnt 7",
+    city: "Tallinn",
+    postalCode: "10117",
+    country: "Estonia",
+    reliabilityScore: 87,
+    availableConnectors: 1,
+    totalConnectors: 2,
+    lastStatusUpdate: new Date().toISOString(),
+    connectors: []
+  }
+];
+
 interface UseStationsResult {
   stations: Station[];
   loading: boolean;
@@ -59,20 +101,28 @@ const useStations = (): UseStationsResult => {
       }
 
       // Fetch from API
-      const data = await stationsApi.getAllStations();
-      setStations(data);
-      setLastFetched(Date.now());
-
-      // Update cache
       try {
-        localStorage.setItem(STORAGE_KEYS.CACHED_STATIONS, JSON.stringify(data));
-        localStorage.setItem(STORAGE_KEYS.CACHED_TIMESTAMP, Date.now().toString());
-      } catch (err) {
-        console.warn('Error writing to cache:', err);
+        const data = await stationsApi.getAllStations();
+        setStations(data);
+        setLastFetched(Date.now());
+
+        // Update cache
+        try {
+          localStorage.setItem(STORAGE_KEYS.CACHED_STATIONS, JSON.stringify(data));
+          localStorage.setItem(STORAGE_KEYS.CACHED_TIMESTAMP, Date.now().toString());
+        } catch (err) {
+          console.warn('Error writing to cache:', err);
+        }
+      } catch (apiError) {
+        console.error('Error fetching stations:', apiError);
+        setError(apiError as Error);
+        
+        // Use fallback data in development mode
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Using fallback station data for development');
+          setStations(FALLBACK_STATIONS);
+        }
       }
-    } catch (err) {
-      setError(err as Error);
-      console.error('Error fetching stations:', err);
     } finally {
       setLoading(false);
     }

@@ -1,35 +1,84 @@
 {
-    "app": {
-      "name": "OnnOto",
-      "description": "Estonian EV Charging Station Reliability Application"
-    },
-    "navigation": {
-      "map": "Map",
-      "settings": "Settings",
-      "reliability": "Reliability"
-    },
-    "common": {
-      "loading": "Loading...",
-      "error": "Error",
-      "retry": "Try again",
-      "save": "Save",
-      "cancel": "Cancel",
-      "confirm": "Confirm",
-      "back": "Back",
-      "next": "Next",
-      "close": "Close",
-      "search": "Search",
-      "filter": "Filter",
-      "clear": "Clear",
-      "available": "Available",
-      "occupied": "Occupied",
-      "offline": "Offline",
-      "unknown": "Unknown"
-    },
-    "map": {
-      "currentLocation": "My location",
-      "findNearby": "Find nearby",
-      "zoomIn": "Zoom in",
-      "zoomOut": "Zoom out"
-    }
+  "app": {
+    "name": "OnnOto",
+    "description": "Estonian EV Charging Station Reliability Application"
+  },
+  "navigation": {
+    "map": "Map",
+    "settings": "Settings",
+    "reliability": "Reliability",
+    "menu": "Menu",
+    "home": "Home"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Try again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "available": "Available",
+    "occupied": "Occupied",
+    "offline": "Offline",
+    "unknown": "Unknown"
+  },
+  "map": {
+    "currentLocation": "My location",
+    "findNearby": "Find nearby",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "title": "Charging Stations Map",
+    "toggleFilters": "Toggle Filters",
+    "filters": "Filters",
+    "errorLoading": "Error loading map data",
+    "mapOfChargingStations": "Map of charging stations"
+  },
+  "settings": {
+    "toggleTheme": "Toggle Theme",
+    "language": "Language"
+  },
+  "sidebar": {
+    "deviceNotConnected": "Device not connected",
+    "refreshConnection": "Refresh Connection"
+  },
+  "footer": {
+    "about": "About Us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "landing": {
+    "title": "Find Reliable EV Charging Stations",
+    "subtitle": "Real-time information about EV charging station reliability across Estonia",
+    "exploreMap": "Explore Map",
+    "featuresTitle": "Features",
+    "feature1Title": "Reliability Tracking",
+    "feature1Text": "See the historical reliability of charging stations",
+    "feature2Title": "Real-time Status",
+    "feature2Text": "Check current availability of charging connectors",
+    "feature3Title": "User Reports",
+    "feature3Text": "Community reports of issues with charging stations",
+    "topStationsTitle": "Most Reliable Stations",
+    "viewAllStations": "View All Stations"
+  },
+  "stations": {
+    "loading": "Loading stations...",
+    "noStationsFound": "No stations found"
+  },
+  "reliability": {
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "last90Days": "Last 90 Days",
+    "loadingData": "Loading reliability data...",
+    "errorLoading": "Error loading reliability data"
+  },
+  "filters": {
+    "allCities": "All Cities",
+    "allNetworks": "All Networks"
   }
+}

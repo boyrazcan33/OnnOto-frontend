@@ -1,4 +1,4 @@
-// src/api/config.ts
+// src/api/client.ts
 import axios, { AxiosHeaders, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
 import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getDeviceId } from '../utils/storageUtils';
@@ -13,7 +13,7 @@ headers.set('Cache-Control', 'max-age=300'); // 5 minutes cache
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
+  baseURL: process.env.REACT_APP_API_URL || '/api', // Changed to use relative path
   headers: headers as AxiosRequestHeaders,
   timeout: 15000, // 15 seconds
 });
@@ -87,6 +87,11 @@ apiClient.interceptors.response.use(
         console.error('[API Error] No response from server', error.request);
       }
       
+      // In development, provide a more user-friendly message and suggest using mock data
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Backend server may not be running. Consider using mock data in development.');
+      }
+      
       return Promise.reject(new Error('No response from server. Please check your connection.'));
     } else {
       // Request setup error
@@ -99,4 +104,24 @@ apiClient.interceptors.response.use(
   }
 );
 
-export default apiClient;
+// Helper function to add simple GET, POST methods
+const client = {
+  get: async <T>(endpoint: string, params?: any): Promise<T> => {
+    const response = await apiClient.get(endpoint, { params });
+    return response.data;
+  },
+  post: async <T>(endpoint: string, data?: any, config?: any): Promise<T> => {
+    const response = await apiClient.post(endpoint, data, config);
+    return response.data;
+  },
+  put: async <T>(endpoint: string, data?: any, config?: any): Promise<T> => {
+    const response = await apiClient.put(endpoint, data, config);
+    return response.data;
+  },
+  delete: async <T>(endpoint: string, config?: any): Promise<T> => {
+    const response = await apiClient.delete(endpoint, config);
+    return response.data;
+  }
+};
+
+export default client;

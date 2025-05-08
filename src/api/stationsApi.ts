@@ -45,10 +45,12 @@ const stationsApi = {
     limit?: number
   ) => {
     return client.get<Station[]>(API_ENDPOINTS.NEARBY_STATIONS, {
-      latitude,
-      longitude,
-      radius: radius || 5000, // Default 5km
-      limit: limit || 10      // Default 10 stations
+      params: {
+        latitude,
+        longitude,
+        radius: radius || 5000, // Default 5km
+        limit: limit || 10      // Default 10 stations
+      }
     });
   }
 };

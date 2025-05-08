@@ -4,6 +4,10 @@ import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getDeviceId } from '../utils/storageUtils';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 
+interface DeviceResponse {
+  deviceId: string;
+}
+
 /**
  * Service for handling device authentication
  */
@@ -22,7 +26,7 @@ const authService = {
   registerDevice: async (languagePreference?: string): Promise<string> => {
     try {
       // The backend will generate a new device ID if none is provided
-      const response = await client.post<{ deviceId: string }>(API_ENDPOINTS.PREFERENCES, {
+      const response = await client.post<DeviceResponse>(API_ENDPOINTS.PREFERENCES, {
         deviceId: getDeviceId() || undefined,
         preferenceKey: 'language',
         preferenceValue: languagePreference || 'et',

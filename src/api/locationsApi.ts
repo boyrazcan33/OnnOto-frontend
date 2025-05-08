@@ -16,9 +16,11 @@ const locationsApi = {
   ) => {
     const radiusMeters = radiusKm * 1000;
     return client.get<Station[]>(API_ENDPOINTS.NEARBY, {
-      latitude,
-      longitude,
-      radiusKm: radiusMeters
+      params: {
+        latitude,
+        longitude,
+        radiusKm: radiusMeters
+      }
     });
   }
 };

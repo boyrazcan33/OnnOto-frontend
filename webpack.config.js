@@ -77,13 +77,16 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './static/index.html',
       }),
-      new DefinePlugin(envKeys),
-      // Add CopyPlugin to copy static assets including translation files
+      new DefinePlugin({
+        ...envKeys,
+        'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
+      }),
+      // Improved CopyPlugin configuration to ensure static files are copied correctly
       new CopyPlugin({
         patterns: [
           { 
             from: 'static',
-            to: 'static',
+            to: '', // Copy to root dist folder
             globOptions: {
               ignore: ['**/index.html'] // Avoid copying index.html as it's handled by HtmlWebpackPlugin
             }
@@ -96,20 +99,36 @@ module.exports = (env, argv) => {
     ],
     devServer: {
       historyApiFallback: true,
-      port: 'auto',
+      port: 8080, // Set fixed port for consistency
       open: true,
       hot: true,
-      static: [
-        {
-          directory: path.join(__dirname, 'static'),
-          publicPath: '/static'
-        }
-      ],
+      // Improved static serving configuration
+      static: {
+        directory: path.join(__dirname, 'static'),
+        publicPath: '/'
+      },
+      // Fixed proxy configuration to keep /api in the path
       proxy: {
         '/api': {
           target: 'http://localhost:8080',
-          pathRewrite: { '^/api': '' },
+          pathRewrite: { '^/api': '/api' }, // Keep the /api prefix
           changeOrigin: true,
+          secure: false,
+          logLevel: 'debug',
+          // Handle proxy errors
+          onError: (err, req, res) => {
+            console.error('Proxy error:', err);
+            res.writeHead(500, {
+              'Content-Type': 'text/plain',
+            });
+            res.end('Proxy error: ' + err);
+          },
+          // Bypass proxy for static files
+          bypass: function(req, res, proxyOptions) {
+            if (req.url.startsWith('/static/')) {
+              return req.url;
+            }
+          }
         },
       }
     },

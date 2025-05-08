@@ -28,8 +28,8 @@ i18n
       caches: ['localStorage'],
     },
     backend: {
-      // Fix the path to correctly point to static/locales folder
-      loadPath: '/static/locales/{{lng}}/{{ns}}.json',
+      // Changed the path to match webpack's static asset handling
+      loadPath: './static/locales/{{lng}}/{{ns}}.json',
     },
     ns: ['common', 'stations', 'reports', 'errors'],
     defaultNS: 'common',

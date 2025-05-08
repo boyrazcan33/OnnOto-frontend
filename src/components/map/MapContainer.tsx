@@ -1,6 +1,5 @@
 // src/components/map/MapContainer.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import useLocation from '../../hooks/useLocation';
 import useStations from '../../hooks/useStations';
@@ -23,6 +22,31 @@ interface MapContainerProps {
   showControls?: boolean;
 }
 
+// Mock websocket updates for development
+const useMockWebSocket = (
+  enabled: boolean = process.env.NODE_ENV === 'development',
+  interval: number = 5000
+): { updates: any[] } => {
+  const [updates, setUpdates] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    // Simulate WebSocket updates
+    const timer = setInterval(() => {
+      const update = {
+        stationId: `station-${Math.floor(Math.random() * 2) + 1}`,
+        status: ['AVAILABLE', 'OCCUPIED', 'OFFLINE'][Math.floor(Math.random() * 3)]
+      };
+      setUpdates(prev => [...prev, update]);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [enabled, interval]);
+
+  return { updates };
+};
+
 const MapContainer: React.FC<MapContainerProps> = ({
   filters,
   onMarkerClick,
@@ -41,55 +65,88 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const { latitude, longitude, loading: locationLoading } = useLocation();
   const { stations, loading: stationsLoading, error, isFavorite } = useStations();
 
-  // WebSocket connection for real-time updates
+  // Use mock WebSocket in development
+  const { updates } = useMockWebSocket();
+
+  // Process WebSocket updates
   useEffect(() => {
-    const wsUrl = process.env.REACT_APP_WS_URL;
-    if (!wsUrl) return;
+    if (updates.length > 0) {
+      const latestUpdate = updates[updates.length - 1];
+      handleStationUpdate(latestUpdate);
+    }
+  }, [updates]);
 
-    const ws = new WebSocket(wsUrl);
-    
-    ws.onmessage = (event) => {
-      const update = JSON.parse(event.data);
-      handleStationUpdate(update);
-    };
+  // Try to establish real WebSocket connection in production
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
+      try {
+        const ws = new WebSocket(wsUrl);
+        
+        ws.onmessage = (event) => {
+          try {
+            const update = JSON.parse(event.data);
+            handleStationUpdate(update);
+          } catch (err) {
+            console.error('Error parsing WebSocket message:', err);
+          }
+        };
 
-    return () => ws.close();
+        ws.onerror = (event) => {
+          console.warn('WebSocket connection error - falling back to polling');
+        };
+
+        return () => {
+          ws.close();
+        };
+      } catch (err) {
+        console.warn('Failed to initialize WebSocket - falling back to polling');
+      }
+    }
   }, []);
 
   // Initialize map
   useEffect(() => {
     if (!mapLoaded && mapContainerRef.current) {
       const loadGoogleMaps = () => {
+        if (window.google && window.google.maps) {
+          initMap();
+          return;
+        }
+
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&callback=initMap`;
+        const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);
 
-        window.initMap = () => {
-          if (mapContainerRef.current) {
-            const center = initialCenter || [latitude, longitude];
-            
-            mapInstanceRef.current = new window.google.maps.Map(mapContainerRef.current, {
-              center: { lat: center[0], lng: center[1] },
-              zoom: initialZoom,
-              disableDefaultUI: true,
-              zoomControl: false,
-              streetViewControl: false,
-              mapTypeControl: false,
-              fullscreenControl: false,
-              styles: [
-                {
-                  featureType: 'poi',
-                  elementType: 'labels',
-                  stylers: [{ visibility: 'off' }]
-                }
-              ]
-            });
+        window.initMap = initMap;
+      };
 
-            setMapLoaded(true);
-          }
-        };
+      const initMap = () => {
+        if (mapContainerRef.current) {
+          const center = initialCenter || [latitude || 58.5953, longitude || 25.0136];
+          
+          mapInstanceRef.current = new window.google.maps.Map(mapContainerRef.current, {
+            center: { lat: center[0], lng: center[1] },
+            zoom: initialZoom,
+            disableDefaultUI: true,
+            zoomControl: false,
+            streetViewControl: false,
+            mapTypeControl: false,
+            fullscreenControl: false,
+            styles: [
+              {
+                featureType: 'poi',
+                elementType: 'labels',
+                stylers: [{ visibility: 'off' }]
+              }
+            ]
+          });
+
+          setMapLoaded(true);
+        }
       };
 
       loadGoogleMaps();
@@ -117,7 +174,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
         return false;
       }
       if (filters.connectorTypes.length > 0) {
-        const hasMatchingConnector = station.connectors.some(
+        const hasMatchingConnector = station.connectors && station.connectors.some(
           connector => filters.connectorTypes.includes(connector.type)
         );
         if (!hasMatchingConnector) return false;
