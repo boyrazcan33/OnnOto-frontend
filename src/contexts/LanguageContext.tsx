@@ -29,7 +29,7 @@ i18n
     },
     backend: {
       // Changed the path to match webpack's static asset handling
-      loadPath: '/static/locales/{{lng}}/{{ns}}.json',
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
     ns: ['common', 'stations', 'reports', 'errors'],
     defaultNS: 'common',
