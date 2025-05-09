@@ -13,7 +13,7 @@ headers.set('Cache-Control', 'max-age=300'); // 5 minutes cache
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
+  baseURL: process.env.REACT_APP_API_URL || '/api', 
   headers: headers as AxiosRequestHeaders,
   timeout: 15000, // 15 seconds
 });
