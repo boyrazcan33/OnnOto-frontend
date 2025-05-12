@@ -1,8 +1,15 @@
 import { Station } from '../../types/station';
 import { calculateMapCenter } from '../../utils/mapUtils';
 
+// Create a new interface that mimics the essential methods of google.maps.Marker
+interface MarkerInterface {
+  setMap(map: google.maps.Map | null): void;
+  get(key: string): any;
+  set(key: string, value: any): void;
+}
+
 class MarkerCluster {
-  private marker: google.maps.Marker;
+  private markerInterface: MarkerInterface;
   private stations: Station[];
   private map: google.maps.Map;
 
@@ -16,7 +23,6 @@ class MarkerCluster {
     // Try to use AdvancedMarkerElement if available
     if (window.google?.maps?.marker?.AdvancedMarkerElement) {
       try {
-        // Create an advanced marker for the cluster
         // Scale the size based on count
         const scale = Math.min(22, Math.max(16, 16 + Math.floor(stations.length / 5)));
         
@@ -36,6 +42,7 @@ class MarkerCluster {
         element.style.fontWeight = 'bold';
         element.textContent = stations.length.toString();
 
+        // Create the advanced marker
         const advancedMarker = new google.maps.marker.AdvancedMarkerElement({
           map: this.map,
           position: { lat, lng },
@@ -48,21 +55,26 @@ class MarkerCluster {
           advancedMarker.addListener('click', onClick);
         }
 
-        // Create a legacy marker as fallback but don't add it to the map
-        this.marker = new google.maps.Marker({
-          position: { lat, lng },
-          icon: this.createClusterIcon(stations.length),
-          zIndex: 1000,
-        });
-
-        // Store the advanced marker in a property of the legacy marker for compatibility
-        this.marker.set('advancedMarker', advancedMarker);
-
-        // Override setMap to control the advanced marker
-        const originalSetMap = this.marker.setMap;
-        this.marker.setMap = (map: google.maps.Map | null) => {
-          advancedMarker.map = map;
-          return originalSetMap.call(this.marker, null); // Don't actually show the legacy marker
+        // Create a wrapper object that implements the MarkerInterface
+        this.markerInterface = {
+          // Implementation of setMap that controls the advanced marker
+          setMap: (map: google.maps.Map | null) => {
+            advancedMarker.map = map;
+          },
+          
+          // Custom implementation of the get method
+          get: (key: string) => {
+            if (key === 'advancedMarker') {
+              return advancedMarker;
+            }
+            return undefined;
+          },
+          
+          // Custom implementation of the set method
+          set: (key: string, value: any) => {
+            // Store properties on our wrapper
+            // No specific implementations needed for this class
+          }
         };
         
         return;
@@ -73,7 +85,7 @@ class MarkerCluster {
     }
     
     // Fallback to legacy marker
-    this.marker = new google.maps.Marker({
+    const legacyMarker = new google.maps.Marker({
       position: { lat, lng },
       map: this.map,
       label: {
@@ -87,8 +99,11 @@ class MarkerCluster {
 
     // Add click handler
     if (onClick) {
-      this.marker.addListener('click', onClick);
+      legacyMarker.addListener('click', onClick);
     }
+    
+    // Use the legacy marker as our interface implementation
+    this.markerInterface = legacyMarker;
   }
 
   private createClusterIcon(count: number): google.maps.Symbol {
@@ -105,17 +120,18 @@ class MarkerCluster {
     };
   }
 
-  public getMarker(): google.maps.Marker {
-    return this.marker;
+  public getMarker(): MarkerInterface {
+    return this.markerInterface;
   }
 
   public remove(): void {
     // Handle both advanced and legacy markers
-    const advancedMarker = this.marker.get('advancedMarker');
+    const advancedMarker = this.markerInterface.get('advancedMarker');
     if (advancedMarker) {
       advancedMarker.map = null;
+    } else {
+      this.markerInterface.setMap(null);
     }
-    this.marker.setMap(null);
   }
 }
 

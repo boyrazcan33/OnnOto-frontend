@@ -14,6 +14,14 @@ import ZoomControls from './ZoomControls';
 import Loader from '../common/Loader';
 import InfoWindow from './InfoWindow';
 
+// Define a MarkerInterface to use instead of google.maps.Marker directly
+interface MarkerInterface {
+  setMap(map: google.maps.Map | null): void;
+  setIcon?(icon: any): void;
+  get(key: string): any;
+  set(key: string, value: any): void;
+}
+
 interface MapContainerProps {
   filters?: FilterState;
   onMarkerClick?: (station: Station) => void;
@@ -57,7 +65,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const { t } = useTranslation();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const markersRef = useRef<MarkerInterface[]>([]);
   const googleMapsLoadedRef = useRef<boolean>(false);
 
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -223,7 +231,11 @@ const MapContainer: React.FC<MapContainerProps> = ({
   useEffect(() => {
     if (mapLoaded && mapInstanceRef.current && filteredStations.length > 0) {
       // Clear existing markers
-      markersRef.current.forEach(marker => marker.setMap(null));
+      markersRef.current.forEach(marker => {
+        if (typeof marker.setMap === 'function') {
+          marker.setMap(null);
+        }
+      });
       markersRef.current = [];
 
       // Calculate map center and zoom if not provided
@@ -241,7 +253,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
       clusters.forEach(cluster => {
         if (cluster.length === 1) {
           const station = cluster[0];
-          const marker = new StationMarker(
+          const markerInterface = new StationMarker(
             mapInstanceRef.current!,
             station,
             () => {
@@ -250,9 +262,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
             }
           ).getMarker();
           
-          markersRef.current.push(marker);
+          markersRef.current.push(markerInterface);
         } else {
-          const marker = new MarkerCluster(
+          const markerInterface = new MarkerCluster(
             mapInstanceRef.current!,
             cluster,
             () => {
@@ -269,7 +281,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
             }
           ).getMarker();
           
-          markersRef.current.push(marker);
+          markersRef.current.push(markerInterface);
         }
       });
     }
@@ -277,9 +289,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
 
   const handleStationUpdate = (update: any) => {
     const marker = markersRef.current.find(
-      m => m.get('stationId') === update.stationId
+      m => m.get && m.get('stationId') === update.stationId
     );
-    if (marker) {
+    if (marker && typeof marker.setIcon === 'function') {
       marker.setIcon(getMarkerIcon(update.status));
     }
   };

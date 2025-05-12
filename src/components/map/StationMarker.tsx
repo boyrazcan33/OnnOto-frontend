@@ -1,8 +1,17 @@
 import { Station } from '../../types/station';
 import { getStationMarkerColor } from '../../utils/mapUtils';
 
+// Create a new interface that mimics the essential methods of google.maps.Marker
+// This allows us to return either the legacy Marker or our AdvancedMarker wrapper
+interface MarkerInterface {
+  setMap(map: google.maps.Map | null): void;
+  setIcon(icon: any): void;
+  get(key: string): any;
+  set(key: string, value: any): void;
+}
+
 class StationMarker {
-  private marker: google.maps.Marker;
+  private markerInterface: MarkerInterface;
   private station: Station;
   private map: google.maps.Map;
 
@@ -10,16 +19,17 @@ class StationMarker {
     this.map = map;
     this.station = station;
     
-    // Try to use AdvancedMarkerElement if available
+    // Check if AdvancedMarkerElement is available
     if (window.google?.maps?.marker?.AdvancedMarkerElement) {
       try {
-        // Create an advanced marker (new recommended way)
+        // Create a pin for the advanced marker
         const pin = new google.maps.marker.PinElement({
           background: getStationMarkerColor(this.station),
           borderColor: '#FFFFFF',
           glyphColor: '#FFFFFF',
         });
 
+        // Create the advanced marker
         const advancedMarker = new google.maps.marker.AdvancedMarkerElement({
           map: this.map,
           position: {
@@ -30,7 +40,7 @@ class StationMarker {
           content: pin.element,
         });
 
-        // Add custom property for station ID to support updates
+        // Set station ID as a data attribute
         advancedMarker.dataset.stationId = station.id;
 
         // Add click handler
@@ -38,37 +48,39 @@ class StationMarker {
           advancedMarker.addListener('click', onClick);
         }
 
-        // Create a legacy marker as fallback but don't add it to the map
-        this.marker = new google.maps.Marker({
-          position: {
-            lat: Number(station.latitude),
-            lng: Number(station.longitude),
+        // Create a wrapper object that implements the MarkerInterface
+        this.markerInterface = {
+          // Implementation of setMap that controls the advanced marker
+          setMap: (map: google.maps.Map | null) => {
+            advancedMarker.map = map;
           },
-          title: station.name,
-          icon: this.createMarkerIcon(),
-        });
-
-        // Store the advanced marker in a property of the legacy marker for compatibility
-        this.marker.set('advancedMarker', advancedMarker);
-        this.marker.set('stationId', station.id);
-
-        // Override setMap to control the advanced marker
-        const originalSetMap = this.marker.setMap;
-        this.marker.setMap = (map: google.maps.Map | null) => {
-          advancedMarker.map = map;
-          return originalSetMap.call(this.marker, null); // Don't actually show the legacy marker
-        };
-
-        // Override setIcon to update the advanced marker's appearance
-        const originalSetIcon = this.marker.setIcon;
-        this.marker.setIcon = (icon: any) => {
-          if (typeof icon === 'string') {
-            // If it's a color string, update the pin's background
-            if (pin.element) {
+          
+          // Implementation of setIcon that updates the pin's appearance
+          setIcon: (icon: any) => {
+            if (typeof icon === 'string' && pin.element) {
               pin.element.style.backgroundColor = icon;
             }
+          },
+          
+          // Custom implementation of the get method
+          get: (key: string) => {
+            if (key === 'stationId') {
+              return station.id;
+            }
+            if (key === 'advancedMarker') {
+              return advancedMarker;
+            }
+            return undefined;
+          },
+          
+          // Custom implementation of the set method
+          set: (key: string, value: any) => {
+            // Storing properties on the advancedMarker is not directly supported
+            // So we add them to our wrapper or to the dataset where possible
+            if (key === 'stationId') {
+              advancedMarker.dataset.stationId = value;
+            }
           }
-          return originalSetIcon.call(this.marker, icon);
         };
         
         return;
@@ -79,7 +91,8 @@ class StationMarker {
     }
     
     // Fallback to legacy marker if AdvancedMarkerElement isn't available or fails
-    this.marker = new google.maps.Marker({
+    // Note: This will still show the deprecation warning, but only as a fallback
+    const legacyMarker = new google.maps.Marker({
       position: {
         lat: Number(station.latitude),
         lng: Number(station.longitude),
@@ -90,13 +103,16 @@ class StationMarker {
       animation: google.maps.Animation.DROP,
     });
 
-    // Store station ID for updates
-    this.marker.set('stationId', station.id);
+    // Store station ID
+    legacyMarker.set('stationId', station.id);
 
     // Add click handler
     if (onClick) {
-      this.marker.addListener('click', onClick);
+      legacyMarker.addListener('click', onClick);
     }
+    
+    // Use the legacy marker as our interface implementation
+    this.markerInterface = legacyMarker;
   }
 
   private createMarkerIcon(): google.maps.Symbol {
@@ -112,17 +128,18 @@ class StationMarker {
     };
   }
 
-  public getMarker(): google.maps.Marker {
-    return this.marker;
+  public getMarker(): MarkerInterface {
+    return this.markerInterface;
   }
 
   public remove(): void {
     // Handle both advanced and legacy markers
-    const advancedMarker = this.marker.get('advancedMarker');
+    const advancedMarker = this.markerInterface.get('advancedMarker');
     if (advancedMarker) {
       advancedMarker.map = null;
+    } else {
+      this.markerInterface.setMap(null);
     }
-    this.marker.setMap(null);
   }
 }
 
