@@ -7,6 +7,18 @@ import Loader from '../common/Loader';
 // This key should be placed in your .env file as REACT_APP_GOOGLE_MAPS_API_KEY
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
+// Single global function to initialize maps
+// We'll use this to trigger all maps to initialize once the script is loaded
+const GLOBAL_CALLBACK_NAME = 'initAllGoogleMaps';
+const mapInstanceRefs: Array<{
+  container: HTMLDivElement;
+  options: google.maps.MapOptions;
+  onInit?: (map: google.maps.Map) => void;
+}> = [];
+
+// Flag to track if we've already started loading Google Maps
+let googleMapsLoading = false;
+
 interface MapContainerProps {
   initialCenter?: { lat: number, lng: number };
   initialZoom?: number;
@@ -22,48 +34,86 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
-    const script = document.createElement('script');
-    const scriptId = 'google-maps-script';
-    
-    // If the script is already added, don't add it again
-    if (document.getElementById(scriptId)) {
-      return;
+    // Define global init function if it doesn't exist
+    if (!(window as any)[GLOBAL_CALLBACK_NAME]) {
+      (window as any)[GLOBAL_CALLBACK_NAME] = function() {
+        // Initialize all registered map instances
+        mapInstanceRefs.forEach(({ container, options, onInit }) => {
+          try {
+            if (container) {
+              const map = new window.google.maps.Map(container, options);
+              if (onInit) onInit(map);
+            }
+          } catch (e) {
+            console.error('Error initializing map:', e);
+          }
+        });
+      };
     }
     
-    // Create a simple callback function
-    (window as any).initMap = function() {
-      if (!mapContainerRef.current) return;
-      
-      try {
-        new window.google.maps.Map(mapContainerRef.current, {
-          center: initialCenter,
-          zoom: initialZoom,
-        });
-        setLoading(false);
-      } catch (e) {
-        setError('Failed to initialize Google Maps');
-        setLoading(false);
-        console.error('Google Maps error:', e);
+    const loadGoogleMaps = () => {
+      // If Google Maps is already loaded
+      if (window.google && window.google.maps) {
+        if (mapContainerRef.current) {
+          try {
+            const map = new window.google.maps.Map(mapContainerRef.current, {
+              center: initialCenter,
+              zoom: initialZoom
+            });
+            setLoading(false);
+          } catch (e) {
+            setError('Failed to initialize Google Maps');
+            setLoading(false);
+            console.error('Google Maps error:', e);
+          }
+        }
+        return;
       }
+      
+      // Register this map instance
+      if (mapContainerRef.current) {
+        mapInstanceRefs.push({
+          container: mapContainerRef.current,
+          options: {
+            center: initialCenter,
+            zoom: initialZoom
+          },
+          onInit: () => setLoading(false)
+        });
+      }
+      
+      // If we're already loading Google Maps, don't add another script
+      if (googleMapsLoading) return;
+      
+      // Start loading Google Maps
+      googleMapsLoading = true;
+      
+      const script = document.createElement('script');
+      script.id = 'google-maps-script';
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=${GLOBAL_CALLBACK_NAME}`;
+      script.async = true;
+      script.defer = true;
+      
+      script.onerror = () => {
+        setError('Failed to load Google Maps API');
+        setLoading(false);
+        googleMapsLoading = false;
+      };
+      
+      document.head.appendChild(script);
     };
     
-    // Set up the script
-    script.id = scriptId;
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initMap`;
-    script.async = true;
-    script.defer = true;
-    script.onerror = () => {
-      setError('Failed to load Google Maps API');
-      setLoading(false);
-    };
+    loadGoogleMaps();
     
-    // Add the script to the document
-    document.head.appendChild(script);
-    
-    // Cleanup
+    // Clean up
     return () => {
-      // Use type assertion to avoid TypeScript errors
-      (window as any).initMap = undefined;
+      // Remove this specific map container from the refs array
+      if (mapContainerRef.current) {
+        const index = mapInstanceRefs.findIndex(ref => ref.container === mapContainerRef.current);
+        if (index !== -1) {
+          mapInstanceRefs.splice(index, 1);
+        }
+      }
     };
   }, [initialCenter, initialZoom]);
   
@@ -75,22 +125,12 @@ const MapContainer: React.FC<MapContainerProps> = ({
     <div className="map-container">
       <div 
         ref={mapContainerRef} 
-        style={{ width: '100%', height: '500px' }}
+        style={{ width: '100%', height: '100%' }}
         aria-label={t('map.mapOfChargingStations')}
       />
       
       {loading && (
-        <div className="map-loader" style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          width: '100%', 
-          height: '100%', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          backgroundColor: 'rgba(255, 255, 255, 0.7)'
-        }}>
+        <div className="map-loader">
           <Loader />
         </div>
       )}
