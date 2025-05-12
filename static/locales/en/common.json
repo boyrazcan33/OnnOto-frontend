@@ -37,11 +37,27 @@
     "toggleFilters": "Toggle Filters",
     "filters": "Filters",
     "errorLoading": "Error loading map data",
-    "mapOfChargingStations": "Map of charging stations"
+    "mapOfChargingStations": "Map of charging stations",
+    "legend": "Legend",
+    "hideLegend": "Hide Legend",
+    "showLegend": "Show Legend"
   },
   "settings": {
     "toggleTheme": "Toggle Theme",
-    "language": "Language"
+    "language": "Language",
+    "title": "Settings",
+    "appearance": "Appearance",
+    "darkMode": "Dark Mode",
+    "darkModeEnabled": "Dark Mode Enabled",
+    "darkModeDisabled": "Dark Mode Disabled",
+    "account": "Account",
+    "deviceId": "Device ID",
+    "noDeviceId": "No Device ID",
+    "deviceConnected": "Device Connected",
+    "deviceNotConnected": "Device Not Connected",
+    "refreshConnection": "Refresh Connection",
+    "saveSettings": "Save Settings",
+    "settingsSaved": "Settings Saved"
   },
   "sidebar": {
     "deviceConnected": "Device Connected",
@@ -69,11 +85,27 @@
   },
   "stations": {
     "loading": "Loading stations...",
-    "noStationsFound": "No stations found"
+    "noStationsFound": "No stations found",
+    "errorLoading": "Error loading stations",
+    "viewDetails": "View Details",
+    "information": "Station Information",
+    "connectors": "Connectors",
+    "reliability": "Reliability",
+    "available": "Available",
+    "ofTotal": "of {total}",
+    "operator": "Operator",
+    "lastUpdate": "Last Update",
+    "reportIssue": "Report Issue",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "getDirections": "Get Directions",
+    "statusHistory": "Status History",
+    "reliabilityDetails": "Reliability Details"
   },
   "reliability": {
     "title": "Reliability",
     "score": "Reliability Score",
+    "reliabilityScore": "Reliability Score",
     "uptime": "Uptime",
     "reportCount": "Report Count",
     "downtimeFrequency": "Downtime Frequency",
@@ -103,11 +135,47 @@
     "stationCount": "{count} stations",
     "dashboardTitle": "Reliability Dashboard",
     "timeRange": "Time Range",
-    "showProblematicOnly": "Show Problematic Only"
+    "showProblematicOnly": "Show Problematic Only",
+    "loadingHistory": "Loading history...",
+    "errorLoadingHistory": "Error loading history",
+    "statusHistoryTitle": "Status History ({days} days)"
   },
   "filters": {
+    "title": "Filters",
+    "networks": "Networks",
+    "noNetworksAvailable": "No networks available",
+    "connectorTypes": "Connector Types",
+    "status": "Status",
+    "showOnlyAvailable": "Show only available",
+    "minimumReliability": "Minimum Reliability",
+    "noMinimum": "No minimum",
+    "city": "City",
+    "selectCity": "Select city",
     "allCities": "All Cities",
-    "allNetworks": "All Networks"
+    "proximity": "Proximity",
+    "radiusKm": "{km} km radius",
+    "showOnlyFavorites": "Show only favorites",
+    "reset": "Reset Filters",
+    "apply": "Apply Filters",
+    "allNetworks": "All Networks",
+    "network": "Network"
+  },
+  "connectors": {
+    "loading": "Loading connectors...",
+    "errorLoading": "Error loading connectors",
+    "noConnectorsFound": "No connectors found",
+    "type": "Type",
+    "power": "Power",
+    "currentType": "Current Type",
+    "status": "Status",
+    "types": {
+      "ccs": "CCS",
+      "chademo": "CHAdeMO",
+      "type2": "Type 2",
+      "type1": "Type 1",
+      "schuko": "Schuko",
+      "tesla": "Tesla"
+    }
   },
   "reports": {
     "title": "Reports",
@@ -138,6 +206,52 @@
       "medium": "Medium",
       "high": "High"
     },
-    "resolved": "Resolved"
+    "resolved": "Resolved",
+    "severityScore": "Severity Score"
+  },
+  "offline": {
+    "statusOffline": "You are offline",
+    "statusOnline": "You are back online",
+    "description": "Limited functionality available while offline",
+    "title": "Offline Mode",
+    "message": "You are currently offline. Some features may not be available.",
+    "availableFeatures": "Available Offline Features",
+    "feature1": "View saved stations",
+    "feature2": "View cached reliability data",
+    "feature3": "Access favorites",
+    "retry": "Retry Connection"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to OnnOto",
+      "description": "The Estonian EV Charging Station Reliability App"
+    },
+    "locationPermissionTitle": "Enable Location",
+    "locationPermissionDescription": "Allow location access to find charging stations near you",
+    "locationBenefit1": "Find the nearest charging stations",
+    "locationBenefit2": "Get real-time availability updates",
+    "allowLocation": "Allow Location",
+    "skipForNow": "Skip for Now",
+    "features": {
+      "title": "Discover Key Features",
+      "description": "OnnOto helps you find reliable charging stations across Estonia",
+      "find": {
+        "title": "Find Stations",
+        "description": "Locate charging stations near you"
+      },
+      "reliability": {
+        "title": "Check Reliability",
+        "description": "See station uptime and reports"
+      },
+      "status": {
+        "title": "Real-time Status",
+        "description": "Know which stations are available"
+      },
+      "offline": {
+        "title": "Offline Access",
+        "description": "Use the app even without internet"
+      }
+    },
+    "finish": "Get Started"
   }
 }

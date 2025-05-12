@@ -28,6 +28,18 @@ const StationCard: React.FC<StationCardProps> = ({
     toggleFavorite(station.id);
   };
 
+  // Format date safely
+  const getFormattedDate = () => {
+    try {
+      if (!station.lastStatusUpdate) return t('common.unknown');
+      const date = new Date(station.lastStatusUpdate);
+      if (isNaN(date.getTime())) return t('common.unknown');
+      return formatDateTime(station.lastStatusUpdate);
+    } catch (e) {
+      return t('common.unknown');
+    }
+  };
+
   return (
     <Card
       className="station-card"
@@ -72,11 +84,9 @@ const StationCard: React.FC<StationCardProps> = ({
           <div className="station-card__reliability-stars">{reliabilityData.symbol}</div>
         </div>
 
-        {station.lastStatusUpdate && (
-          <div className="station-card__last-update">
-            {t('stations.lastUpdate')}: {formatDateTime(station.lastStatusUpdate)}
-          </div>
-        )}
+        <div className="station-card__last-update">
+          {t('stations.lastUpdate')}: {getFormattedDate()}
+        </div>
       </div>
 
       {showDetails && (

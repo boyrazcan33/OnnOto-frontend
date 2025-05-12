@@ -65,15 +65,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 {t('navigation.reliability')}
               </Link>
             </li>
-            <li className="sidebar__nav-item">
-              <Link 
-                to="/settings" 
-                className={`sidebar__nav-link ${isActive('/settings') ? 'sidebar__nav-link--active' : ''}`}
-                onClick={onClose}
-              >
-                {t('navigation.settings')}
-              </Link>
-            </li>
           </ul>
         </nav>
         

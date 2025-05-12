@@ -52,14 +52,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 {t('navigation.reliability')}
               </Link>
             </li>
-            <li className="header__nav-item">
-              <Link 
-                to="/settings" 
-                className={`header__nav-link ${isActive('/settings') ? 'header__nav-link--active' : ''}`}
-              >
-                {t('navigation.settings')}
-              </Link>
-            </li>
           </ul>
         </nav>
         

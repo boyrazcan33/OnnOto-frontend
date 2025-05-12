@@ -30,7 +30,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
     <div className={`layout ${fullHeight ? 'layout--full-height' : ''}`}>
       {showHeader && <Header onMenuClick={toggleSidebar} />}
       
-      <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+      {/* Only show sidebar when it's open */}
+      {isSidebarOpen && <Sidebar isOpen={true} onClose={closeSidebar} />}
       
       <main className="layout__main">
         {children}

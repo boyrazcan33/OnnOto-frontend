@@ -37,6 +37,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    document.body.className = theme === 'dark' ? 'dark-theme' : 'light-theme';
     localStorage.setItem(STORAGE_KEYS.THEME, theme);
   }, [theme]);
 
