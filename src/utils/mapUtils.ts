@@ -92,6 +92,8 @@ export const getStationMarkerColor = (station: Station): string => {
 
 /**
  * Get marker icon based on status
+ * @param status The status string
+ * @returns Color or icon based on status
  */
 export const getMarkerIcon = (status: string): string => {
   switch (status) {

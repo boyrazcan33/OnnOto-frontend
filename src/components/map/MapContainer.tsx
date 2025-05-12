@@ -58,6 +58,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
+  const googleMapsLoadedRef = useRef<boolean>(false);
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
@@ -108,24 +109,11 @@ const MapContainer: React.FC<MapContainerProps> = ({
   // Initialize map
   useEffect(() => {
     if (!mapLoaded && mapContainerRef.current) {
-      const loadGoogleMaps = () => {
-        if (window.google && window.google.maps) {
-          initMap();
-          return;
-        }
-
-        const script = document.createElement('script');
-        const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-
-        window.initMap = initMap;
-      };
-
+      // Define map initialization function
       const initMap = () => {
-        if (mapContainerRef.current) {
+        if (!mapContainerRef.current) return;
+        
+        try {
           const center = initialCenter || [latitude || 58.5953, longitude || 25.0136];
           
           mapInstanceRef.current = new window.google.maps.Map(mapContainerRef.current, {
@@ -146,7 +134,55 @@ const MapContainer: React.FC<MapContainerProps> = ({
           });
 
           setMapLoaded(true);
+          googleMapsLoadedRef.current = true;
+        } catch (error) {
+          console.error("Error initializing map:", error);
+          // Retry initialization after a delay
+          setTimeout(initMap, 500);
         }
+      };
+
+      // Load Google Maps if not already loaded
+      const loadGoogleMaps = () => {
+        // Check if Google Maps is already loaded
+        if (window.google && window.google.maps) {
+          initMap();
+          return;
+        }
+
+        // Check if script is already being loaded
+        const existingScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+        if (existingScript) {
+          // If already loading, set up our init function to be called after load
+          const callbackName = 'initMap';
+          const originalInitMap = window[callbackName];
+          
+          // Create a new initialization function that calls both the original and our init
+          window[callbackName] = () => {
+            if (typeof originalInitMap === 'function') {
+              originalInitMap();
+            }
+            initMap();
+          };
+          return;
+        }
+
+        // Set the global initialization function
+        window.initMap = initMap;
+
+        // Load the Google Maps script with async
+        const script = document.createElement('script');
+        const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&loading=async`;
+        script.async = true;
+        script.defer = true;
+        
+        // Add error handling for script loading
+        script.onerror = () => {
+          console.error('Failed to load Google Maps API');
+        };
+        
+        document.head.appendChild(script);
       };
 
       loadGoogleMaps();
@@ -301,10 +337,12 @@ const MapContainer: React.FC<MapContainerProps> = ({
       )}
 
       {selectedStation && (
-        <InfoWindow
-          station={selectedStation}
-          onClose={() => setSelectedStation(null)}
-        />
+        <div className="map-page__info-window">
+          <InfoWindow
+            station={selectedStation}
+            onClose={() => setSelectedStation(null)}
+          />
+        </div>
       )}
     </div>
   );

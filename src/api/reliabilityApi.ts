@@ -17,9 +17,7 @@ const reliabilityApi = {
    * Get the most reliable stations
    */
   getMostReliableStations: (limit: number = 10) => {
-    return client.get<ReliabilityMetric[]>(API_ENDPOINTS.MOST_RELIABLE_STATIONS, { 
-      params: { limit }
-    });
+    return client.get<ReliabilityMetric[]>(API_ENDPOINTS.MOST_RELIABLE_STATIONS, { limit });
   },
 
   /**
@@ -27,7 +25,7 @@ const reliabilityApi = {
    */
   getStationsWithMinimumReliability: (minimumReliability: number) => {
     return client.get<ReliabilityMetric[]>(API_ENDPOINTS.MINIMUM_RELIABILITY, { 
-      params: { minimumReliability }
+      minimumReliability 
     });
   }
 };

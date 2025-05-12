@@ -26,8 +26,10 @@ export const getStorageItem = <T>(key: string, defaultValue: T): T => {
     const item = localStorage.getItem(key);
     if (!item) return defaultValue;
 
-    // Handle language and theme directly as they're stored as simple strings
-    if (key === STORAGE_KEYS.LANGUAGE || key === STORAGE_KEYS.THEME) {
+    // Handle special cases that are stored as simple strings, not JSON
+    if (key === STORAGE_KEYS.LANGUAGE || 
+        key === STORAGE_KEYS.THEME || 
+        key === STORAGE_KEYS.DEVICE_ID) {
       return item as unknown as T;
     }
 

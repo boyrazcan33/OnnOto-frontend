@@ -107,6 +107,7 @@ apiClient.interceptors.response.use(
 // Helper function to add simple GET, POST methods
 const client = {
   get: async <T>(endpoint: string, params?: any): Promise<T> => {
+    // Send params directly, not nested in "params" object
     const response = await apiClient.get(endpoint, { params });
     return response.data;
   },
