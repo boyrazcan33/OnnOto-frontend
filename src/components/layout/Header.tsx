@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useTheme from '../../hooks/useTheme';
+import useLanguage from '../../hooks/useLanguage';
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -10,6 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
+  const { language, setLanguage, supportedLanguages } = useLanguage();
   const location = useLocation();
   
   const isActive = (path: string) => {
@@ -62,6 +64,20 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </nav>
         
         <div className="header__right">
+          <div className="header__language-selector">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              aria-label={t('settings.language')}
+              className="header__language-select"
+            >
+              {supportedLanguages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang === 'et' ? 'Eesti' : lang === 'en' ? 'English' : 'Русский'}
+                </option>
+              ))}
+            </select>
+          </div>
           <button 
             className="header__theme-toggle" 
             onClick={toggleTheme}

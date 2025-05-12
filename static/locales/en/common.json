@@ -44,7 +44,8 @@
     "language": "Language"
   },
   "sidebar": {
-    "deviceNotConnected": "Device not connected",
+    "deviceConnected": "Device Connected",
+    "deviceNotConnected": "Device Not Connected",
     "refreshConnection": "Refresh Connection"
   },
   "footer": {
@@ -71,14 +72,72 @@
     "noStationsFound": "No stations found"
   },
   "reliability": {
+    "title": "Reliability",
+    "score": "Reliability Score",
+    "uptime": "Uptime",
+    "reportCount": "Report Count",
+    "downtimeFrequency": "Downtime Frequency",
+    "dataPoints": "Data Points",
+    "noDataAvailable": "No Reliability Data Available",
+    "excellent": "Excellent",
+    "good": "Good",
+    "moderate": "Moderate",
+    "fair": "Fair",
+    "poor": "Poor",
+    "reliability": "Reliability",
     "last7Days": "Last 7 Days",
     "last30Days": "Last 30 Days",
     "last90Days": "Last 90 Days",
     "loadingData": "Loading reliability data...",
-    "errorLoading": "Error loading reliability data"
+    "errorLoading": "Error loading reliability data",
+    "distributionTitle": "Reliability Distribution",
+    "networkComparisonTitle": "Network Comparison",
+    "anomalyTrendsTitle": "Anomaly Trends",
+    "mostReliableTitle": "Most Reliable Stations",
+    "problemStationsTitle": "Problem Stations",
+    "recentAnomaliesTitle": "Recent Anomalies",
+    "noAnomalyData": "No Anomaly Data Available",
+    "loadingNetworkData": "Loading network data...",
+    "errorLoadingNetworkData": "Error loading network data",
+    "noNetworkData": "No Network Data Available",
+    "stationCount": "{count} stations",
+    "dashboardTitle": "Reliability Dashboard",
+    "timeRange": "Time Range",
+    "showProblematicOnly": "Show Problematic Only"
   },
   "filters": {
     "allCities": "All Cities",
     "allNetworks": "All Networks"
+  },
+  "reports": {
+    "title": "Reports",
+    "noReports": "No Reports Found",
+    "loading": "Loading reports...",
+    "errorLoading": "Error loading reports",
+    "types": {
+      "offline": "Station Offline",
+      "damaged": "Equipment Damaged",
+      "incorrectInfo": "Incorrect Information",
+      "occupied": "Incorrectly Occupied"
+    }
+  },
+  "anomalies": {
+    "title": "Anomalies",
+    "noAnomalies": "No Anomalies Found",
+    "loading": "Loading anomalies...",
+    "errorLoading": "Error loading anomalies",
+    "types": {
+      "status_flapping": "Status Flapping",
+      "extended_downtime": "Extended Downtime",
+      "connector_mismatch": "Connector Mismatch",
+      "pattern_deviation": "Pattern Deviation",
+      "report_spike": "Report Spike"
+    },
+    "severity": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "resolved": "Resolved"
   }
 }

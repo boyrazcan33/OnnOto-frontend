@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useLanguage from '../../hooks/useLanguage';
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
-  const { language, setLanguage, supportedLanguages } = useLanguage();
   
   return (
     <footer className="footer">
@@ -36,20 +34,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="footer__right">
-          <div className="footer__language-selector">
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              aria-label={t('settings.language')}
-              className="footer__language-select"
-            >
-              {supportedLanguages.map((lang) => (
-                <option key={lang} value={lang}>
-                  {lang === 'et' ? 'Eesti' : lang === 'en' ? 'English' : 'Русский'}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Language selector moved to header */}
         </div>
       </div>
     </footer>

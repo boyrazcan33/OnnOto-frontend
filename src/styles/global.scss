@@ -35,21 +35,22 @@ body {
   height: 100%;
 }
 
-// Typography
+// Typography - Increased sizes
 h1, h2, h3, h4, h5, h6 {
   font-weight: vars.$font-weight-bold;
   margin-bottom: vars.$spacing-md;
 }
 
-h1 { font-size: vars.$font-size-xxl; }
-h2 { font-size: vars.$font-size-xl; }
-h3 { font-size: vars.$font-size-lg; }
-h4 { font-size: vars.$font-size-md; }
-h5 { font-size: vars.$font-size-base; }
-h6 { font-size: vars.$font-size-sm; }
+h1 { font-size: 2.25rem; }  // Increased from vars.$font-size-xxl
+h2 { font-size: 1.75rem; }  // Increased from vars.$font-size-xl
+h3 { font-size: 1.5rem; }   // Increased from vars.$font-size-lg
+h4 { font-size: 1.25rem; }  // Increased from vars.$font-size-md
+h5 { font-size: 1.125rem; } // Increased from vars.$font-size-base
+h6 { font-size: 1rem; }     // Increased from vars.$font-size-sm
 
 p {
   margin-bottom: vars.$spacing-md;
+  font-size: 1rem;          // Explicitly set base paragraph size
 }
 
 a {
@@ -66,12 +67,56 @@ a {
 // Buttons
 button {
   cursor: pointer;
+  font-size: 1rem;          // Increased base button font size
 }
 
 // Forms
 input, select, textarea, button {
   font-family: inherit;
-  font-size: vars.$font-size-base;
+  font-size: 1rem;          // Increased from vars.$font-size-base
+}
+
+// Navigation elements
+.header__nav-link,
+.sidebar__nav-link,
+.footer__nav-link {
+  font-size: 1.125rem;      // Increased navigation link size
+}
+
+// Header
+.header {
+  &__logo-text {
+    font-size: 1.5rem;      // Increased logo size
+    font-weight: vars.$font-weight-bold;
+  }
+  
+  &__language-select {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid vars.$gray-300;
+    background-color: white;
+  }
+}
+
+// Sidebar
+.sidebar {
+  &__logo {
+    font-size: 1.5rem;
+    font-weight: vars.$font-weight-bold;
+  }
+  
+  &__footer-text,
+  &__footer-button {
+    font-size: 1rem;
+  }
+}
+
+// Footer
+.footer {
+  &__nav-link {
+    font-size: 1rem;
+  }
 }
 
 // Utilities
@@ -113,21 +158,6 @@ input, select, textarea, button {
 }
 
 // Dark mode styles
-@media (prefers-color-scheme: dark) {
-  body {
-    color: vars.$text-dark;
-    background-color: vars.$background-dark;
-  }
-
-  a {
-    color: color.adjust(vars.$primary-color, $lightness: 10%);
-
-    &:hover {
-      color: color.adjust(vars.$primary-color, $lightness: 20%);
-    }
-  }
-}
-
 [data-theme="dark"] {
   color: vars.$text-dark;
   background-color: vars.$background-dark;
@@ -138,5 +168,11 @@ input, select, textarea, button {
     &:hover {
       color: color.adjust(vars.$primary-color, $lightness: 20%);
     }
+  }
+  
+  .header__language-select {
+    background-color: vars.$gray-800;
+    border-color: vars.$gray-600;
+    color: vars.$text-dark;
   }
 }
