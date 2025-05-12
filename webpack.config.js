@@ -76,12 +76,16 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './static/index.html',
+        filename: 'index.html',
+        // Add these options to ensure proper handling of the manifest and other assets
+        minify: isProduction,
+        scriptLoading: 'defer',
+        inject: true
       }),
       new DefinePlugin({
         ...envKeys,
         'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
       }),
-      // Improved CopyPlugin configuration to ensure static files are copied correctly
       new CopyPlugin({
         patterns: [
           { 
@@ -98,24 +102,21 @@ module.exports = (env, argv) => {
       })] : []),
     ],
     devServer: {
-      historyApiFallback: true,
-      port: 8080, // Set fixed port for consistency
+      historyApiFallback: true, // This is critical for SPA routing
+      port: 8080,
       open: true,
       hot: true,
-      // Improved static serving configuration
       static: {
         directory: path.join(__dirname, 'static'),
         publicPath: '/'
       },
-      // Fixed proxy configuration to keep /api in the path
       proxy: {
         '/api': {
           target: 'http://localhost:8087',
-          pathRewrite: { '^/api': '/api' }, // Keep the /api prefix
+          pathRewrite: { '^/api': '/api' },
           changeOrigin: true,
           secure: false,
           logLevel: 'debug',
-          // Handle proxy errors
           onError: (err, req, res) => {
             console.error('Proxy error:', err);
             res.writeHead(500, {
@@ -123,7 +124,6 @@ module.exports = (env, argv) => {
             });
             res.end('Proxy error: ' + err);
           },
-          // Bypass proxy for static files
           bypass: function(req, res, proxyOptions) {
             if (req.url.startsWith('/static/')) {
               return req.url;

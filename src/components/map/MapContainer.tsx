@@ -152,8 +152,8 @@ const MapContainer: React.FC<MapContainerProps> = ({
 
       // Load Google Maps if not already loaded
       const loadGoogleMaps = () => {
-        // Check if Google Maps is already loaded
-        if (window.google && window.google.maps) {
+        // Check if Google Maps is already loaded with Advanced Markers
+        if (window.google && window.google.maps && window.google.maps.marker && window.google.maps.marker.AdvancedMarkerElement) {
           initMap();
           return;
         }
@@ -178,10 +178,10 @@ const MapContainer: React.FC<MapContainerProps> = ({
         // Set the global initialization function
         window.initMap = initMap;
 
-        // Load the Google Maps script with async
+        // Load the Google Maps script with async and marker=beta to enable AdvancedMarker
         const script = document.createElement('script');
         const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&loading=async`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&loading=async&v=beta&libraries=marker`;
         script.async = true;
         script.defer = true;
         
