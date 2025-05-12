@@ -19,6 +19,11 @@ const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
 const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
+// Define a valid Map ID - For Advanced Markers
+// In a real application, you should get a valid Map ID from your Google Cloud Console
+// For development, we can use a default value
+const DEFAULT_MAP_ID = process.env.REACT_APP_MAP_ID;
+
 // Define a MarkerInterface to use instead of google.maps.Marker directly
 interface MarkerInterface {
   setMap(map: google.maps.Map | null): void;
@@ -72,6 +77,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<MarkerInterface[]>([]);
   const googleMapsLoadedRef = useRef<boolean>(false);
+  const [useStandardMarkers, setUseStandardMarkers] = useState(false);
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
@@ -128,13 +134,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
         try {
           const center = initialCenter || [latitude || 58.5953, longitude || 25.0136];
           
-          // Generate a mapId from the API key or use a default
-          // This isn't ideal but should work for testing
-          const mapId = GOOGLE_MAPS_API_KEY ? 
-                        GOOGLE_MAPS_API_KEY.substring(0, 8) + Date.now().toString().substring(8, 13) : 
-                        'DEMO_MAP_ID';
-          
-          mapInstanceRef.current = new window.google.maps.Map(mapContainerRef.current, {
+          // For Advanced Markers, we need to provide a valid Map ID
+          // If Map ID is not available or valid, we'll fall back to standard markers
+          const mapOptions: google.maps.MapOptions = {
             center: { lat: center[0], lng: center[1] },
             zoom: initialZoom,
             disableDefaultUI: true,
@@ -142,18 +144,23 @@ const MapContainer: React.FC<MapContainerProps> = ({
             streetViewControl: false,
             mapTypeControl: false,
             fullscreenControl: false,
-            mapId: mapId,
-            styles: [
-              {
-                featureType: 'poi',
-                elementType: 'labels',
-                stylers: [{ visibility: 'off' }]
-              }
-            ]
-          });
+            mapId: DEFAULT_MAP_ID // Add a valid Map ID
+          };
+
+          // Create the map
+          mapInstanceRef.current = new window.google.maps.Map(mapContainerRef.current, mapOptions);
 
           setMapLoaded(true);
           googleMapsLoadedRef.current = true;
+
+          // Listen for map errors that might indicate issues with Advanced Markers
+          window.addEventListener('error', (event) => {
+            if (event.message && event.message.includes('Advanced Markers')) {
+              console.warn('Falling back to standard markers due to Advanced Markers error');
+              setUseStandardMarkers(true);
+            }
+          });
+
         } catch (error) {
           console.error("Error initializing map:", error);
           // Retry initialization after a delay
@@ -269,7 +276,8 @@ const MapContainer: React.FC<MapContainerProps> = ({
             () => {
               setSelectedStation(station);
               if (onMarkerClick) onMarkerClick(station);
-            }
+            },
+            useStandardMarkers
           ).getMarker();
           
           markersRef.current.push(markerInterface);
@@ -288,14 +296,15 @@ const MapContainer: React.FC<MapContainerProps> = ({
               mapInstanceRef.current?.fitBounds(bounds);
               const currentZoom = mapInstanceRef.current?.getZoom() || 0;
               mapInstanceRef.current?.setZoom(Math.min(15, currentZoom + 1));
-            }
+            },
+            useStandardMarkers
           ).getMarker();
           
           markersRef.current.push(markerInterface);
         }
       });
     }
-  }, [mapLoaded, filteredStations, initialCenter, onMarkerClick]);
+  }, [mapLoaded, filteredStations, initialCenter, onMarkerClick, useStandardMarkers]);
 
   const handleStationUpdate = (update: any) => {
     const marker = markersRef.current.find(
