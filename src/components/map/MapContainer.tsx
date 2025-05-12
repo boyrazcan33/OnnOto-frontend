@@ -14,6 +14,11 @@ import ZoomControls from './ZoomControls';
 import Loader from '../common/Loader';
 import InfoWindow from './InfoWindow';
 
+// Access environment variables
+const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
+const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+
 // Define a MarkerInterface to use instead of google.maps.Marker directly
 interface MarkerInterface {
   setMap(map: google.maps.Map | null): void;
@@ -32,7 +37,7 @@ interface MapContainerProps {
 
 // Mock websocket updates for development
 const useMockWebSocket = (
-  enabled: boolean = process.env.NODE_ENV === 'development',
+  enabled: boolean = IS_DEVELOPMENT,
   interval: number = 5000
 ): { updates: any[] } => {
   const [updates, setUpdates] = useState<any[]>([]);
@@ -87,10 +92,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
 
   // Try to establish real WebSocket connection in production
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8080/ws';
+    if (!IS_DEVELOPMENT) {
       try {
-        const ws = new WebSocket(wsUrl);
+        const ws = new WebSocket(WS_URL);
         
         ws.onmessage = (event) => {
           try {
@@ -124,6 +128,12 @@ const MapContainer: React.FC<MapContainerProps> = ({
         try {
           const center = initialCenter || [latitude || 58.5953, longitude || 25.0136];
           
+          // Generate a mapId from the API key or use a default
+          // This isn't ideal but should work for testing
+          const mapId = GOOGLE_MAPS_API_KEY ? 
+                        GOOGLE_MAPS_API_KEY.substring(0, 8) + Date.now().toString().substring(8, 13) : 
+                        'DEMO_MAP_ID';
+          
           mapInstanceRef.current = new window.google.maps.Map(mapContainerRef.current, {
             center: { lat: center[0], lng: center[1] },
             zoom: initialZoom,
@@ -132,6 +142,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
             streetViewControl: false,
             mapTypeControl: false,
             fullscreenControl: false,
+            mapId: mapId,
             styles: [
               {
                 featureType: 'poi',
@@ -163,15 +174,15 @@ const MapContainer: React.FC<MapContainerProps> = ({
         if (existingScript) {
           // If already loading, set up our init function to be called after load
           const callbackName = 'initMap';
-          const originalInitMap = window[callbackName];
+          const originalInitMap = window[callbackName as keyof Window];
           
           // Create a new initialization function that calls both the original and our init
-          window[callbackName] = () => {
+          window[callbackName as keyof Window] = (() => {
             if (typeof originalInitMap === 'function') {
-              originalInitMap();
+              (originalInitMap as Function)();
             }
             initMap();
-          };
+          }) as any;
           return;
         }
 
@@ -180,8 +191,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
 
         // Load the Google Maps script with async and marker=beta to enable AdvancedMarker
         const script = document.createElement('script');
-        const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&loading=async&v=beta&libraries=marker`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap&loading=async&v=beta&libraries=marker`;
         script.async = true;
         script.defer = true;
         

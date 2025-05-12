@@ -1,3 +1,4 @@
+// src/components/map/StationMarker.tsx
 import { Station } from '../../types/station';
 import { getStationMarkerColor } from '../../utils/mapUtils';
 
@@ -40,9 +41,9 @@ class StationMarker {
     // Set station ID as a data attribute
     advancedMarker.dataset.stationId = station.id;
 
-    // Add click handler
+    // Add click handler - using 'gmp-click' instead of 'click'
     if (onClick) {
-      advancedMarker.addListener('click', onClick);
+      advancedMarker.addListener('gmp-click', onClick);
     }
 
     // Create a wrapper object that implements the MarkerInterface
