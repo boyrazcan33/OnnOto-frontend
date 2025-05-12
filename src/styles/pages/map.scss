@@ -45,6 +45,7 @@
     position: relative;
     flex: 1;
     overflow: hidden;
+    min-height: 500px; /* Added this line */
   }
   
   &__info-window {
