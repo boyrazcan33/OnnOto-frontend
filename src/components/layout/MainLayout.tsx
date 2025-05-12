@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -16,22 +15,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   showFooter = true,
   fullHeight = false,
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-  
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
-  };
-  
   return (
     <div className={`layout ${fullHeight ? 'layout--full-height' : ''}`}>
-      {showHeader && <Header onMenuClick={toggleSidebar} />}
-      
-      {/* Only show sidebar when it's open */}
-      {isSidebarOpen && <Sidebar isOpen={true} onClose={closeSidebar} />}
+      {showHeader && <Header />}
       
       <main className="layout__main">
         {children}

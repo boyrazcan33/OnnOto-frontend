@@ -35,22 +35,22 @@ body {
   height: 100%;
 }
 
-// Typography - Increased sizes
+// Typography
 h1, h2, h3, h4, h5, h6 {
   font-weight: vars.$font-weight-bold;
   margin-bottom: vars.$spacing-md;
 }
 
-h1 { font-size: 2.25rem; }  // Increased from vars.$font-size-xxl
-h2 { font-size: 1.75rem; }  // Increased from vars.$font-size-xl
-h3 { font-size: 1.5rem; }   // Increased from vars.$font-size-lg
-h4 { font-size: 1.25rem; }  // Increased from vars.$font-size-md
-h5 { font-size: 1.125rem; } // Increased from vars.$font-size-base
-h6 { font-size: 1rem; }     // Increased from vars.$font-size-sm
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
 
 p {
   margin-bottom: vars.$spacing-md;
-  font-size: 1rem;          // Explicitly set base paragraph size
+  font-size: 1rem;
 }
 
 a {
@@ -67,55 +67,207 @@ a {
 // Buttons
 button {
   cursor: pointer;
-  font-size: 1rem;          // Increased base button font size
+  font-size: 1rem;
 }
 
 // Forms
 input, select, textarea, button {
   font-family: inherit;
-  font-size: 1rem;          // Increased from vars.$font-size-base
+  font-size: 1rem;
 }
 
-// Navigation elements
-.header__nav-link,
-.sidebar__nav-link,
-.footer__nav-link {
-  font-size: 1.125rem;      // Increased navigation link size
-}
-
-// Header
+// Header styling
 .header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 10;
+  
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+  
+  &__logo {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  &__logo-image {
+    height: 36px;
+    width: auto;
+    margin-right: 0.5rem;
+  }
+  
   &__logo-text {
-    font-size: 1.5rem;      // Increased logo size
-    font-weight: vars.$font-weight-bold;
+    font-size: 2rem;
+    font-weight: 700;
+    color: vars.$primary-color;
+    letter-spacing: 0.5px;
+  }
+  
+  &__nav {
+    display: flex;
+  }
+  
+  &__nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  &__nav-item {
+    margin-right: 1.5rem;
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  
+  &__nav-link {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    font-size: 1.1rem;
+    
+    &:hover {
+      color: vars.$primary-color;
+    }
+    
+    &--active {
+      color: vars.$primary-color;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: vars.$primary-color;
+      }
+    }
+  }
+  
+  &__right {
+    display: flex;
+    align-items: center;
   }
   
   &__language-select {
-    font-size: 1rem;
-    padding: 0.5rem;
+    margin-right: 1rem;
+    padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     border: 1px solid vars.$gray-300;
     background-color: white;
   }
-}
-
-// Sidebar
-.sidebar {
-  &__logo {
-    font-size: 1.5rem;
-    font-weight: vars.$font-weight-bold;
+  
+  &__theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
-  &__footer-text,
-  &__footer-button {
-    font-size: 1rem;
+  &__connection-status {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  &__connection-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    
+    &--connected {
+      background-color: vars.$available-color;
+    }
+    
+    &--disconnected {
+      background-color: vars.$offline-color;
+    }
   }
 }
 
-// Footer
+// Footer styling
 .footer {
+  text-align: center;
+  padding: 20px 0;
+  
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  &__copyright {
+    margin-bottom: 10px;
+  }
+  
+  &__nav-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
   &__nav-link {
+    color: inherit;
+    text-decoration: none;
     font-size: 1rem;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Layout
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  
+  &__main {
+    flex: 1;
+  }
+  
+  &--full-height {
+    height: 100vh;
+    
+    .layout__main {
+      flex: 1;
+      overflow: auto;
+    }
   }
 }
 
@@ -170,38 +322,36 @@ input, select, textarea, button {
     }
   }
   
-  .header__language-select {
-    background-color: vars.$gray-800;
-    border-color: vars.$gray-600;
-    color: vars.$text-dark;
+  .header {
+    &__language-select {
+      background-color: vars.$gray-800;
+      border-color: vars.$gray-600;
+      color: vars.$text-dark;
+    }
+    
+    &__logo-text {
+      color: color.adjust(vars.$primary-color, $lightness: 10%);
+    }
   }
 }
 
-
-
-.footer {
-  text-align: center;
-  padding: 20px 0;
-  
-  &__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  &__copyright {
-    margin-bottom: 10px;
-  }
-  
-  &__nav-list {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+// Media queries for responsiveness
+@media (max-width: 768px) {
+  .header {
+    &__nav {
+      display: none;
+    }
+    
+    &__logo {
+      margin-right: 0;
+    }
+    
+    &__logo-text {
+      font-size: 1.75rem;
+    }
+    
+    &__logo-image {
+      height: 28px;
+    }
   }
 }
