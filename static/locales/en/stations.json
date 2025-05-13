@@ -37,6 +37,7 @@
         "type1": "Type 1",
         "schuko": "Schuko"
       },
+      
       "sort": {
         "distance": "Distance",
         "reliability": "Reliability",

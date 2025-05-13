@@ -1,35 +1,279 @@
 {
-    "app": {
-      "name": "OnnOto",
-      "description": "Приложение надежности зарядных станций для электромобилей в Эстонии"
-    },
-    "navigation": {
-      "map": "Карта",
-      "settings": "Настройки",
-      "reliability": "Надежность"
-    },
-    "common": {
-      "loading": "Загрузка...",
-      "error": "Ошибка",
-      "retry": "Повторить",
-      "save": "Сохранить",
-      "cancel": "Отмена",
-      "confirm": "Подтвердить",
-      "back": "Назад",
-      "next": "Далее",
-      "close": "Закрыть",
-      "search": "Поиск",
-      "filter": "Фильтр",
-      "clear": "Очистить",
-      "available": "Доступно",
-      "occupied": "Занято",
-      "offline": "Не работает",
-      "unknown": "Неизвестно"
-    },
-    "map": {
-      "currentLocation": "Мое местоположение",
-      "findNearby": "Найти рядом",
-      "zoomIn": "Увеличить",
-      "zoomOut": "Уменьшить"
+  "app": {
+    "name": "OnnOto",
+    "description": "Приложение для отслеживания надежности зарядных станций для электромобилей в Эстонии"
+  },
+  "navigation": {
+    "map": "Карта",
+    "settings": "Настройки",
+    "reliability": "Надежность",
+    "menu": "Меню",
+    "home": "Главная"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "retry": "Повторить",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "back": "Назад",
+    "next": "Далее",
+    "close": "Закрыть",
+    "search": "Поиск",
+    "filter": "Фильтр",
+    "clear": "Очистить",
+    "available": "Доступно",
+    "occupied": "Занято",
+    "offline": "Не в сети",
+    "unknown": "Неизвестно"
+  },
+  "map": {
+    "currentLocation": "Мое местоположение",
+    "findNearby": "Найти поблизости",
+    "zoomIn": "Приблизить",
+    "zoomOut": "Отдалить",
+    "title": "Карта зарядных станций",
+    "toggleFilters": "Переключить фильтры",
+    "filters": "Фильтры",
+    "errorLoading": "Ошибка загрузки данных карты",
+    "mapOfChargingStations": "Карта зарядных станций",
+    "legend": "Легенда",
+    "hideLegend": "Скрыть легенду",
+    "showLegend": "Показать легенду"
+  },
+  "settings": {
+    "toggleTheme": "Сменить тему",
+    "language": "Язык",
+    "title": "Настройки",
+    "appearance": "Внешний вид",
+    "darkMode": "Темный режим",
+    "darkModeEnabled": "Темный режим включен",
+    "darkModeDisabled": "Темный режим выключен",
+    "account": "Аккаунт",
+    "deviceId": "ID устройства",
+    "noDeviceId": "Нет ID устройства",
+    "deviceConnected": "Устройство подключено",
+    "deviceNotConnected": "Устройство не подключено",
+    "refreshConnection": "Обновить соединение",
+    "saveSettings": "Сохранить настройки",
+    "settingsSaved": "Настройки сохранены"
+  },
+  "sidebar": {
+    "deviceConnected": "Устройство подключено",
+    "deviceNotConnected": "Устройство не подключено",
+    "refreshConnection": "Обновить соединение"
+  },
+  "footer": {
+    "about": "О нас",
+    "privacy": "Политика конфиденциальности",
+    "terms": "Условия использования"
+  },
+  "landing": {
+    "title": "Найдите надежные зарядные станции для электромобилей",
+    "subtitle": "Информация о надежности зарядных станций для электромобилей по всей Эстонии в реальном времени",
+    "exploreMap": "Исследовать карту",
+    "featuresTitle": "Функции",
+    "feature1Title": "Отслеживание надежности",
+    "feature1Text": "Просмотр исторической надежности зарядных станций",
+    "feature2Title": "Статус в реальном времени",
+    "feature2Text": "Проверка текущей доступности зарядных разъемов",
+    "feature3Title": "Отчеты пользователей",
+    "feature3Text": "Отчеты сообщества о проблемах с зарядными станциями",
+    "topStationsTitle": "Самые надежные станции",
+    "viewAllStations": "Просмотреть все станции"
+  },
+  "stations": {
+    "loading": "Загрузка станций...",
+    "noStationsFound": "Станции не найдены",
+    "errorLoading": "Ошибка загрузки станций",
+    "viewDetails": "Просмотреть детали",
+    "information": "Информация о станции",
+    "connectors": "Разъемы",
+    "reliability": "Надежность",
+    "available": "Доступно",
+    "ofTotal": "из {total}",
+    "operator": "Оператор",
+    "lastUpdate": "Последнее обновление",
+    "reportIssue": "Сообщить о проблеме",
+    "addToFavorites": "Добавить в избранное",
+    "removeFromFavorites": "Удалить из избранного",
+    "getDirections": "Построить маршрут",
+    "statusHistory": "История статуса",
+    "reliabilityDetails": "Детали надежности"
+  },
+  "reliability": {
+    "title": "Надежность",
+    "score": "Оценка надежности",
+    "reliabilityScore": "Оценка надежности",
+    "uptime": "Время работы",
+    "reportCount": "Количество отчетов",
+    "downtimeFrequency": "Частота простоев",
+    "dataPoints": "Точки данных",
+    "noDataAvailable": "Данные о надежности отсутствуют",
+    "excellent": "Отлично",
+    "good": "Хорошо",
+    "moderate": "Средне",
+    "fair": "Удовлетворительно",
+    "poor": "Плохо",
+    "reliability": "Надежность",
+    "last7Days": "Последние 7 дней",
+    "last30Days": "Последние 30 дней",
+    "last90Days": "Последние 90 дней",
+    "loadingData": "Загрузка данных о надежности...",
+    "errorLoading": "Ошибка загрузки данных о надежности",
+    "distributionTitle": "Распределение надежности",
+    "networkComparisonTitle": "Сравнение сетей",
+    "anomalyTrendsTitle": "Тенденции аномалий",
+    "mostReliableTitle": "Самые надежные станции",
+    "problemStationsTitle": "Проблемные станции",
+    "recentAnomaliesTitle": "Недавние аномалии",
+    "noAnomalyData": "Данные об аномалиях отсутствуют",
+    "loadingNetworkData": "Загрузка данных сети...",
+    "errorLoadingNetworkData": "Ошибка загрузки данных сети",
+    "noNetworkData": "Данные сети отсутствуют",
+    "stationCount": "{count} станций",
+    "dashboardTitle": "Панель надежности",
+    "timeRange": "Временной диапазон",
+    "showProblematicOnly": "Показать только проблемные",
+    "loadingHistory": "Загрузка истории...",
+    "errorLoadingHistory": "Ошибка загрузки истории",
+    "statusHistoryTitle": "История статуса ({days} дней)"
+  },
+  "filters": {
+    "title": "Фильтры",
+    "networks": "Сети",
+    "noNetworksAvailable": "Сети недоступны",
+    "connectorTypes": "Типы разъемов",
+    "status": "Статус",
+    "showOnlyAvailable": "Показать только доступные",
+    "minimumReliability": "Минимальная надежность",
+    "noMinimum": "Без минимума",
+    "city": "Город",
+    "selectCity": "Выбрать город",
+    "allCities": "Все города",
+    "proximity": "Близость",
+    "radiusKm": "Радиус {km} км",
+    "showOnlyFavorites": "Показать только избранные",
+    "reset": "Сбросить фильтры",
+    "apply": "Применить фильтры",
+    "allNetworks": "Все сети",
+    "network": "Сеть"
+  },
+  "connectors": {
+    "loading": "Загрузка разъемов...",
+    "errorLoading": "Ошибка загрузки разъемов",
+    "noConnectorsFound": "Разъемы не найдены",
+    "type": "Тип",
+    "power": "Мощность",
+    "currentType": "Тип тока",
+    "status": "Статус",
+    "types": {
+      "ccs": "CCS",
+      "chademo": "CHAdeMO",
+      "type2": "Type 2",
+      "type1": "Type 1",
+      "schuko": "Schuko",
+      "tesla": "Tesla"
     }
+  },
+  "reports": {
+    "submitError": "Ошибка отправки отчета",
+    "invalidType": "Недопустимый тип отчета",
+    "tooManyReports": "Отправлено слишком много отчетов",
+    "title": "Сообщить о проблеме",
+    "description": "Сообщить о проблеме с этой зарядной станцией",
+    "thankYou": "Спасибо за ваш отчет",
+    "confirmationMessage": "Ваш отчет для {stationName} был отправлен",
+    "backToStation": "Вернуться к станции",
+    "submitAnotherReport": "Отправить еще один отчет",
+    "loading": "Загрузка отчетов...",
+    "errorLoading": "Ошибка загрузки отчетов",
+    "noReports": "Отчеты не найдены",
+    "reportReceived": "Ваш отчет получен",
+    "reportingFor": "Отчет для",
+    "selectIssueType": "Выберите тип проблемы",
+    "descriptionOptional": "Описание (необязательно)",
+    "descriptionPlaceholder": "Предоставьте дополнительные сведения о проблеме...",
+    "submitReport": "Отправить отчет",
+    "submissionError": "Ошибка отправки отчета",
+    "reportIssue": "Сообщить о проблеме",
+    "types": {
+      "offline": "Станция не в сети",
+      "damaged": "Оборудование повреждено",
+      "incorrectInfo": "Неверная информация",
+      "occupied": "Неправильно занято"
+    },
+    "descriptions": {
+      "offline": "Станция не работает или кажется выключенной",
+      "damaged": "Физическое повреждение станции или оборудования",
+      "incorrectInfo": "Информация о станции неверна",
+      "occupied": "Станция заблокирована не заряжающимся автомобилем"
+    }
+  },
+  "anomalies": {
+    "title": "Аномалии",
+    "noAnomalies": "Аномалии не найдены",
+    "loading": "Загрузка аномалий...",
+    "errorLoading": "Ошибка загрузки аномалий",
+    "types": {
+      "status_flapping": "Колебания статуса",
+      "extended_downtime": "Длительный простой",
+      "connector_mismatch": "Несоответствие разъема",
+      "pattern_deviation": "Отклонение от шаблона",
+      "report_spike": "Всплеск отчетов"
+    },
+    "severity": {
+      "low": "Низкая",
+      "medium": "Средняя",
+      "high": "Высокая"
+    },
+    "resolved": "Решено",
+    "severityScore": "Оценка серьезности"
+  },
+  "offline": {
+    "statusOffline": "Вы не в сети",
+    "statusOnline": "Вы снова в сети",
+    "description": "Ограниченная функциональность доступна в автономном режиме",
+    "title": "Автономный режим",
+    "message": "В настоящее время вы не подключены к сети. Некоторые функции могут быть недоступны.",
+    "availableFeatures": "Доступные функции в автономном режиме",
+    "feature1": "Просмотр сохраненных станций",
+    "feature2": "Просмотр кэшированных данных о надежности",
+    "feature3": "Доступ к избранному",
+    "retry": "Повторить подключение"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Добро пожаловать в OnnOto",
+      "description": "Приложение для отслеживания надежности зарядных станций для электромобилей в Эстонии"
+    },
+    "locationPermissionTitle": "Включить местоположение",
+    "locationPermissionDescription": "Разрешите доступ к местоположению, чтобы находить зарядные станции рядом с вами",
+    "locationBenefit1": "Найти ближайшие зарядные станции",
+    "locationBenefit2": "Получать обновления о доступности в реальном времени",
+    "allowLocation": "Разрешить местоположение",
+    "skipForNow": "Пропустить пока",
+    "features": {
+      "title": "Откройте ключевые функции",
+      "description": "OnnOto помогает найти надежные зарядные станции по всей Эстонии",
+      "find": {
+        "title": "Найти станции",
+        "description": "Найти зарядные станции рядом с вами"
+      },
+      "reliability": {
+        "title": "Проверить надежность",
+        "description": "Посмотреть время работы станции и отчеты"
+      },
+      "status": {
+        "title": "Статус в реальном времени",
+        "description": "Узнать, какие станции доступны"
+      },
+      "offline": {
+        "title": "Автономный доступ",
+        "description": "Использовать приложение даже без интернета"
+      }
+    },
+    "finish": "Начать"
   }
+}

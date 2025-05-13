@@ -16,6 +16,8 @@
       "descriptionPlaceholder": "Provide additional details about the issue...",
       "submitReport": "Submit Report",
       "submissionError": "Error submitting report",
+      "reportIssue": "Report Issue",
+      
       "types": {
         "offline": "Station Offline",
         "damaged": "Equipment Damaged",

@@ -22,7 +22,7 @@
     "close": "Sulge",
     "search": "Otsi",
     "filter": "Filtreeri",
-    "clear": "Tühjenda",
+    "clear": "Puhasta",
     "available": "Saadaval",
     "occupied": "Hõivatud",
     "offline": "Väljas",
@@ -30,22 +30,39 @@
   },
   "map": {
     "currentLocation": "Minu asukoht",
-    "findNearby": "Leia lähim",
+    "findNearby": "Leia läheduses",
     "zoomIn": "Suurenda",
     "zoomOut": "Vähenda",
-    "title": "Laadimisjaamade Kaart",
-    "toggleFilters": "Lülita Filtrid",
+    "title": "Laadimisjaamade kaart",
+    "toggleFilters": "Lülita filtrid",
     "filters": "Filtrid",
     "errorLoading": "Viga kaardi andmete laadimisel",
-    "mapOfChargingStations": "Laadimisjaamade kaart"
+    "mapOfChargingStations": "Laadimisjaamade kaart",
+    "legend": "Legend",
+    "hideLegend": "Peida legend",
+    "showLegend": "Näita legend"
   },
   "settings": {
-    "toggleTheme": "Muuda Kujundust",
-    "language": "Keel"
+    "toggleTheme": "Vaheta kujundust",
+    "language": "Keel",
+    "title": "Seaded",
+    "appearance": "Välimus",
+    "darkMode": "Tume režiim",
+    "darkModeEnabled": "Tume režiim sisse lülitatud",
+    "darkModeDisabled": "Tume režiim välja lülitatud",
+    "account": "Konto",
+    "deviceId": "Seadme ID",
+    "noDeviceId": "Seadme ID puudub",
+    "deviceConnected": "Seade ühendatud",
+    "deviceNotConnected": "Seade pole ühendatud",
+    "refreshConnection": "Värskenda ühendust",
+    "saveSettings": "Salvesta seaded",
+    "settingsSaved": "Seaded salvestatud"
   },
   "sidebar": {
+    "deviceConnected": "Seade ühendatud",
     "deviceNotConnected": "Seade pole ühendatud",
-    "refreshConnection": "Värskenda Ühendust"
+    "refreshConnection": "Värskenda ühendust"
   },
   "footer": {
     "about": "Meist",
@@ -53,32 +70,210 @@
     "terms": "Kasutustingimused"
   },
   "landing": {
-    "title": "Leia Usaldusväärseid Elektriautode Laadimisjaamu",
-    "subtitle": "Reaalajas info elektriautode laadimisjaamade usaldusväärsuse kohta Eestis",
-    "exploreMap": "Uuri Kaarti",
-    "featuresTitle": "Omadused",
-    "feature1Title": "Usaldusväärsuse Jälgimine",
+    "title": "Leia usaldusväärsed EV laadimisjaamad",
+    "subtitle": "Reaalajas teave elektrisõidukite laadimisjaamade usaldusväärsuse kohta üle Eesti",
+    "exploreMap": "Uuri kaarti",
+    "featuresTitle": "Funktsioonid",
+    "feature1Title": "Usaldusväärsuse jälgimine",
     "feature1Text": "Vaata laadimisjaamade ajaloolist usaldusväärsust",
-    "feature2Title": "Reaalajas Staatus",
-    "feature2Text": "Kontrolli laadimisseadmete saadavust reaalajas",
-    "feature3Title": "Kasutajate Teated",
-    "feature3Text": "Kogukonna teated laadimisjaamade probleemide kohta",
-    "topStationsTitle": "Kõige Usaldusväärsemad Jaamad",
-    "viewAllStations": "Vaata Kõiki Jaamu"
+    "feature2Title": "Reaalajas olek",
+    "feature2Text": "Kontrolli laadimiskonnektor ite hetkeseisu",
+    "feature3Title": "Kasutajate raportid",
+    "feature3Text": "Kogukonna raportid laadimisjaamade probleemide kohta",
+    "topStationsTitle": "Kõige usaldusväärsemad jaamad",
+    "viewAllStations": "Vaata kõiki jaamu"
   },
   "stations": {
     "loading": "Jaamade laadimine...",
-    "noStationsFound": "Jaamu ei leitud"
+    "noStationsFound": "Jaamu ei leitud",
+    "errorLoading": "Viga jaamade laadimisel",
+    "viewDetails": "Vaata detaile",
+    "information": "Jaama info",
+    "connectors": "Konnektorid",
+    "reliability": "Usaldusväärsus",
+    "available": "Saadaval",
+    "ofTotal": "/{total} kokku",
+    "operator": "Operaator",
+    "lastUpdate": "Viimane uuendus",
+    "reportIssue": "Teata probleemist",
+    "addToFavorites": "Lisa lemmikutesse",
+    "removeFromFavorites": "Eemalda lemmikutest",
+    "getDirections": "Saa juhised",
+    "statusHistory": "Oleku ajalugu",
+    "reliabilityDetails": "Usaldusväärsuse detailid"
   },
   "reliability": {
-    "last7Days": "Viimased 7 Päeva",
-    "last30Days": "Viimased 30 Päeva",
-    "last90Days": "Viimased 90 Päeva", 
+    "title": "Usaldusväärsus",
+    "score": "Usaldusväärsuse skoor",
+    "reliabilityScore": "Usaldusväärsuse skoor",
+    "uptime": "Tööaeg",
+    "reportCount": "Raportite arv",
+    "downtimeFrequency": "Seisakute sagedus",
+    "dataPoints": "Andmepunktid",
+    "noDataAvailable": "Usaldusväärsuse andmed puuduvad",
+    "excellent": "Suurepärane",
+    "good": "Hea",
+    "moderate": "Keskmine",
+    "fair": "Rahuldav",
+    "poor": "Halb",
+    "reliability": "Usaldusväärsus",
+    "last7Days": "Viimased 7 päeva",
+    "last30Days": "Viimased 30 päeva",
+    "last90Days": "Viimased 90 päeva",
     "loadingData": "Usaldusväärsuse andmete laadimine...",
-    "errorLoading": "Viga usaldusväärsuse andmete laadimisel"
+    "errorLoading": "Viga usaldusväärsuse andmete laadimisel",
+    "distributionTitle": "Usaldusväärsuse jaotus",
+    "networkComparisonTitle": "Võrgustike võrdlus",
+    "anomalyTrendsTitle": "Anomaaliate trendid",
+    "mostReliableTitle": "Kõige usaldusväärsemad jaamad",
+    "problemStationsTitle": "Probleemsed jaamad",
+    "recentAnomaliesTitle": "Hiljutised anomaaliad",
+    "noAnomalyData": "Anomaaliate andmed puuduvad",
+    "loadingNetworkData": "Võrgustiku andmete laadimine...",
+    "errorLoadingNetworkData": "Viga võrgustiku andmete laadimisel",
+    "noNetworkData": "Võrgustiku andmed puuduvad",
+    "stationCount": "{count} jaama",
+    "dashboardTitle": "Usaldusväärsuse töölaud",
+    "timeRange": "Ajavahemik",
+    "showProblematicOnly": "Näita ainult probleemseid",
+    "loadingHistory": "Ajaloo laadimine...",
+    "errorLoadingHistory": "Viga ajaloo laadimisel",
+    "statusHistoryTitle": "Oleku ajalugu ({days} päeva)"
   },
   "filters": {
-    "allCities": "Kõik Linnad",
-    "allNetworks": "Kõik Võrgustikud"
+    "title": "Filtrid",
+    "networks": "Võrgustikud",
+    "noNetworksAvailable": "Võrgustikud puuduvad",
+    "connectorTypes": "Konnektori tüübid",
+    "status": "Olek",
+    "showOnlyAvailable": "Näita ainult saadaval",
+    "minimumReliability": "Minimaalne usaldusväärsus",
+    "noMinimum": "Miinimum puudub",
+    "city": "Linn",
+    "selectCity": "Vali linn",
+    "allCities": "Kõik linnad",
+    "proximity": "Lähedus",
+    "radiusKm": "{km} km raadius",
+    "showOnlyFavorites": "Näita ainult lemmikuid",
+    "reset": "Lähtesta filtrid",
+    "apply": "Rakenda filtrid",
+    "allNetworks": "Kõik võrgustikud",
+    "network": "Võrgustik"
+  },
+  "connectors": {
+    "loading": "Konnektorite laadimine...",
+    "errorLoading": "Viga konnektorite laadimisel",
+    "noConnectorsFound": "Konnektoreid ei leitud",
+    "type": "Tüüp",
+    "power": "Võimsus",
+    "currentType": "Voolu tüüp",
+    "status": "Olek",
+    "types": {
+      "ccs": "CCS",
+      "chademo": "CHAdeMO",
+      "type2": "Type 2",
+      "type1": "Type 1",
+      "schuko": "Schuko",
+      "tesla": "Tesla"
+    }
+  },
+  "reports": {
+    "submitError": "Viga raporti saatmisel",
+    "invalidType": "Kehtetu raporti tüüp",
+    "tooManyReports": "Liiga palju raporteid saadetud",
+    "title": "Teata probleemist",
+    "description": "Teata probleemist selle laadimisjaama kohta",
+    "thankYou": "Täname raporti eest",
+    "confirmationMessage": "Sinu raport jaama {stationName} kohta on saadetud",
+    "backToStation": "Tagasi jaama juurde",
+    "submitAnotherReport": "Saada teine raport",
+    "loading": "Raportite laadimine...",
+    "errorLoading": "Viga raportite laadimisel",
+    "noReports": "Raporteid ei leitud",
+    "reportReceived": "Sinu raport on vastu võetud",
+    "reportingFor": "Raport jaama kohta",
+    "selectIssueType": "Vali probleemi tüüp",
+    "descriptionOptional": "Kirjeldus (valikuline)",
+    "descriptionPlaceholder": "Lisa täiendavaid detaile probleemi kohta...",
+    "submitReport": "Saada raport",
+    "submissionError": "Viga raporti saatmisel",
+    "reportIssue": "Teata probleemist",
+    "types": {
+      "offline": "Jaam väljas",
+      "damaged": "Seadmed kahjustatud",
+      "incorrectInfo": "Vale informatsioon",
+      "occupied": "Ebakorrektselt hõivatud"
+    },
+    "descriptions": {
+      "offline": "Jaam ei tööta või tundub olevat välja lülitatud",
+      "damaged": "Füüsiline kahju jaamale või seadmetele",
+      "incorrectInfo": "Informatsioon jaama kohta on vale",
+      "occupied": "Jaam on blokeeritud mitte-laadiva sõidukiga"
+    }
+  },
+  "anomalies": {
+    "title": "Anomaaliad",
+    "noAnomalies": "Anomaaliaid ei leitud",
+    "loading": "Anomaaliate laadimine...",
+    "errorLoading": "Viga anomaaliate laadimisel",
+    "types": {
+      "status_flapping": "Oleku kõikumine",
+      "extended_downtime": "Pikendatud seisuaeg",
+      "connector_mismatch": "Konnektori mittevastavus",
+      "pattern_deviation": "Mustri kõrvalekalle",
+      "report_spike": "Raportite suurenemine"
+    },
+    "severity": {
+      "low": "Madal",
+      "medium": "Keskmine",
+      "high": "Kõrge"
+    },
+    "resolved": "Lahendatud",
+    "severityScore": "Tõsiduse skoor"
+  },
+  "offline": {
+    "statusOffline": "Sa oled võrgust väljas",
+    "statusOnline": "Sa oled tagasi võrgus",
+    "description": "Piiratud funktsionaalsus võrgust väljas olles",
+    "title": "Võrguta režiim",
+    "message": "Sa oled praegu võrgust väljas. Mõned funktsioonid ei pruugi olla saadaval.",
+    "availableFeatures": "Võrguta saadaval funktsioonid",
+    "feature1": "Vaata salvestatud jaamu",
+    "feature2": "Vaata vahemällu salvestatud usaldusväärsuse andmeid",
+    "feature3": "Kasuta lemmikuid",
+    "retry": "Proovi ühendust uuesti"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Tere tulemast OnnOto-sse",
+      "description": "Eesti elektrisõidukite laadimisjaama usaldusväärsuse rakendus"
+    },
+    "locationPermissionTitle": "Luba asukoht",
+    "locationPermissionDescription": "Luba asukoha ligipääs, et leida laadimisjaamu sinu lähedal",
+    "locationBenefit1": "Leia lähimad laadimisjaamad",
+    "locationBenefit2": "Saa reaalajas saadavuse uuendusi",
+    "allowLocation": "Luba asukoht",
+    "skipForNow": "Jäta praegu vahele",
+    "features": {
+      "title": "Avasta põhifunktsioonid",
+      "description": "OnnOto aitab sul leida usaldusväärseid laadimisjaamu üle Eesti",
+      "find": {
+        "title": "Leia jaamad",
+        "description": "Leia laadimisjaamad sinu lähedal"
+      },
+      "reliability": {
+        "title": "Kontrolli usaldusväärsust",
+        "description": "Vaata jaama tööaega ja raporteid"
+      },
+      "status": {
+        "title": "Reaalajas olek",
+        "description": "Tea, millised jaamad on saadaval"
+      },
+      "offline": {
+        "title": "Võrguta juurdepääs",
+        "description": "Kasuta rakendust ka ilma internetita"
+      }
+    },
+    "finish": "Alusta"
   }
 }
