@@ -2,14 +2,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useTheme from '../../hooks/useTheme';
 import useLanguage from '../../hooks/useLanguage';
 import useAuth from '../../hooks/useAuth';
 import Toast from '../common/Toast';
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
-  const { theme, toggleTheme } = useTheme();
   const { language, setLanguage, supportedLanguages } = useLanguage();
   const { isAuthenticated } = useAuth();
   const location = useLocation();
@@ -32,13 +30,20 @@ const Header: React.FC = () => {
       <div className="header__container">
         <div className="header__left">
           <Link to="/" className="header__logo">
-            <img 
-              src="/icons/logo.png" 
-              alt="OnnOto Logo" 
-              className="header__logo-image" 
-            />
-            <span className="header__logo-text">OnnOto</span>
-          </Link>
+  <div className="header__logo-container">
+    <img 
+      src="/images/beta-image.webp" 
+      alt="Beta Version" 
+      className="header__beta-badge"
+    />
+    <img 
+      src="/icons/logo.png" 
+      alt="OnnOto Logo" 
+      className="header__logo-image" 
+    />
+  </div>
+  <span className="header__logo-text">OnnOto</span>
+</Link>
           
           <nav className="header__nav">
             <ul className="header__nav-list">
@@ -94,13 +99,6 @@ const Header: React.FC = () => {
             <div className={`header__connection-indicator ${isAuthenticated ? 'header__connection-indicator--connected' : 'header__connection-indicator--disconnected'}`}></div>
           </button>
           
-          <button 
-            className="header__theme-toggle" 
-            onClick={toggleTheme}
-            aria-label={t('settings.toggleTheme')}
-          >
-            {theme === 'light' ? '🌙' : '☀️'}
-          </button>
         </div>
       </div>
       

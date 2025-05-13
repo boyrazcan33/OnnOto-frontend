@@ -1,3 +1,4 @@
+// src/pages/LandingPage.tsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -47,8 +48,11 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
           <div className="landing-page__hero-image">
-            {/* Image placeholder */}
-            <div className="landing-page__image-placeholder"></div>
+            <img 
+              src="/images/evcharger-pic.webp" 
+              alt="Electric Vehicle Charger" 
+              className="landing-page__hero-img"
+            />
           </div>
         </section>
 
