@@ -39,7 +39,7 @@
   &__image-placeholder {
     width: 100%;
     height: 300px;
-    background-color: vars.$gray-200;
+    background-color: var(--card-bg);
     border-radius: vars.$border-radius-lg;
     
     @media (min-width: vars.$breakpoint-md) {
@@ -60,7 +60,7 @@
   
   &__subtitle {
     font-size: vars.$font-size-lg;
-    color: vars.$gray-600;
+    color: var(--text-color);
     margin: 0 0 vars.$spacing-lg;
     
     @media (min-width: vars.$breakpoint-md) {
@@ -76,6 +76,7 @@
     font-size: vars.$font-size-xl;
     text-align: center;
     margin: 0 0 vars.$spacing-xl;
+    color: var(--heading-color);
   }
   
   &__features {
@@ -100,12 +101,12 @@
     text-align: center;
     padding: vars.$spacing-lg;
     border-radius: vars.$border-radius-md;
-    background-color: vars.$gray-100;
+    background-color: var(--card-bg);
     transition: vars.$transition-base;
     
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--card-shadow, 0 4px 12px rgba(0, 0, 0, 0.1));
     }
   }
   
@@ -117,11 +118,12 @@
   &__feature-title {
     font-size: vars.$font-size-lg;
     margin: 0 0 vars.$spacing-sm;
+    color: var(--heading-color);
   }
   
   &__feature-text {
     font-size: vars.$font-size-base;
-    color: vars.$gray-600;
+    color: var(--text-color);
     margin: 0;
   }
   
@@ -142,30 +144,5 @@
   
   &__view-all {
     text-align: center;
-  }
-}
-
-// Dark theme adjustments
-[data-theme="dark"] {
-  .landing-page {
-    &__subtitle {
-      color: vars.$gray-400;
-    }
-    
-    &__feature {
-      background-color: vars.$gray-800;
-      
-      &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      }
-    }
-    
-    &__feature-text {
-      color: vars.$gray-400;
-    }
-    
-    &__image-placeholder {
-      background-color: vars.$gray-700;
-    }
   }
 }

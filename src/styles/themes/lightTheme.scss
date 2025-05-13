@@ -1,3 +1,4 @@
+/* src/styles/themes/lightTheme.scss */
 @import '../variables';
 
 [data-theme="light"] {
@@ -34,14 +35,50 @@
   --reliability-poor: #{$reliability-poor};
   --reliability-bad: #{$reliability-bad};
   
-  // Component specific overrides
-  .card {
+  /* Override body styles directly */
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+  
+  /* Common components */
+  .card,
+  .station-card,
+  .station-details-page__info-card,
+  .station-details-page__connectors,
+  .station-details-page__history,
+  .station-details-page__reliability-card,
+  .station-details-page__report-section,
+  .station-details-page__anomalies-section,
+  .reliability-dashboard__card,
+  .filter-panel {
     background-color: var(--card-bg);
     border-color: var(--card-border);
     box-shadow: var(--card-shadow);
   }
   
-  .input {
+  /* Header and Footer */
+  .header, .footer {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+  }
+  
+  /* Map components */
+  .map-control,
+  .location-button,
+  .zoom-controls__button,
+  .map-legend__toggle,
+  .map-legend__content,
+  .info-window {
+    background-color: var(--card-bg);
+    color: var(--foreground);
+  }
+  
+  /* Basic form elements */
+  input, 
+  select, 
+  textarea, 
+  button {
     background-color: var(--input-bg);
     border-color: var(--input-border);
     color: var(--input-text);
@@ -63,11 +100,11 @@
     }
   }
   
-  // Map customization
-  .map-container {
-    --map-bg: white;
-    --map-text: #{$text-light};
-    --map-control-bg: white;
-    --map-control-border: #{$gray-200};
+  /* Dropdown and dialog components */
+  .dropdown__toggle,
+  .dropdown__menu {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--foreground);
   }
 }

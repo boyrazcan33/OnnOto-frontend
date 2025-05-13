@@ -1,3 +1,4 @@
+/* src/styles/themes/darkTheme.scss */
 @import '../variables';
 
 [data-theme="dark"] {
@@ -34,14 +35,96 @@
   --reliability-poor: #{lighten($reliability-poor, 5%)};
   --reliability-bad: #{lighten($reliability-bad, 5%)};
   
-  // Component specific overrides
-  .card {
+  /* Override body styles directly */
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+  
+  /* Fix the page-wide containers */
+  .app, 
+  .layout, 
+  .layout__main,
+  .map-page,
+  .reliability-dashboard,
+  .station-details-page,
+  .landing-page {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+  
+  /* Common components */
+  .card,
+  .station-card,
+  .station-details-page__info-card,
+  .station-details-page__connectors,
+  .station-details-page__history,
+  .station-details-page__reliability-card,
+  .station-details-page__report-section,
+  .station-details-page__anomalies-section,
+  .reliability-dashboard__card,
+  .filter-panel {
     background-color: var(--card-bg);
     border-color: var(--card-border);
     box-shadow: var(--card-shadow);
   }
   
-  .input {
+  /* Header and Footer */
+  .header, .footer {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+  }
+  
+  .header__nav-link, 
+  .footer__nav-link {
+    color: var(--foreground);
+  }
+  
+  /* Map components */
+  .map-control,
+  .location-button,
+  .zoom-controls__button,
+  .map-legend__toggle,
+  .map-legend__content,
+  .info-window {
+    background-color: var(--card-bg);
+    color: var(--foreground);
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6, p {
+    color: var(--foreground);
+  }
+  
+  .card__title, 
+  .card__section-title,
+  .station-card__title,
+  .settings-page__title,
+  .settings-page__section-title,
+  .reliability-dashboard__title,
+  .station-details-page__title,
+  .station-details-page__section-title {
+    color: var(--foreground);
+  }
+  
+  .card__subtitle, 
+  .station-card__network, 
+  .station-card__connector-count,
+  .station-card__available-label,
+  .station-details-page__meta-label {
+    color: $gray-400;
+  }
+  
+  .station-card__last-update,
+  .station-details-page__meta-value {
+    color: $gray-300;
+  }
+  
+  /* Form elements */
+  input, 
+  select, 
+  textarea, 
+  button {
     background-color: var(--input-bg);
     border-color: var(--input-border);
     color: var(--input-text);
@@ -61,13 +144,66 @@
       background-color: var(--button-secondary-bg);
       color: var(--button-secondary-text);
     }
+    
+    &--outline {
+      border-color: $gray-600;
+      color: lighten($primary-color, 10%);
+      
+      &:hover, &:focus {
+        background-color: rgba(lighten($primary-color, 10%), 0.1);
+      }
+    }
+    
+    &--text {
+      color: lighten($primary-color, 10%);
+    }
   }
   
-  // Map customization
-  .map-container {
-    --map-bg: #{$gray-900};
-    --map-text: #{$text-dark};
-    --map-control-bg: #{$gray-800};
-    --map-control-border: #{$gray-700};
+  /* Dropdown and dialog components */
+  .dropdown__toggle,
+  .dropdown__menu {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--foreground);
+  }
+  
+  .dropdown__option {
+    &:hover, &:focus {
+      background-color: $gray-700;
+    }
+    
+    &--selected {
+      background-color: rgba(lighten($primary-color, 10%), 0.2);
+    }
+  }
+  
+  /* Slider control */
+  .slider__input {
+    background: $gray-700;
+  }
+  
+  /* Switch control */
+  .switch__slider {
+    background-color: $gray-600;
+  }
+  
+  /* Filter panel */
+  .filter-panel {
+    &__header, &__footer {
+      border-color: $gray-700;
+    }
+    
+    &__option {
+      border-color: $gray-700;
+    }
+  }
+  
+  /* Fix for nested dark theme containers that might not get theme variables */
+  .map-page__container,
+  .reliability-dashboard__content,
+  .station-details-page__content,
+  .station-details-page__main,
+  .station-details-page__sidebar {
+    background-color: var(--background);
   }
 }

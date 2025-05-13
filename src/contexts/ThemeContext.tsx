@@ -1,3 +1,4 @@
+// src/contexts/ThemeContext.tsx
 import React, { createContext, useEffect, useState } from 'react';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 
@@ -21,7 +22,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
     
     if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-      return savedTheme;
+      return savedTheme as ThemeType;
     }
     
     // Check system preference
@@ -37,7 +38,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    document.body.className = theme === 'dark' ? 'dark-theme' : 'light-theme';
+    
+    // For backwards compatibility with your existing theme implementation
+    // that uses body classes
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    }
+    
     localStorage.setItem(STORAGE_KEYS.THEME, theme);
   }, [theme]);
 
