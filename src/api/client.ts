@@ -1,4 +1,4 @@
-// src/api/client.ts
+// Modified src/api/client.ts to avoid process.env references
 import axios, { AxiosHeaders, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
 import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getDeviceId } from '../utils/storageUtils';
@@ -6,14 +6,28 @@ import { getDeviceId } from '../utils/storageUtils';
 // Create a new headers instance
 const headers = new AxiosHeaders();
 
+// Get language from local storage with fallback
+const storedLanguage = localStorage.getItem('onnoto-language') || 'et';
+
 // Set default headers
 headers.set('Content-Type', 'application/json');
-headers.set('Accept-Language', localStorage.getItem('onnoto-language') || process.env.REACT_APP_DEFAULT_LANGUAGE || 'et');
+headers.set('Accept-Language', storedLanguage);
 headers.set('Cache-Control', 'max-age=300'); // 5 minutes cache
+
+// Helper to get API URL - working around process.env issues
+const getApiBaseUrl = () => {
+  // Try to find API URL in window._env_ if it exists (for runtime config)
+  if (window._env_ && window._env_.REACT_APP_API_URL) {
+    return window._env_.REACT_APP_API_URL;
+  }
+  
+  // Default to relative path that will work with the proxy
+  return '/api';
+};
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || '/api', // Changed to use relative path
+  baseURL: getApiBaseUrl(),
   headers: headers as AxiosRequestHeaders,
   timeout: 15000, // 15 seconds
 });
@@ -36,7 +50,7 @@ apiClient.interceptors.request.use(
     }
 
     // Log requests in development mode
-    if (process.env.NODE_ENV === 'development') {
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
       console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`, config);
     }
 
@@ -63,7 +77,7 @@ apiClient.interceptors.response.use(
     }
 
     // Log responses in development mode
-    if (process.env.NODE_ENV === 'development') {
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
       console.log(`[API Response] ${response.status} ${response.config.url}`, response.data);
     }
 
@@ -76,26 +90,26 @@ apiClient.interceptors.response.use(
       const serverError = error.response.data?.error || error.response.data;
       
       // Log errors in development mode
-      if (process.env.NODE_ENV === 'development') {
+      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
         console.error(`[API Error] ${error.response.status} ${error.config?.url}`, serverError);
       }
       
       return Promise.reject(new Error(serverError?.message || `Server error: ${error.response.status}`));
     } else if (error.request) {
       // Request made but no response
-      if (process.env.NODE_ENV === 'development') {
+      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
         console.error('[API Error] No response from server', error.request);
       }
       
       // In development, provide a more user-friendly message and suggest using mock data
-      if (process.env.NODE_ENV === 'development') {
+      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
         console.warn('Backend server may not be running. Consider using mock data in development.');
       }
       
       return Promise.reject(new Error('No response from server. Please check your connection.'));
     } else {
       // Request setup error
-      if (process.env.NODE_ENV === 'development') {
+      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
         console.error('[API Error] Request configuration error', error.message);
       }
       
@@ -124,5 +138,15 @@ const client = {
     return response.data;
   }
 };
+
+// Add _env_ to Window interface
+declare global {
+  interface Window {
+    _env_?: {
+      REACT_APP_API_URL?: string;
+      [key: string]: string | undefined;
+    };
+  }
+}
 
 export default client;
