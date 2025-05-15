@@ -7,10 +7,23 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 // Load environment variables
 const env = dotenv.config().parsed || {};
-const envKeys = Object.keys(env).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(env[next]);
-  return prev;
-}, {});
+
+// Add default production values here
+const productionDefaults = {
+  REACT_APP_API_URL: 'https://onnoto-backend-production.up.railway.app/api',
+  REACT_APP_WS_URL: 'wss://onnoto-backend-production.up.railway.app/ws',
+  REACT_APP_DEFAULT_LANGUAGE: 'et',
+  REACT_APP_GOOGLE_MAPS_API_KEY: 'AIzaSyDRW5rj-dN0IzYgo-qFXM3pGiFJw2J-A4Q',
+  REACT_APP_MAP_ID: '6e7cd18517788d6988755c57'
+};
+
+// Use process.env (Vercel env) if available, otherwise fallback to .env file, or use defaults
+const envKeys = {};
+Object.keys(productionDefaults).forEach(key => {
+  envKeys[`process.env.${key}`] = JSON.stringify(
+    process.env[key] || env[key] || productionDefaults[key]
+  );
+});
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
