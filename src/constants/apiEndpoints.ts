@@ -1,5 +1,4 @@
-// Modified src/constants/apiEndpoints.ts to avoid process.env references
-const API_BASE_URL = '/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 export const API_ENDPOINTS = {
   // Add the BASE_URL property

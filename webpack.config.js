@@ -1,27 +1,14 @@
-// Modified webpack.config.js to ensure environment variables get properly defined
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin, EnvironmentPlugin } = require('webpack');
+const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
 const CopyPlugin = require('copy-webpack-plugin'); 
 
 // Load environment variables
 const env = dotenv.config().parsed || {};
-
-// Define default environment variables
-const defaultEnv = {
-  'REACT_APP_API_URL': '/api',
-  'REACT_APP_DEFAULT_LANGUAGE': 'et',
-  'NODE_ENV': process.env.NODE_ENV || 'development'
-};
-
-// Merge with .env file values
-const envVars = { ...defaultEnv, ...env };
-
-// Create environment variables for webpack
-const envKeys = Object.keys(envVars).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(envVars[next]);
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
   return prev;
 }, {});
 
@@ -41,15 +28,6 @@ module.exports = (env, argv) => {
       alias: {
         '@': path.resolve(__dirname, 'src'),
       },
-      fallback: {
-        // Add polyfills for Node.js core modules
-        "path": require.resolve("path-browserify"),
-        "os": require.resolve("os-browserify/browser"),
-        "fs": false,
-        "util": require.resolve("util/"),
-        "buffer": require.resolve("buffer/"),
-        "process": require.resolve("process/browser")
-      }
     },
     module: {
       rules: [
@@ -106,10 +84,8 @@ module.exports = (env, argv) => {
       }),
       new DefinePlugin({
         ...envKeys,
-        // Important: Make sure process.env is defined
-        'process.env': JSON.stringify(envVars)
+        'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
       }),
-      new EnvironmentPlugin(Object.keys(envVars)),
       new CopyPlugin({
         patterns: [
           { 

@@ -1,4 +1,4 @@
-// Modified src/contexts/LanguageContext.tsx
+// src/contexts/LanguageContext.tsx
 import React, { createContext, useState, useEffect } from 'react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -8,8 +8,7 @@ import { STORAGE_KEYS } from '../constants/storageKeys';
 
 // Define supported languages
 const SUPPORTED_LANGUAGES = ['et', 'en', 'ru'];
-// Use a fallback that doesn't depend on process.env
-const DEFAULT_LANGUAGE = 'et';
+const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE || 'et';
 
 // Initialize i18next
 i18n
@@ -19,7 +18,7 @@ i18n
   .init({
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: SUPPORTED_LANGUAGES,
-    debug: false, // Set to false in production
+    debug: process.env.NODE_ENV === 'development',
     interpolation: {
       escapeValue: false,
     },

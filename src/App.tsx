@@ -1,4 +1,4 @@
-// Modified src/App.tsx
+// src/App.tsx
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -12,9 +12,6 @@ import routes from './routes';
 import store from './store';
 import { offlineService } from './services/offlineService';
 import OfflineNotification from './components/layout/OfflineNotification';
-
-// Add import for runtime config
-import RuntimeEnvConfig from './RuntimeEnvConfig';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -53,36 +50,31 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <>
-      {/* Add RuntimeEnvConfig to inject environment variables */}
-      <RuntimeEnvConfig />
-      
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <LanguageProvider>
-            <ThemeProvider>
-              <AuthProvider>
-                <LocationProvider>
-                  <div className="app">
-                    <OfflineNotification />
-                    <Routes>
-                      {routes.map((route) => (
-                        <Route
-                          key={route.path}
-                          path={route.path}
-                          element={route.element}
-                        />
-                      ))}
-                      <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
-                  </div>
-                </LocationProvider>
-              </AuthProvider>
-            </ThemeProvider>
-          </LanguageProvider>
-        </Provider>
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <LanguageProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <LocationProvider>
+                <div className="app">
+                  <OfflineNotification />
+                  <Routes>
+                    {routes.map((route) => (
+                      <Route
+                        key={route.path}
+                        path={route.path}
+                        element={route.element}
+                      />
+                    ))}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </div>
+              </LocationProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </LanguageProvider>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 
