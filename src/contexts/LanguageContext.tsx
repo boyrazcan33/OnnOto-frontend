@@ -33,7 +33,6 @@ i18n
     },
     ns: ['common', 'stations', 'reports', 'errors'],
     defaultNS: 'common',
-    
   });
 
 interface LanguageContextType {
