@@ -1,4 +1,4 @@
-// Modified src/api/client.ts to avoid process.env references
+// Modified src/api/client.ts to handle production environment
 import axios, { AxiosHeaders, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
 import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getDeviceId } from '../utils/storageUtils';
@@ -16,9 +16,19 @@ headers.set('Cache-Control', 'max-age=300'); // 5 minutes cache
 
 // Helper to get API URL - working around process.env issues
 const getApiBaseUrl = () => {
-  // Try to find API URL in window._env_ if it exists (for runtime config)
+  // First check if we have runtime environment variables from the _env_ object
   if (window._env_ && window._env_.REACT_APP_API_URL) {
     return window._env_.REACT_APP_API_URL;
+  }
+  
+  // Then check for build-time environment variables
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  
+  // In production, use the default Railway API URL
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://onnoto-backend-production.up.railway.app/api';
   }
   
   // Default to relative path that will work with the proxy
@@ -144,6 +154,10 @@ declare global {
   interface Window {
     _env_?: {
       REACT_APP_API_URL?: string;
+      REACT_APP_DEFAULT_LANGUAGE?: string;
+      REACT_APP_GOOGLE_MAPS_API_KEY?: string;
+      REACT_APP_MAP_ID?: string;
+      REACT_APP_WS_URL?: string;
       [key: string]: string | undefined;
     };
   }

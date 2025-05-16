@@ -12,6 +12,11 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
   return prev;
 }, {});
 
+// Make sure we have process.env.NODE_ENV defined
+if (!envKeys['process.env.NODE_ENV']) {
+  envKeys['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV || 'development');
+}
+
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
 
@@ -77,10 +82,18 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './static/index.html',
         filename: 'index.html',
-        // Add these options to ensure proper handling of the manifest and other assets
-        minify: isProduction,
+        // Add env-config.js script to the HTML
         scriptLoading: 'defer',
-        inject: true
+        inject: true,
+        minify: isProduction,
+        // Add env-config script to load environment variables at runtime
+        env: isProduction,
+        ...(isProduction && {
+          templateParameters: {
+            // Add a script tag to load runtime environment variables
+            envConfigScript: '<script src="/env-config.js"></script>'
+          }
+        })
       }),
       new DefinePlugin({
         ...envKeys,
