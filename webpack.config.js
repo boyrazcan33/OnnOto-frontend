@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
-const CopyPlugin = require('copy-webpack-plugin'); 
+const CopyPlugin = require('copy-webpack-plugin');
 
 // Load environment variables
 const env = dotenv.config().parsed || {};
@@ -63,7 +63,7 @@ module.exports = (env, argv) => {
           ],
         },
         {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
           type: 'asset/resource',
           generator: {
             filename: 'images/[name].[hash:8][ext]',
@@ -82,18 +82,9 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './static/index.html',
         filename: 'index.html',
-        // Add env-config.js script to the HTML
         scriptLoading: 'defer',
         inject: true,
-        minify: isProduction,
-        // Add env-config script to load environment variables at runtime
-        env: isProduction,
-        ...(isProduction && {
-          templateParameters: {
-            // Add a script tag to load runtime environment variables
-            envConfigScript: '<script src="/env-config.js"></script>'
-          }
-        })
+        minify: isProduction
       }),
       new DefinePlugin({
         ...envKeys,
@@ -116,7 +107,7 @@ module.exports = (env, argv) => {
     ],
     devServer: {
       historyApiFallback: true, // This is critical for SPA routing
-      port: 8080,
+      port: 3000,
       open: true,
       hot: true,
       static: {
@@ -125,24 +116,11 @@ module.exports = (env, argv) => {
       },
       proxy: {
         '/api': {
-          target: 'http://localhost:8087',
-          pathRewrite: { '^/api': '/api' },
+          target: 'https://onnoto-backend-production.up.railway.app',
           changeOrigin: true,
           secure: false,
-          logLevel: 'debug',
-          onError: (err, req, res) => {
-            console.error('Proxy error:', err);
-            res.writeHead(500, {
-              'Content-Type': 'text/plain',
-            });
-            res.end('Proxy error: ' + err);
-          },
-          bypass: function(req, res, proxyOptions) {
-            if (req.url.startsWith('/static/')) {
-              return req.url;
-            }
-          }
-        },
+          logLevel: 'debug'
+        }
       }
     },
     devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
