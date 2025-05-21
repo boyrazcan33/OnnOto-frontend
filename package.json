@@ -55,14 +55,14 @@
     "webpack-dev-server": "^4.15.2"
   },
   "scripts": {
-    "start": "webpack serve --mode development",
-    "start:alt": "webpack serve --mode development --port 3001",
-    "build": "webpack --mode production",
-    "start:prod": "node server.js",
-    "test": "jest",
-    "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
-  },
+  "dev": "webpack serve --mode development",
+  "dev:alt": "webpack serve --mode development --port 3001",
+  "build": "webpack --mode production",
+  "start": "node server.js",
+  "test": "jest",
+  "lint": "eslint src --ext .ts,.tsx",
+  "type-check": "tsc --noEmit"
+},
   "browserslist": {
     "production": [
       ">0.2%",
