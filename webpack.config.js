@@ -17,6 +17,16 @@ if (!envKeys['process.env.NODE_ENV']) {
   envKeys['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV || 'development');
 }
 
+// Ensure critical environment variables are properly defined
+// This ensures they're replaced correctly in the build process
+const criticalEnvVars = {
+  'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'https://onnoto-backend.fly.dev/api'),
+  'process.env.REACT_APP_DEFAULT_LANGUAGE': JSON.stringify(process.env.REACT_APP_DEFAULT_LANGUAGE || 'et'),
+  'process.env.REACT_APP_GOOGLE_MAPS_API_KEY': JSON.stringify(process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''),
+  'process.env.REACT_APP_MAP_ID': JSON.stringify(process.env.REACT_APP_MAP_ID || ''),
+  'process.env.REACT_APP_WS_URL': JSON.stringify(process.env.REACT_APP_WS_URL || 'wss://onnoto-backend.fly.dev/ws')
+};
+
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
 
@@ -88,6 +98,7 @@ module.exports = (env, argv) => {
       }),
       new DefinePlugin({
         ...envKeys,
+        ...criticalEnvVars, // Include our critical environment variables
         'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
       }),
       new CopyPlugin({

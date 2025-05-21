@@ -8,7 +8,10 @@ import { STORAGE_KEYS } from '../constants/storageKeys';
 
 // Define supported languages
 const SUPPORTED_LANGUAGES = ['et', 'en', 'ru'];
-const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE || 'et';
+
+// In case process.env isn't available at runtime, this will use a fallback
+// window._env_ is set by server.js at runtime
+const DEFAULT_LANGUAGE = (typeof window !== 'undefined' && window._env_?.REACT_APP_DEFAULT_LANGUAGE) || 'et';
 
 // Initialize i18next
 i18n
