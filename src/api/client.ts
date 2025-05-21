@@ -78,6 +78,8 @@ apiClient.interceptors.response.use(
     const newDeviceId = response.headers['x-device-id'];
     if (newDeviceId) {
       localStorage.setItem('onnoto-device-id', newDeviceId);
+      // Dispatch event to notify AuthContext about the device ID update
+      window.dispatchEvent(new CustomEvent('deviceIdUpdated'));
     }
 
     // Handle cache headers
