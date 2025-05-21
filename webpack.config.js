@@ -92,7 +92,7 @@ module.exports = (env, argv) => {
       }),
       new CopyPlugin({
         patterns: [
-          { 
+          {
             from: 'static',
             to: '', // Copy to root dist folder
             globOptions: {
@@ -116,7 +116,7 @@ module.exports = (env, argv) => {
       },
       proxy: {
         '/api': {
-          target: 'https://onnoto-backend-production.up.railway.app',
+          target: 'https://onnoto-backend.fly.dev/api',
           changeOrigin: true,
           secure: false,
           logLevel: 'debug'

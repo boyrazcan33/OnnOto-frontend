@@ -28,7 +28,7 @@ const getApiBaseUrl = () => {
   
   // In production, use the default Railway API URL
   if (process.env.NODE_ENV === 'production') {
-    return 'https://onnoto-backend-production.up.railway.app/api';
+    return 'https://onnoto-backend.fly.dev/api';
   }
   
   // Default to relative path that will work with the proxy
