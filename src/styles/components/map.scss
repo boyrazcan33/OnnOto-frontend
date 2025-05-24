@@ -12,8 +12,7 @@
 
 .map {
   width: 100%;
-    height: 100% !important; // Make sure this is 100% of parent
-
+  height: 100% !important; // Make sure this is 100% of parent
 }
 
 .map-loader {
@@ -58,7 +57,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   
   &--location {
-    bottom: vars.$spacing-lg;
+    bottom: 120px; // Moved further up to avoid Google Maps controls
     right: vars.$spacing-lg;
   }
   
@@ -68,7 +67,7 @@
   }
   
   &--legend {
-    bottom: vars.$spacing-lg;
+    bottom: 120px; // Moved up to match location button
     left: vars.$spacing-lg;
   }
 }

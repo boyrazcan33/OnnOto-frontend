@@ -15,8 +15,7 @@ import stationsApi from '../../api/stationsApi';
 import { calculateMapCenter, clusterStations } from '../../utils/mapUtils';
 import useLocation from '../../hooks/useLocation';
 
-// Replace with your actual API key
-// This key should be placed in your .env file as REACT_APP_GOOGLE_MAPS_API_KEY
+
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 // Estonia's boundary coordinates
@@ -62,7 +61,6 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
-  const [infoWindowPosition, setInfoWindowPosition] = useState<google.maps.LatLng | null>(null);
   const { latitude, longitude, refreshLocation } = useLocation();
   const filtersRef = useRef(filters);
   const stationsDataRef = useRef<Station[]>([]);
@@ -103,15 +101,6 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const handleMarkerClick = useCallback((station: Station) => {
     setSelectedStation(station);
     
-    // Position the info window
-    if (mapRef.current) {
-      const position = new google.maps.LatLng(
-        Number(station.latitude),
-        Number(station.longitude)
-      );
-      setInfoWindowPosition(position);
-    }
-    
     // Call external handler if provided
     if (onMarkerClick) {
       onMarkerClick(station);
@@ -121,7 +110,6 @@ const MapContainer: React.FC<MapContainerProps> = ({
   // Close info window
   const handleInfoWindowClose = useCallback(() => {
     setSelectedStation(null);
-    setInfoWindowPosition(null);
   }, []);
 
   // Go to user's location
@@ -391,8 +379,19 @@ const MapContainer: React.FC<MapContainerProps> = ({
         </>
       )}
       
-      {selectedStation && infoWindowPosition && (
-        <div className="map-info-window">
+      {selectedStation && (
+        <div 
+          className="info-window-container"
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 20,
+            width: '90%',
+            maxWidth: '300px'
+          }}
+        >
           <InfoWindow
             station={selectedStation}
             onClose={handleInfoWindowClose}
