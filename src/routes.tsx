@@ -4,6 +4,9 @@ import MapPage from './pages/MapPage';
 import StationDetailsPage from './pages/StationDetailsPage';
 import ReliabilityDashboardPage from './pages/ReliabilityDashboardPage';
 import ReportPage from './pages/ReportPage';
+import AboutPage from './pages/AboutPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
 
 // Use placeholder components until they're implemented in later steps
 const PlaceholderPage: React.FC<{ title: string; fullHeight?: boolean }> = ({ title, fullHeight = false }) => (
@@ -52,6 +55,19 @@ const routes = [
   {
     path: '/offline',
     element: <PlaceholderPage title="Offline" />,
+  },
+  // Add the new routes here
+  {
+    path: '/about',
+    element: <AboutPage />,
+  },
+  {
+    path: '/privacy',
+    element: <PrivacyPage />,
+  },
+  {
+    path: '/terms',
+    element: <TermsPage />,
   },
 ];
 

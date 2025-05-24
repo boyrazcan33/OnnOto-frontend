@@ -127,11 +127,37 @@ module.exports = (env, argv) => {
       },
       proxy: {
         '/api': {
-          target: 'https://onnoto-backend.fly.dev/api',
-          changeOrigin: true,
-          secure: false,
-          logLevel: 'debug'
-        }
+    target: 'http://localhost:8087',  // ← Change this line
+    changeOrigin: true,
+    secure: false,
+    logLevel: 'debug',
+    pathRewrite: {
+      '^/api': '/api'  // Keep the /api path
+    }
+  }
+      },
+
+      // 🆕 ADD THIS: Custom middleware to serve env-config.js in development
+      setupMiddlewares: (middlewares, devServer) => {
+        // Add the /env-config.js route (same logic as production server.js)
+        devServer.app.get('/env-config.js', (req, res) => {
+          res.set('Content-Type', 'application/javascript');
+          
+          // Create the same runtime configuration as production server.js
+          const envConfig = `
+            window._env_ = {
+              REACT_APP_API_URL: "${process.env.REACT_APP_API_URL || 'http://localhost:8087/api'}",
+              REACT_APP_DEFAULT_LANGUAGE: "${process.env.REACT_APP_DEFAULT_LANGUAGE || 'et'}",
+              REACT_APP_GOOGLE_MAPS_API_KEY: "${process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''}",
+              REACT_APP_MAP_ID: "${process.env.REACT_APP_MAP_ID || ''}",
+              REACT_APP_WS_URL: "${process.env.REACT_APP_WS_URL || 'ws://localhost:8087/ws'}"
+            };
+          `;
+          
+          res.send(envConfig);
+        });
+
+        return middlewares;
       }
     },
     devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
