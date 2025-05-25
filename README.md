@@ -7,7 +7,6 @@
 
 OnnOto is Estonia's premier electric vehicle charging station reliability platform, designed to help EV drivers find reliable charging stations across the country.
 
-![OnnOto App Screenshot](https://via.placeholder.com/800x400?text=OnnOto+App+Screenshot)
 
 ## 🚀 Features
 
