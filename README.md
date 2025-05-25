@@ -22,7 +22,7 @@ OnnOto is Estonia's premier electric vehicle charging station reliability platfo
 
 - Node.js (v18 or later)
 - npm or yarn
-- Backend server (OnnOto API) - [Repository Link](https://github.com/your-username/onnoto-backend)
+- Backend server (OnnOto API) - [Repository Link](https://github.com/boyrazcan33/onnoto-backend)
 
 ## 🛠️ Setup and Installation
 
