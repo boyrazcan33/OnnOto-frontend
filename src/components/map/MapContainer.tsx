@@ -1,5 +1,4 @@
-// src/components/map/MapContainer.tsx
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '../common/Loader';
@@ -14,7 +13,6 @@ import { FilterState } from '../../types/filters';
 import stationsApi from '../../api/stationsApi';
 import { calculateMapCenter, clusterStations } from '../../utils/mapUtils';
 import useLocation from '../../hooks/useLocation';
-
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -69,6 +67,10 @@ const MapContainer: React.FC<MapContainerProps> = ({
   // Update filtersRef when filters prop changes
   useEffect(() => {
     filtersRef.current = filters;
+    // Update markers if map is already initialized
+    if (mapRef.current && mapInitializedRef.current && stationsDataRef.current.length > 0) {
+      updateMarkers();
+    }
   }, [filters]);
 
   // Fetch stations
@@ -135,7 +137,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
     }
   }, []);
 
-  // Update markers function
+  // Update markers function - memoized to prevent unnecessary re-renders
   const updateMarkers = useCallback(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -193,15 +195,18 @@ const MapContainer: React.FC<MapContainerProps> = ({
       });
     }
     
-    // Center map on stations if there are any
-    if (filteredStations.length > 0) {
+    // Only center map when there's a significant change
+    if (filteredStations.length > 0 && !selectedStation) {
       const [lat, lng] = calculateMapCenter(filteredStations);
       map.setCenter({ lat, lng });
     }
-  }, [handleMarkerClick]);
+  }, [handleMarkerClick, selectedStation]);
 
-  // Initialize Google Maps
+  // Initialize Google Maps only once
   useEffect(() => {
+    // If map is already initialized, don't initialize again
+    if (mapInitializedRef.current) return;
+
     // Define global init function if it doesn't exist
     if (!(window as any)[GLOBAL_CALLBACK_NAME]) {
       (window as any)[GLOBAL_CALLBACK_NAME] = function() {
@@ -255,7 +260,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
             
             // Set map as initialized and update markers
             mapInitializedRef.current = true;
-            updateMarkers();
+            if (stationsDataRef.current.length > 0) {
+              updateMarkers();
+            }
           } catch (e) {
             setError('Failed to initialize Google Maps');
             setLoading(false);
@@ -299,7 +306,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
             
             // Set map as initialized and update markers
             mapInitializedRef.current = true;
-            updateMarkers();
+            if (stationsDataRef.current.length > 0) {
+              updateMarkers();
+            }
           }
         });
       }
@@ -362,7 +371,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
         </div>
       )}
       
-      {showControls && mapRef.current && (
+      {showControls && mapRef.current && !loading && (
         <>
           <LocationButton
             onClick={handleLocationClick}
@@ -402,4 +411,4 @@ const MapContainer: React.FC<MapContainerProps> = ({
   );
 };
 
-export default MapContainer;
+export default React.memo(MapContainer);

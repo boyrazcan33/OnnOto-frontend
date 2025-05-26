@@ -100,7 +100,9 @@
     "removeFromFavorites": "Удалить из избранного",
     "getDirections": "Построить маршрут",
     "statusHistory": "История статуса",
-    "reliabilityDetails": "Детали надежности"
+    "reliabilityDetails": "Детали надежности",
+    
+    "availableConnectors": "Доступные разъёмы"
   },
   "reliability": {
     "title": "Надежность",
@@ -132,13 +134,15 @@
     "loadingNetworkData": "Загрузка данных сети...",
     "errorLoadingNetworkData": "Ошибка загрузки данных сети",
     "noNetworkData": "Данные сети отсутствуют",
-    "stationCount": "{count} станций",
+    
     "dashboardTitle": "Панель надежности",
     "timeRange": "Временной диапазон",
     "showProblematicOnly": "Показать только проблемные",
     "loadingHistory": "Загрузка истории...",
     "errorLoadingHistory": "Ошибка загрузки истории",
-    "statusHistoryTitle": "История статуса ({days} дней)"
+    "statusHistoryTitle": "История статуса ({days} дней)",
+      "stationCount": "{{count}} станций"
+
   },
   "filters": {
     "title": "Фильтры",
@@ -153,12 +157,12 @@
     "selectCity": "Выбрать город",
     "allCities": "Все города",
     "proximity": "Близость",
-    "radiusKm": "Радиус {km} км",
     "showOnlyFavorites": "Показать только избранные",
     "reset": "Сбросить фильтры",
     "apply": "Применить фильтры",
     "allNetworks": "Все сети",
-    "network": "Сеть"
+    "network": "Сеть",
+    "radiusKm": "Радиус {{km}} км"
   },
   "connectors": {
     "loading": "Загрузка разъемов...",

@@ -100,7 +100,8 @@
     "removeFromFavorites": "Eemalda lemmikutest",
     "getDirections": "Saa juhised",
     "statusHistory": "Oleku ajalugu",
-    "reliabilityDetails": "Usaldusväärsuse detailid"
+    "reliabilityDetails": "Usaldusväärsuse detailid",
+     "availableConnectors": "Saadaolevad pistikud"
   },
   "reliability": {
     "title": "Usaldusväärsus",
@@ -132,13 +133,14 @@
     "loadingNetworkData": "Võrgustiku andmete laadimine...",
     "errorLoadingNetworkData": "Viga võrgustiku andmete laadimisel",
     "noNetworkData": "Võrgustiku andmed puuduvad",
-    "stationCount": "{count} jaama",
+    
     "dashboardTitle": "Usaldusväärsuse töölaud",
     "timeRange": "Ajavahemik",
     "showProblematicOnly": "Näita ainult probleemseid",
     "loadingHistory": "Ajaloo laadimine...",
     "errorLoadingHistory": "Viga ajaloo laadimisel",
-    "statusHistoryTitle": "Oleku ajalugu ({days} päeva)"
+    "statusHistoryTitle": "Oleku ajalugu ({days} päeva)",
+    "stationCount": "{{count}} jaama"
   },
   "filters": {
     "title": "Filtrid",
@@ -153,12 +155,12 @@
     "selectCity": "Vali linn",
     "allCities": "Kõik linnad",
     "proximity": "Lähedus",
-    "radiusKm": "{km} km raadius",
     "showOnlyFavorites": "Näita ainult lemmikuid",
     "reset": "Lähtesta filtrid",
     "apply": "Rakenda filtrid",
     "allNetworks": "Kõik võrgustikud",
-    "network": "Võrgustik"
+    "network": "Võrgustik",
+    "radiusKm": "{{km}} km raadiuses"
   },
   "connectors": {
     "loading": "Konnektorite laadimine...",

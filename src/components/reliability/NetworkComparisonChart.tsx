@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell // Added missing Cell import
+  Cell
 } from 'recharts';
 import Loader from '../common/Loader';
 import visualizationsApi from '../../api/visualizationsApi';

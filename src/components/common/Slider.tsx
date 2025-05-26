@@ -38,7 +38,7 @@ const Slider: React.FC<SliderProps> = ({
         className="slider__input"
         disabled={disabled}
         style={{
-          background: `linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) ${percentage}%, #e9ecef ${percentage}%, #e9ecef 100%)`
+          background: `linear-gradient(to right, #2a9d8f 0%, #2a9d8f ${percentage}%, #e9ecef ${percentage}%, #e9ecef 100%)`
         }}
       />
       

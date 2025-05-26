@@ -30,7 +30,7 @@ const InfoWindow: React.FC<InfoWindowProps> = ({ station, onClose }) => {
           <span className="info-window__available">{station.availableConnectors}</span>
           /
           <span className="info-window__total">{station.totalConnectors}</span>
-          {t('stations.availableConnectors')}
+          &nbsp;{t('stations.availableConnectors')}
         </div>
       </div>
       

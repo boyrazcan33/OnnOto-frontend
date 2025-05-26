@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '../common/Checkbox';
 import { CONNECTOR_TYPES } from '../../constants/connectorTypes';
@@ -20,6 +20,12 @@ const ConnectorTypeFilter: React.FC<ConnectorTypeFilterProps> = ({ selected, onC
     }
   };
 
+  // Helper function to convert connector type to translation key
+  const getTranslationKey = (type: string): string => {
+    // Remove spaces from the type to match translation keys
+    return type.toLowerCase().replace(/\s+/g, '');
+  };
+
   return (
     <div className="filter-section">
       <h3 className="filter-section__title">{t('filters.connectorTypes')}</h3>
@@ -31,7 +37,7 @@ const ConnectorTypeFilter: React.FC<ConnectorTypeFilterProps> = ({ selected, onC
               id={`connector-${type}`}
               checked={selected.includes(type)}
               onChange={e => handleConnectorTypeChange(type, e.target.checked)}
-              label={t(`connectors.types.${type.toLowerCase()}`)}
+              label={t(`connectors.types.${getTranslationKey(type)}`)}
             />
           </div>
         ))}

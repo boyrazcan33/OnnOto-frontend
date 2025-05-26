@@ -92,7 +92,7 @@
     "connectors": "Connectors",
     "reliability": "Reliability",
     "available": "Available",
-    "ofTotal": "of {total}",
+    "ofTotal": "of total",
     "operator": "Operator",
     "lastUpdate": "Last Update",
     "reportIssue": "Report Issue",
@@ -100,7 +100,8 @@
     "removeFromFavorites": "Remove from Favorites",
     "getDirections": "Get Directions",
     "statusHistory": "Status History",
-    "reliabilityDetails": "Reliability Details"
+    "reliabilityDetails": "Reliability Details",
+    "availableConnectors": "Available Connectors"
   },
   "reliability": {
     "title": "Reliability",
@@ -132,13 +133,13 @@
     "loadingNetworkData": "Loading network data...",
     "errorLoadingNetworkData": "Error loading network data",
     "noNetworkData": "No Network Data Available",
-    "stationCount": "{count} stations",
     "dashboardTitle": "Reliability Dashboard",
     "timeRange": "Time Range",
     "showProblematicOnly": "Show Problematic Only",
     "loadingHistory": "Loading history...",
     "errorLoadingHistory": "Error loading history",
-    "statusHistoryTitle": "Status History ({days} days)"
+    "statusHistoryTitle": "Status History ({days} days)",
+    "stationCount": "{{count}} stations"
   },
   "filters": {
     "title": "Filters",
@@ -153,12 +154,12 @@
     "selectCity": "Select city",
     "allCities": "All Cities",
     "proximity": "Proximity",
-    "radiusKm": "{km} km radius",
     "showOnlyFavorites": "Show only favorites",
     "reset": "Reset Filters",
     "apply": "Apply Filters",
     "allNetworks": "All Networks",
-    "network": "Network"
+    "network": "Network",
+    "radiusKm": "{{km}} km radius"
   },
   "connectors": {
     "loading": "Loading connectors...",
@@ -178,7 +179,6 @@
     }
   },
   "reports": {
-
     "submitError": "Error submitting report",
     "invalidType": "Invalid report type",
     "tooManyReports": "Too many reports submitted",
@@ -199,9 +199,6 @@
     "submitReport": "Submit Report",
     "submissionError": "Error submitting report",
     "reportIssue": "Report Issue",
-    
-    
-    
     "types": {
       "offline": "Station Offline",
       "damaged": "Equipment Damaged",
@@ -209,14 +206,12 @@
       "occupied": "Incorrectly Occupied"
     },
     "descriptions": {
-    "offline": "The station is not working or appears to be powered off",
-    "damaged": "Physical damage to station or equipment",
-    "incorrectInfo": "Information about the station is incorrect",
-    "occupied": "Station is blocked by a non-charging vehicle"
-  }
+      "offline": "The station is not working or appears to be powered off",
+      "damaged": "Physical damage to station or equipment",
+      "incorrectInfo": "Information about the station is incorrect",
+      "occupied": "Station is blocked by a non-charging vehicle"
+    }
   },
-
-   
   "anomalies": {
     "title": "Anomalies",
     "noAnomalies": "No Anomalies Found",
@@ -282,6 +277,4 @@
     },
     "finish": "Get Started"
   }
-
-  
 }
