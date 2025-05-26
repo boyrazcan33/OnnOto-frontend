@@ -1,3 +1,4 @@
+// src/components/map/MapContainer.tsx
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
@@ -110,7 +111,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
   }, [onMarkerClick]);
 
   // Close info window
-  const handleInfoWindowClose = useCallback(() => {
+  const handleInfoWindowClose = useCallback((e: React.MouseEvent) => {
+    // Stop event propagation to prevent it from bubbling up to the map
+    e.stopPropagation();
     setSelectedStation(null);
   }, []);
 
@@ -195,7 +198,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
       });
     }
     
-    // Only center map when there's a significant change
+    // Only center map when there's a significant change and no station is selected
     if (filteredStations.length > 0 && !selectedStation) {
       const [lat, lng] = calculateMapCenter(filteredStations);
       map.setCenter({ lat, lng });
@@ -400,6 +403,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
             width: '90%',
             maxWidth: '300px'
           }}
+          onClick={(e) => e.stopPropagation()} // Prevent map click from closing info window
         >
           <InfoWindow
             station={selectedStation}

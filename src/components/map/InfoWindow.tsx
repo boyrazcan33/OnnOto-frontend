@@ -6,16 +6,26 @@ import { formatReliabilityScore } from '../../utils/formatters';
 
 interface InfoWindowProps {
   station: Station;
-  onClose: () => void;
+  onClose: (e: React.MouseEvent) => void;
 }
 
 const InfoWindow: React.FC<InfoWindowProps> = ({ station, onClose }) => {
   const { t } = useTranslation();
   const reliabilityData = formatReliabilityScore(station.reliabilityScore);
 
+  const handleClose = (e: React.MouseEvent) => {
+    // Stop event propagation to prevent it from bubbling up
+    e.stopPropagation();
+    onClose(e);
+  };
+
   return (
-    <div className="info-window">
-      <button className="info-window__close-button" onClick={onClose} aria-label={t('common.close')}>
+    <div className="info-window" onClick={(e) => e.stopPropagation()}>
+      <button 
+        className="info-window__close-button" 
+        onClick={handleClose} 
+        aria-label={t('common.close')}
+      >
         &times;
       </button>
 
@@ -40,7 +50,11 @@ const InfoWindow: React.FC<InfoWindowProps> = ({ station, onClose }) => {
       </div>
       
       <div className="info-window__actions">
-        <Link to={`/station/${station.id}`} className="info-window__details-link">
+        <Link 
+          to={`/station/${station.id}`} 
+          className="info-window__details-link"
+          onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the link
+        >
           {t('stations.viewDetails')}
         </Link>
       </div>

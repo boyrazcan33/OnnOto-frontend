@@ -28,7 +28,8 @@ const MapPage: React.FC = () => {
     setSelectedStation(station);
   };
 
-  const handleInfoClose = () => {
+  const handleInfoClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setSelectedStation(null);
   };
 
@@ -76,15 +77,6 @@ const MapPage: React.FC = () => {
               onApply={applyFilters}
               onClose={() => setIsFilterOpen(false)}
             />
-          )}
-
-          {selectedStation && (
-            <div className="map-page__info-window">
-              <InfoWindow
-                station={selectedStation}
-                onClose={handleInfoClose}
-              />
-            </div>
           )}
         </div>
       </div>
