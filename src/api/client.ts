@@ -1,4 +1,4 @@
-// Modified src/api/client.ts to handle production environment
+// src/api/client.ts - Add these modifications
 import axios, { AxiosHeaders, AxiosRequestHeaders, InternalAxiosRequestConfig } from 'axios';
 import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getDeviceId } from '../utils/storageUtils';
@@ -26,7 +26,7 @@ const getApiBaseUrl = () => {
     return process.env.REACT_APP_API_URL;
   }
   
-  // In production, use the default Railway API URL
+  // In production, use the default API URL
   if (process.env.NODE_ENV === 'production') {
     return 'https://onnoto-backend.fly.dev/api';
   }
@@ -42,9 +42,15 @@ const apiClient = axios.create({
   timeout: 15000, // 15 seconds
 });
 
+// Create a flag to track if we're currently processing a request
+let isProcessingRequest = false;
+
 // Request interceptor
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    // Set processing flag to true
+    isProcessingRequest = true;
+    
     // Get current device ID - This is the only place we should handle device ID
     const deviceId = getDeviceId();
     if (deviceId) {
@@ -67,6 +73,8 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    // Reset processing flag on error
+    isProcessingRequest = false;
     return Promise.reject(error);
   }
 );
@@ -74,6 +82,11 @@ apiClient.interceptors.request.use(
 // Response interceptor
 apiClient.interceptors.response.use(
   (response) => {
+    // Reset processing flag
+    setTimeout(() => {
+      isProcessingRequest = false;
+    }, 100); // Short delay to prevent race conditions
+    
     // Handle new device ID from server
     const newDeviceId = response.headers['x-device-id'];
     if (newDeviceId) {
@@ -96,6 +109,11 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    // Reset processing flag on error
+    setTimeout(() => {
+      isProcessingRequest = false;
+    }, 100); // Short delay to prevent race conditions
+    
     // Handle response errors
     if (error.response) {
       // Server responded with non-2xx
@@ -148,6 +166,10 @@ const client = {
   delete: async <T>(endpoint: string, config?: any): Promise<T> => {
     const response = await apiClient.delete(endpoint, config);
     return response.data;
+  },
+  // Helper to check if we're currently processing a request
+  isProcessingRequest: (): boolean => {
+    return isProcessingRequest;
   }
 };
 
@@ -162,6 +184,7 @@ declare global {
       REACT_APP_WS_URL?: string;
       [key: string]: string | undefined;
     };
+    updateMarkersTimeout?: any;
   }
 }
 

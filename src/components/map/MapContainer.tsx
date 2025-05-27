@@ -61,18 +61,9 @@ const MapContainer: React.FC<MapContainerProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const { latitude, longitude, refreshLocation } = useLocation();
-  const filtersRef = useRef(filters);
   const stationsDataRef = useRef<Station[]>([]);
   const mapInitializedRef = useRef(false);
-
-  // Update filtersRef when filters prop changes
-  useEffect(() => {
-    filtersRef.current = filters;
-    // Update markers if map is already initialized
-    if (mapRef.current && mapInitializedRef.current && stationsDataRef.current.length > 0) {
-      updateMarkers();
-    }
-  }, [filters]);
+  const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch stations
   const { data: stations = [], isLoading: stationsLoading } = useQuery({
@@ -96,7 +87,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
     stationsDataRef.current = stations;
     // Only update markers if map is already initialized
     if (mapRef.current && mapInitializedRef.current) {
-      updateMarkers();
+      deferredUpdateMarkers();
     }
   }, [stations]);
 
@@ -140,10 +131,23 @@ const MapContainer: React.FC<MapContainerProps> = ({
     }
   }, []);
 
+  // FIXED: Deferred marker update function to prevent race conditions
+  const deferredUpdateMarkers = useCallback(() => {
+    // Clear any pending updates
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+    
+    // Defer the update to next tick to avoid React render cycle conflicts
+    updateTimeoutRef.current = setTimeout(() => {
+      updateMarkers();
+    }, 0);
+  }, []);
+
   // Update markers function - memoized to prevent unnecessary re-renders
   const updateMarkers = useCallback(() => {
     const map = mapRef.current;
-    if (!map) return;
+    if (!map || !mapInitializedRef.current) return;
 
     // Clear existing markers and clusters
     markersRef.current.forEach(marker => marker.remove());
@@ -155,7 +159,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
     
     // Filter stations if needed
     let filteredStations = [...stationsDataRef.current];
-    const currentFilters = filtersRef.current;
+    const currentFilters = filters;
     
     if (currentFilters) {
       if (currentFilters.showOnlyAvailable) {
@@ -203,7 +207,15 @@ const MapContainer: React.FC<MapContainerProps> = ({
       const [lat, lng] = calculateMapCenter(filteredStations);
       map.setCenter({ lat, lng });
     }
-  }, [handleMarkerClick, selectedStation]);
+  }, [handleMarkerClick, selectedStation, filters]);
+
+  // FIXED: Handle filter changes with deferred updates
+  useEffect(() => {
+    // Only update markers if map is already initialized
+    if (mapRef.current && mapInitializedRef.current && stationsDataRef.current.length > 0) {
+      deferredUpdateMarkers();
+    }
+  }, [filters, deferredUpdateMarkers]);
 
   // Initialize Google Maps only once
   useEffect(() => {
@@ -258,13 +270,13 @@ const MapContainer: React.FC<MapContainerProps> = ({
             
             // Add a listener for zoom changes to update markers
             newMap.addListener('zoom_changed', () => {
-              updateMarkers();
+              deferredUpdateMarkers();
             });
             
             // Set map as initialized and update markers
             mapInitializedRef.current = true;
             if (stationsDataRef.current.length > 0) {
-              updateMarkers();
+              deferredUpdateMarkers();
             }
           } catch (e) {
             setError('Failed to initialize Google Maps');
@@ -304,13 +316,13 @@ const MapContainer: React.FC<MapContainerProps> = ({
             
             // Add a listener for zoom changes to update markers
             mapInstance.addListener('zoom_changed', () => {
-              updateMarkers();
+              deferredUpdateMarkers();
             });
             
             // Set map as initialized and update markers
             mapInitializedRef.current = true;
             if (stationsDataRef.current.length > 0) {
-              updateMarkers();
+              deferredUpdateMarkers();
             }
           }
         });
@@ -341,6 +353,11 @@ const MapContainer: React.FC<MapContainerProps> = ({
     
     // Clean up
     return () => {
+      // Clear any pending timeouts
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
+      
       // Clean up markers and clusters
       markersRef.current.forEach(marker => marker.remove());
       clustersRef.current.forEach(cluster => cluster.remove());
@@ -353,7 +370,7 @@ const MapContainer: React.FC<MapContainerProps> = ({
         }
       }
     };
-  }, [initialCenter.lat, initialCenter.lng, initialZoom, updateMarkers]);
+  }, [initialCenter.lat, initialCenter.lng, initialZoom, deferredUpdateMarkers]);
 
   if (error) {
     return <div className="map-error">{error}</div>;
