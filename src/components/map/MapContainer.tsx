@@ -37,6 +37,11 @@ const mapInstanceRefs: Array<{
 // Flag to track if we've already started loading Google Maps
 let googleMapsLoading = false;
 
+/**
+ * MapContainer handles station markers and clustering
+ * Uses marker clustering for better performance with many stations
+ * Implements deferred updates to prevent UI blocking
+ */
 interface MapContainerProps {
   initialCenter?: { lat: number, lng: number };
   initialZoom?: number;

@@ -4,6 +4,11 @@ interface CacheConfig {
     maxAge: number;
   }
   
+  /**
+   * Manages offline functionality and data caching
+   * Implements different cache strategies for different data types
+   * Handles cache versioning and expiration
+   */
   class OfflineService {
     private isOnline: boolean = navigator.onLine;
     private listeners: Set<(online: boolean) => void> = new Set();
@@ -13,7 +18,7 @@ interface CacheConfig {
       window.addEventListener('online', () => this.handleOnlineStatus(true));
       window.addEventListener('offline', () => this.handleOnlineStatus(false));
   
-      // Default cache configurations
+      // Default cache configurations with different expiration times
       this.cacheConfigs.set('stations', {
         name: 'stations-cache',
         version: 1,
@@ -48,6 +53,10 @@ interface CacheConfig {
       this.listeners.forEach(listener => listener(this.isOnline));
     }
   
+    /**
+     * Caches data with version control and expiration
+     * Uses different cache stores for different data types
+     */
     public async cacheData(key: string, data: any): Promise<void> {
       const config = this.cacheConfigs.get(key);
       if (!config) {
@@ -67,6 +76,10 @@ interface CacheConfig {
       }
     }
   
+    /**
+     * Retrieves cached data with version and expiration checks
+     * Automatically invalidates cache if version mismatch or expired
+     */
     public async getCachedData<T>(key: string): Promise<T | null> {
       const config = this.cacheConfigs.get(key);
       if (!config) {

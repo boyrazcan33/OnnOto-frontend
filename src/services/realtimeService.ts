@@ -14,11 +14,16 @@ interface WebSocketMessage {
   stationId: string;
 }
 
+/**
+ * Handles real-time updates for stations using WebSocket
+ * Implements exponential backoff for reconnection attempts
+ */
 export class RealtimeService {
   private ws: WebSocket | null = null;
   private reconnectAttempts = 0;
   private readonly MAX_RECONNECT_ATTEMPTS = 5;
   private readonly RECONNECT_DELAY = 1000;
+  // Map of station IDs to their update subscribers
   private subscribers = new Map<string, Set<(data: any) => void>>();
 
   constructor() {
@@ -64,6 +69,10 @@ export class RealtimeService {
     this.ws.onerror = this.handleError.bind(this);
   }
 
+  /**
+   * Implements exponential backoff for reconnection
+   * Delay increases with each attempt: 1s, 2s, 4s, 8s, 16s
+   */
   private handleDisconnect() {
     if (this.reconnectAttempts < this.MAX_RECONNECT_ATTEMPTS) {
       setTimeout(() => {
@@ -77,6 +86,10 @@ export class RealtimeService {
     console.error('WebSocket error:', error);
   }
 
+  /**
+   * Routes real-time updates to both subscribers and global state
+   * Handles three types of updates: status, reliability, and anomalies
+   */
   private handleMessage(message: WebSocketMessage) {
     const { type, payload, stationId } = message;
 
@@ -111,6 +124,10 @@ export class RealtimeService {
     }
   }
 
+  /**
+   * Subscribe to updates for a specific station
+   * Returns cleanup function to remove subscription
+   */
   public subscribe(stationId: string, callback: (data: any) => void): () => void {
     if (!this.subscribers.has(stationId)) {
       this.subscribers.set(stationId, new Set());
