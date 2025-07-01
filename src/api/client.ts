@@ -28,7 +28,7 @@ const getApiBaseUrl = () => {
   
   // In production, use the default API URL
   if (process.env.NODE_ENV === 'production') {
-    return 'https://onnoto-backend.fly.dev/api';
+    return 'https://onnoto-backend-57045655083.us-central1.run.app';
   }
   
   // Default to relative path that will work with the proxy
