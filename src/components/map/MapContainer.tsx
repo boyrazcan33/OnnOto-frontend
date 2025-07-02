@@ -15,8 +15,7 @@ import stationsApi from '../../api/stationsApi';
 import { calculateMapCenter, clusterStations } from '../../utils/mapUtils';
 import useLocation from '../../hooks/useLocation';
 
-const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
+const API_KEY = window._env_?.REACT_APP_GOOGLE_MAPS_API_KEY || process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 // Estonia's boundary coordinates
 const ESTONIA_BOUNDS = {
   north: 59.7,  // Northernmost latitude
