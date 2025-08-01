@@ -28,8 +28,8 @@ interface NetworkData {
 }
 
 const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
-  className = '',
-}) => {
+                                                                         className = '',
+                                                                       }) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -102,9 +102,9 @@ const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" domain={[0, 100]} />
-          <YAxis 
-            dataKey="name" 
-            type="category" 
+          <YAxis
+            dataKey="name"
+            type="category"
             width={120}
             tick={{ fontSize: 12 }}
           />
@@ -113,11 +113,13 @@ const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
             labelFormatter={(name: string) => name}
           />
           <Legend />
-          <Bar 
-            dataKey="score" 
+          <Bar
+            dataKey="score"
             name={t('reliability.reliabilityScore')}
             barSize={30}
-            radius={[0, 4, 4, 0]}
+            radius={[0, 6, 6, 0]}
+            animationBegin={200}
+            animationDuration={1000}
           >
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
@@ -140,13 +142,13 @@ const NetworkComparisonChart: React.FC<NetworkComparisonChartProps> = ({
   );
 };
 
-// Helper function to get color based on reliability score
+// Electric color scheme for reliability scores
 const getColorForScore = (score: number): string => {
-  if (score >= 90) return '#27ae60'; // Excellent
-  if (score >= 80) return '#2ecc71'; // Very good
-  if (score >= 70) return '#f39c12'; // Good
-  if (score >= 50) return '#e67e22'; // Fair
-  return '#e74c3c';                  // Poor
+  if (score >= 90) return '#00ff88'; // Electric green
+  if (score >= 80) return '#00d4ff'; // Electric blue
+  if (score >= 70) return '#ffb000'; // Golden amber
+  if (score >= 50) return '#ff6b35'; // Energy orange
+  return '#ff3366';                  // Vibrant red
 };
 
 export default NetworkComparisonChart;

@@ -47,13 +47,13 @@ const AnomalyTrendsChart: React.FC<AnomalyTrendsChartProps> = ({ data, className
     return item;
   });
 
-  // Colors for different anomaly types
+  // Electric color scheme for different anomaly types
   const colorMap: Record<string, string> = {
-    STATUS_FLAPPING: '#8884d8',
-    EXTENDED_DOWNTIME: '#e74c3c',
-    CONNECTOR_MISMATCH: '#2ecc71',
-    PATTERN_DEVIATION: '#f39c12',
-    REPORT_SPIKE: '#3498db'
+    STATUS_FLAPPING: '#00d4ff',    // Electric blue
+    EXTENDED_DOWNTIME: '#ff3366',  // Vibrant red
+    CONNECTOR_MISMATCH: '#00ff88', // Electric green
+    PATTERN_DEVIATION: '#ffb000',  // Golden amber
+    REPORT_SPIKE: '#8b5cf6'        // Electric purple
   };
 
   return (
@@ -69,8 +69,8 @@ const AnomalyTrendsChart: React.FC<AnomalyTrendsChartProps> = ({ data, className
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis 
-            dataKey="date" 
+          <XAxis
+            dataKey="date"
             tick={{ fontSize: 12 }}
           />
           <YAxis />
@@ -81,20 +81,24 @@ const AnomalyTrendsChart: React.FC<AnomalyTrendsChartProps> = ({ data, className
               return [value, translatedName];
             }}
           />
-          <Legend 
+          <Legend
             formatter={(value: string) => {
               // Translate the anomaly type name
               return t(`anomalies.types.${value.toLowerCase()}`);
             }}
           />
-          {data.series.map((series) => (
+          {data.series.map((series, index) => (
             <Line
               key={series.name}
               type="monotone"
               dataKey={series.name}
               name={series.name}
-              stroke={colorMap[series.name] || '#000000'}
-              activeDot={{ r: 8 }}
+              stroke={colorMap[series.name] || '#64748b'}
+              strokeWidth={3}
+              dot={{ strokeWidth: 2, r: 5 }}
+              activeDot={{ r: 8, stroke: colorMap[series.name] || '#64748b', strokeWidth: 2 }}
+              animationBegin={200 + index * 100}
+              animationDuration={1200}
             />
           ))}
         </LineChart>

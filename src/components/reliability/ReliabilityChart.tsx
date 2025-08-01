@@ -39,12 +39,12 @@ interface HistoryDataPoint {
 }
 
 const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
-  stationId,
-  chartType = 'line',
-  data: externalData,
-  height = 300,
-  className = ''
-}) => {
+                                                             stationId,
+                                                             chartType = 'line',
+                                                             data: externalData,
+                                                             height = 300,
+                                                             className = ''
+                                                           }) => {
   const [chartData, setChartData] = useState<any[]>([]);
 
   const queryResult: UseQueryResult<ReliabilityMetric> = useQuery({
@@ -128,15 +128,23 @@ const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
               type="monotone"
               dataKey="score"
               name="Reliability Score"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
+              stroke="#00d4ff"
+              strokeWidth={3}
+              dot={{ fill: '#00d4ff', strokeWidth: 2, r: 6 }}
+              activeDot={{ r: 8, stroke: '#00d4ff', strokeWidth: 2 }}
+              animationBegin={200}
+              animationDuration={1200}
             />
             <Line
               type="monotone"
               dataKey="uptime"
               name="Uptime %"
-              stroke="#82ca9d"
-              activeDot={{ r: 8 }}
+              stroke="#00ff88"
+              strokeWidth={3}
+              dot={{ fill: '#00ff88', strokeWidth: 2, r: 6 }}
+              activeDot={{ r: 8, stroke: '#00ff88', strokeWidth: 2 }}
+              animationBegin={400}
+              animationDuration={1200}
             />
           </LineChart>
         ) : (
@@ -162,13 +170,16 @@ const ReliabilityChart: React.FC<ReliabilityChartProps> = ({
             <Bar
               dataKey="count"
               name="Stations"
-              fill="#8884d8"
+              fill="#00d4ff"
+              radius={[4, 4, 0, 0]}
+              animationBegin={200}
+              animationDuration={800}
             >
               {chartData.map((entry, index) => (
                 <Bar
                   key={`bar-${index}`}
                   dataKey="count"
-                  fill={entry.color || '#8884d8'}
+                  fill={entry.color || '#00d4ff'}
                 />
               ))}
             </Bar>

@@ -1,18 +1,19 @@
 @use '../variables' as vars;
 
-// Map Container
+// Map Container with enhanced styling
 .map-container {
   position: relative;
   width: 100%;
-  height: 500px !important; // Force explicit height
+  height: 500px !important;
   min-height: 400px;
   overflow: hidden;
   border-radius: vars.$border-radius-md;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .map {
   width: 100%;
-  height: 100% !important; // Make sure this is 100% of parent
+  height: 100% !important;
 }
 
 .map-loader {
@@ -24,7 +25,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.7);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+  backdrop-filter: blur(8px);
   z-index: 100;
 }
 
@@ -36,9 +38,9 @@
   height: 100%;
   padding: vars.$spacing-lg;
   text-align: center;
-  background-color: vars.$gray-100;
+  background: linear-gradient(135deg, vars.$gray-100 0%, vars.$gray-200 100%);
   border-radius: vars.$border-radius-md;
-  
+
   p {
     margin-bottom: vars.$spacing-md;
     &:last-child {
@@ -48,305 +50,375 @@
   }
 }
 
-// Map Controls
+// Enhanced Map Controls
 .map-control {
   position: absolute;
   z-index: 10;
-  background-color: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
   border-radius: vars.$border-radius-md;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: vars.$transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  }
+
   &--location {
-    bottom: 120px; // Moved further up to avoid Google Maps controls
+    bottom: 120px;
     right: vars.$spacing-lg;
   }
-  
+
   &--zoom {
     top: vars.$spacing-lg;
     right: vars.$spacing-lg;
   }
-  
+
   &--legend {
-    bottom: 120px; // Moved up to match location button
+    bottom: 120px;
     left: vars.$spacing-lg;
   }
 }
 
-// Location Button
+// Enhanced Location Button
 .location-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: white;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, white 0%, #f1f5f9 100%);
   border: none;
   border-radius: 50%;
   cursor: pointer;
   color: vars.$primary-color;
   transition: vars.$transition-base;
-  
+
   &:hover, &:focus {
-    background-color: vars.$gray-100;
+    background: linear-gradient(135deg, vars.$primary-color 0%, #0099cc 100%);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
   }
-  
+
   &:active {
-    background-color: vars.$gray-200;
+    transform: scale(0.95);
   }
-  
+
   &--disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none !important;
   }
 }
 
-// Zoom Controls
+// Enhanced Zoom Controls
 .zoom-controls {
   display: flex;
   flex-direction: column;
-  
+  border-radius: vars.$border-radius-md;
+  overflow: hidden;
+
   &__button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: white;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, white 0%, #f1f5f9 100%);
     border: none;
     cursor: pointer;
     color: vars.$gray-700;
     transition: vars.$transition-base;
-    
+
     &:hover, &:focus {
-      background-color: vars.$gray-100;
+      background: linear-gradient(135deg, vars.$primary-color 0%, #0099cc 100%);
+      color: white;
+      transform: scale(1.05);
     }
-    
+
     &:active {
-      background-color: vars.$gray-200;
+      transform: scale(0.95);
     }
-    
+
     &--in {
-      border-top-left-radius: vars.$border-radius-sm;
-      border-top-right-radius: vars.$border-radius-sm;
       border-bottom: 1px solid vars.$gray-200;
-    }
-    
-    &--out {
-      border-bottom-left-radius: vars.$border-radius-sm;
-      border-bottom-right-radius: vars.$border-radius-sm;
     }
   }
 }
 
-// Map Legend
+// Enhanced Map Legend
 .map-legend {
   padding: vars.$spacing-sm;
   transition: vars.$transition-base;
-  
+
   &__toggle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: white;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, white 0%, #f1f5f9 100%);
     border: none;
-    border-radius: vars.$border-radius-sm;
+    border-radius: vars.$border-radius-md;
     cursor: pointer;
     color: vars.$gray-700;
     transition: vars.$transition-base;
-    
+
     &:hover, &:focus {
-      background-color: vars.$gray-100;
-    }
-    
-    &:active {
-      background-color: vars.$gray-200;
+      background: linear-gradient(135deg, vars.$primary-color 0%, #0099cc 100%);
+      color: white;
+      transform: scale(1.05);
     }
   }
-  
+
   &__content {
     margin-top: vars.$spacing-sm;
     padding: vars.$spacing-md;
-    background-color: white;
-    border-radius: vars.$border-radius-sm;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    min-width: 180px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: vars.$border-radius-md;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    animation: legendSlideIn 0.3s ease-out;
   }
-  
+
   &__title {
     font-size: vars.$font-size-md;
     font-weight: vars.$font-weight-bold;
     margin: 0 0 vars.$spacing-sm;
+    background: linear-gradient(135deg, vars.$primary-color 0%, vars.$secondary-color 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
-  
+
   &__list {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-  
+
   &__item {
     display: flex;
     align-items: center;
     margin-bottom: vars.$spacing-xs;
-    
+    transition: vars.$transition-base;
+
+    &:hover {
+      transform: translateX(4px);
+    }
+
     &:last-child {
       margin-bottom: 0;
     }
   }
-  
+
   &__color {
     width: 16px;
     height: 16px;
     border-radius: 50%;
     margin-right: vars.$spacing-sm;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
-  
+
   &__label {
     font-size: vars.$font-size-sm;
+    font-weight: vars.$font-weight-medium;
   }
 }
 
-// Info Window
+// Enhanced Info Window
 .info-window {
   position: absolute;
   bottom: vars.$spacing-lg;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 300px;
-  background-color: white;
-  border-radius: vars.$border-radius-md;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: vars.$spacing-md;
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border-radius: vars.$border-radius-lg;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  padding: vars.$spacing-lg;
   z-index: 20;
-  
+  animation: infoWindowSlideUp 0.4s ease-out;
+
   &__close-button {
     position: absolute;
-    top: vars.$spacing-xs;
-    right: vars.$spacing-xs;
-    width: 28px;
-    height: 28px;
+    top: vars.$spacing-sm;
+    right: vars.$spacing-sm;
+    width: 32px;
+    height: 32px;
     border: none;
-    background: transparent;
+    background: rgba(100, 116, 139, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1;
     color: vars.$gray-600;
-    
+    transition: vars.$transition-base;
+
     &:hover, &:focus {
+      background: rgba(100, 116, 139, 0.2);
       color: vars.$gray-900;
+      transform: scale(1.1);
     }
   }
-  
+
   &__title {
     font-size: vars.$font-size-lg;
     font-weight: vars.$font-weight-bold;
     margin: 0 0 vars.$spacing-xs;
-    padding-right: vars.$spacing-lg;
+    padding-right: vars.$spacing-xl;
+    background: linear-gradient(135deg, vars.$text-light 0%, #0f172a 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
   }
-  
+
   &__network {
     font-size: vars.$font-size-sm;
     color: vars.$gray-600;
     margin-bottom: vars.$spacing-sm;
+    font-weight: vars.$font-weight-medium;
   }
-  
+
   &__address {
     font-size: vars.$font-size-sm;
     margin-bottom: vars.$spacing-md;
+    color: vars.$gray-700;
   }
-  
+
   &__status {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: vars.$spacing-md;
+    padding: vars.$spacing-sm;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border-radius: vars.$border-radius-sm;
   }
-  
+
   &__connectors {
     display: flex;
     align-items: center;
     font-size: vars.$font-size-sm;
+    font-weight: vars.$font-weight-medium;
   }
-  
+
   &__available {
     font-weight: vars.$font-weight-bold;
     color: vars.$available-color;
+    font-size: vars.$font-size-md;
   }
-  
+
   &__total {
     font-weight: vars.$font-weight-normal;
   }
-  
+
   &__reliability {
     display: flex;
     align-items: center;
     margin-bottom: vars.$spacing-md;
   }
-  
+
   &__reliability-score {
     font-size: vars.$font-size-xl;
     font-weight: vars.$font-weight-bold;
     margin-right: vars.$spacing-sm;
   }
-  
+
   &__reliability-symbol {
     font-size: vars.$font-size-sm;
   }
-  
+
   &__actions {
     display: flex;
     justify-content: flex-end;
   }
-  
+
   &__details-link {
     color: vars.$primary-color;
     text-decoration: none;
     font-size: vars.$font-size-sm;
-    font-weight: vars.$font-weight-medium;
-    
+    font-weight: vars.$font-weight-bold;
+    padding: vars.$spacing-xs vars.$spacing-sm;
+    border-radius: vars.$border-radius-sm;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+    transition: vars.$transition-base;
+
     &:hover, &:focus {
-      text-decoration: underline;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
+      transform: translateY(-1px);
+      text-decoration: none;
     }
+  }
+}
+
+// Animations
+@keyframes legendSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes infoWindowSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
 // Dark theme adjustments
 [data-theme="dark"] {
   .map-loader {
-    background-color: rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 41, 59, 0.7) 100%);
   }
-  
+
   .map-error {
-    background-color: vars.$gray-800;
+    background: linear-gradient(135deg, vars.$gray-800 0%, vars.$gray-900 100%);
   }
-  
+
   .map-control,
   .location-button,
   .zoom-controls__button,
   .map-legend__toggle,
   .map-legend__content,
   .info-window {
-    background-color: vars.$gray-800;
+    background: rgba(30, 41, 59, 0.95);
     color: vars.$text-dark;
   }
-  
+
   .zoom-controls__button--in {
     border-bottom-color: vars.$gray-700;
   }
-  
+
   .info-window__close-button {
+    background: rgba(148, 163, 184, 0.2);
     color: vars.$gray-400;
-    
+
     &:hover, &:focus {
+      background: rgba(148, 163, 184, 0.3);
       color: vars.$gray-200;
     }
   }
-  
+
   .info-window__network {
     color: vars.$gray-400;
   }
-}
 
+  .info-window__address {
+    color: vars.$gray-300;
+  }
+}
