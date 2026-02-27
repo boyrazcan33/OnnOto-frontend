@@ -2,7 +2,7 @@
 
 .landing-page {
   padding: vars.$spacing-lg 0;
-  
+
   &__hero {
     display: flex;
     flex-direction: column;
@@ -10,7 +10,7 @@
     justify-content: space-between;
     padding: vars.$spacing-xl 0;
     margin-bottom: vars.$spacing-xxl;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       flex-direction: row;
       padding: vars.$spacing-xxl 0;
@@ -18,137 +18,137 @@
   }
   .landing-page__hero-content {
   padding-right: 2rem; /* Add padding to the right side */
-  
+
   @media (min-width: 768px) {
     padding-left: 4rem; /* More padding on larger screens */
   }
 }
-  
+
   &__hero-content {
     text-align: center;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       text-align: left;
       flex: 1;
       padding-right: vars.$spacing-xl;
     }
   }
-  
+
   &__hero-image {
     margin-top: vars.$spacing-lg;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       margin-top: 0;
       flex: 1;
     }
   }
-  
+
   &__image-placeholder {
     width: 100%;
     height: 300px;
     background-color: var(--card-bg);
     border-radius: vars.$border-radius-lg;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       height: 400px;
     }
   }
-  
+
   &__title {
     font-size: vars.$font-size-xxl;
     font-weight: vars.$font-weight-bold;
     margin: 0 0 vars.$spacing-md;
     color: vars.$primary-color;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       font-size: 2.5rem;
     }
   }
-  
+
   &__subtitle {
     font-size: vars.$font-size-lg;
     color: var(--text-color);
     margin: 0 0 vars.$spacing-lg;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       font-size: vars.$font-size-xl;
     }
   }
-  
+
   &__cta {
     margin-top: vars.$spacing-lg;
   }
-  
+
   &__section-title {
     font-size: vars.$font-size-xl;
     text-align: center;
     margin: 0 0 vars.$spacing-xl;
     color: var(--heading-color);
   }
-  
+
   &__features {
     margin-bottom: vars.$spacing-xxl;
   }
-  
+
   &__feature-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: vars.$spacing-lg;
-    
+
     @media (min-width: vars.$breakpoint-sm) {
       grid-template-columns: repeat(2, 1fr);
     }
-    
+
     @media (min-width: vars.$breakpoint-lg) {
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  
+
   &__feature {
     text-align: center;
     padding: vars.$spacing-lg;
     border-radius: vars.$border-radius-md;
     background-color: var(--card-bg);
     transition: vars.$transition-base;
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: var(--card-shadow, 0 4px 12px rgba(0, 0, 0, 0.1));
     }
   }
-  
+
   &__feature-icon {
     font-size: 2.5rem;
     margin-bottom: vars.$spacing-md;
   }
-  
+
   &__feature-title {
     font-size: vars.$font-size-lg;
     margin: 0 0 vars.$spacing-sm;
     color: var(--heading-color);
   }
-  
+
   &__feature-text {
     font-size: vars.$font-size-base;
     color: var(--text-color);
     margin: 0;
   }
-  
+
   &__top-stations {
     margin-bottom: vars.$spacing-xxl;
   }
-  
+
   &__station-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: vars.$spacing-lg;
     margin-bottom: vars.$spacing-xl;
-    
+
     @media (min-width: vars.$breakpoint-md) {
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  
+
   &__view-all {
     text-align: center;
   }
@@ -165,7 +165,7 @@
   display: inline-block;
   transform: scale(2.4); /* Makes everything in the container 1.5x larger */
   transform-origin: left center; /* Ensures it scales from the left side */
-  margin-right: 3rem; 
+  margin-right: 3rem;
   margin-top: 40px; /* Add top margin to prevent beta image from being cut off */
   margin-bottom: 30px; /* Balance the layout with bottom margin */
 }
