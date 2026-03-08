@@ -193,7 +193,7 @@ const ReliabilityDashboardPage: React.FC = () => {
               <StationList
                 stations={problemStations}
                 onStationClick={handleStationClick}
-                emptyMessage={t('reliability.noStationsFound')}
+                emptyMessage={t('noStationsFound')}
               />
             </Card>
           </div>
