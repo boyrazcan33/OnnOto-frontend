@@ -18,6 +18,7 @@
       "getDirections": "Saa Juhised",
       "statusHistory": "Staatuse Ajalugu",
       "reliabilityDetails": "Usaldusväärsuse Detailid",
+      "noStationsFound": "Probleemjaamu pole",
       "location": {
         "address": "Aadress",
         "distance": "Kaugus",

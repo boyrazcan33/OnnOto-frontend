@@ -18,6 +18,7 @@
       "getDirections": "Построить Маршрут",
       "statusHistory": "История Статуса",
       "reliabilityDetails": "Детали Надежности",
+      "noStationsFound": "Нет проблемных станций",
       "location": {
         "address": "Адрес",
         "distance": "Расстояние",

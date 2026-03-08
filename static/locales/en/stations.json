@@ -18,6 +18,7 @@
       "getDirections": "Get Directions",
       "statusHistory": "Status History",
       "reliabilityDetails": "Reliability Details",
+      "noStationsFound": "No problematic stations",
       "location": {
         "address": "Address",
         "distance": "Distance",
