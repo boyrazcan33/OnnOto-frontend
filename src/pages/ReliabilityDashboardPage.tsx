@@ -15,7 +15,7 @@ import useReliabilityDashboard from '../hooks/useReliabilityDashboard';
 import { Station } from '../types/station';
 
 const ReliabilityDashboardPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common', 'reliability', 'filters', 'stations']);
   const navigate = useNavigate();
   
   // State for filters
