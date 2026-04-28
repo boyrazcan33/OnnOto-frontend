@@ -20,11 +20,11 @@ if (!envKeys['process.env.NODE_ENV']) {
 // Ensure critical environment variables are properly defined
 // This ensures they're replaced correctly in the build process
 const criticalEnvVars = {
-  'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'https://onnoto-backend-57045655083.us-central1.run.app/api'),
+  'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'https://onnoto-backend-54951354342.europe-north1.run.app/api'),
   'process.env.REACT_APP_DEFAULT_LANGUAGE': JSON.stringify(process.env.REACT_APP_DEFAULT_LANGUAGE || 'et'),
-  'process.env.REACT_APP_GOOGLE_MAPS_API_KEY': JSON.stringify(process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''),
+  'process.env.REACT_APP_GOOGLE_MAPS_API_KEY': JSON.stringify(process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyDNaSsztwCvUUa21VaxIT1eiOvjbhoTh24'),
   'process.env.REACT_APP_MAP_ID': JSON.stringify(process.env.REACT_APP_MAP_ID || ''),
-  'process.env.REACT_APP_WS_URL': JSON.stringify(process.env.REACT_APP_WS_URL || 'wss://onnoto-backend-57045655083.us-central1.run.app/ws')
+  'process.env.REACT_APP_WS_URL': JSON.stringify(process.env.REACT_APP_WS_URL || 'wss://onnoto-backend-54951354342.europe-north1.run.app/ws')
 };
 
 module.exports = (env, argv) => {
@@ -127,7 +127,7 @@ module.exports = (env, argv) => {
       },
       proxy: {
         '/api': {
-    target: 'https://onnoto-backend-57045655083.us-central1.run.app',  // ← Change this line
+    target: 'https://onnoto-backend-54951354342.europe-north1.run.app',  // ← Change this line
     changeOrigin: true,
     secure: true,
     logLevel: 'debug',
@@ -146,11 +146,11 @@ module.exports = (env, argv) => {
           // Create the same runtime configuration as production server.js
           const envConfig = `
             window._env_ = {
-              REACT_APP_API_URL: "${process.env.REACT_APP_API_URL || 'https://onnoto-backend-57045655083.us-central1.run.app/api'}",
+              REACT_APP_API_URL: "${process.env.REACT_APP_API_URL || 'https://onnoto-backend-54951354342.europe-north1.run.app/api'}",
               REACT_APP_DEFAULT_LANGUAGE: "${process.env.REACT_APP_DEFAULT_LANGUAGE || 'et'}",
-              REACT_APP_GOOGLE_MAPS_API_KEY: "${process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''}",
+              REACT_APP_GOOGLE_MAPS_API_KEY: "${process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyDNaSsztwCvUUa21VaxIT1eiOvjbhoTh24'}",
               REACT_APP_MAP_ID: "${process.env.REACT_APP_MAP_ID || ''}",
-              REACT_APP_WS_URL: "${process.env.REACT_APP_WS_URL || 'wss://onnoto-backend-57045655083.us-central1.run.app/ws'}"
+              REACT_APP_WS_URL: "${process.env.REACT_APP_WS_URL || 'wss://onnoto-backend-54951354342.europe-north1.run.app/ws'}"
             };
           `;
           

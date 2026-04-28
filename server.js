@@ -12,11 +12,11 @@ app.use((req, res, next) => {
     // that need to be accessible in the client-side code
     const envConfig = `
       window._env_ = {
-        REACT_APP_API_URL: "${process.env.REACT_APP_API_URL || 'https://onnoto-backend-57045655083.us-central1.run.app/api'}",
+        REACT_APP_API_URL: "${process.env.REACT_APP_API_URL || 'https://onnoto-backend-54951354342.europe-north1.run.app/api'}",
         REACT_APP_DEFAULT_LANGUAGE: "${process.env.REACT_APP_DEFAULT_LANGUAGE || 'et'}",
-        REACT_APP_GOOGLE_MAPS_API_KEY: "${process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''}",
+        REACT_APP_GOOGLE_MAPS_API_KEY: "${process.env.REACT_APP_GOOGLE_MAPS_API_KEY || 'AIzaSyDNaSsztwCvUUa21VaxIT1eiOvjbhoTh24'}",
         REACT_APP_MAP_ID: "${process.env.REACT_APP_MAP_ID || ''}",
-        REACT_APP_WS_URL: "${process.env.REACT_APP_WS_URL || 'wss://onnoto-backend-57045655083.us-central1.run.app/ws'}"
+        REACT_APP_WS_URL: "${process.env.REACT_APP_WS_URL || 'wss://onnoto-backend-54951354342.europe-north1.run.app/ws'}"
       };
     `;
     
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 /*
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const apiProxy = createProxyMiddleware('/api', {
-  target: process.env.REACT_APP_API_URL || 'https://onnoto-backend-production.up.railway.app',
+  target: process.env.REACT_APP_API_URL || 'https://onnoto-backend-54951354342.europe-north1.run.app',
   changeOrigin: true,
   pathRewrite: {
     '^/api': '/api', // rewrite path
@@ -50,5 +50,5 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`API URL: ${process.env.REACT_APP_API_URL || 'https://onnoto-backend-57045655083.us-central1.run.app/api'}`);
+  console.log(`API URL: ${process.env.REACT_APP_API_URL || 'https://onnoto-backend-54951354342.europe-north1.run.app/api'}`);
 });

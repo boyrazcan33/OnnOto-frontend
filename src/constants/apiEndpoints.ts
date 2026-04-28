@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://onnoto-backend-412549535382.europe-west1.run.app/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://onnoto-backend-54951354342.europe-north1.run.app/api';
 
 export const API_ENDPOINTS = {
   // Add the BASE_URL property

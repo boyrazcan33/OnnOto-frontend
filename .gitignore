@@ -49,3 +49,4 @@ Thumbs.db
 !.yarn/sdks
 !.yarn/versions
 .vercel
+.env*.local
